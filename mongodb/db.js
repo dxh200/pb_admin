@@ -2,7 +2,8 @@
 * 数据库连接
 * */
 const mongoose = require("mongoose");
-mongoose.Promise = global.Promise;
+const extend = require('mongoose-schema-extend');
+
 
 //链接字符串
 const DB_URL = "mongodb://127.0.0.1:27017/pbAdmin";
@@ -19,4 +20,22 @@ mongoose.connection.on("disconnected",()=>{
     console.log('Mongoose connection disconnected 链接断开');
 })
 
-module.exports = mongoose;
+/**
+ * Ctrl+c关闭数据连接
+ */
+process.on('SIGINT', function () {
+    mongoose.connection.close(function () {
+        logger.info('Mongoose disconnected through app termination');
+        process.exit(0);
+    });
+});
+exports.mongoose = mongoose;
+
+//基础Schema
+var baseSchema = new mongoose.Schema({
+    _id:{type:String,unique:true},
+    CTIME_:{type:Date},
+    UTIME_:{type:Date},
+    TIME_:{type:Date}
+});
+exports.baseSchema = baseSchema;

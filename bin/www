@@ -12,7 +12,6 @@ var config = require('config-lite')(__dirname);
 /**
  * Get port from environment and store in Express.
  */
-console.log(config.port)
 var port = normalizePort(process.env.PORT || config.port);
 app.set('port', port);
 

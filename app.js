@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('config-lite')(__dirname);
 
-//路由
-var MainRouter = require('./routes/main');
+//引入路由
+var MainRouter = require('./routes/admin');
 var LoginRouter = require('./routes/login');
 var ClientRouter = require('./routes/client')
 
@@ -18,11 +18,19 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
+
+//表单数据解析
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'resources')));
 
+//cookies
+app.use(cookieParser());
+
+//静态资源
+app.use(express.static(path.join(__dirname, 'resources')));
+app.use(express.static(path.join(__dirname, 'upload')));
+
+//路由配置
 app.use('/', MainRouter);
 app.use('/login', LoginRouter);
 app.use('/client', ClientRouter);
