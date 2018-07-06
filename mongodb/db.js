@@ -2,7 +2,6 @@
 * 数据库连接
 * */
 const mongoose = require("mongoose");
-const extend = require('mongoose-schema-extend');
 
 
 //链接字符串
@@ -30,12 +29,3 @@ process.on('SIGINT', function () {
     });
 });
 exports.mongoose = mongoose;
-
-//基础Schema
-var baseSchema = new mongoose.Schema({
-    _id:{type:String,unique:true},
-    CTIME_:{type:Date},
-    UTIME_:{type:Date},
-    TIME_:{type:Date}
-});
-exports.baseSchema = baseSchema;

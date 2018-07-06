@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Main</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <p>Welcome to <%= title %></p>
+    <h1>系统主页</h1>
+    <form id="nodeModuleform" action="/admin/branch/edit" method="post">
+      <input name="NAME_" value="<%=data.NAME_%>">
+      <input name="ADDRESS_" value="<%=data.ADDRESS_%>">
+      <input name="EMAIL_" value="<%=data.EMAIL_%>">
+
+    </form>
+    <button id="subBtn">提交</button>
+  </body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<script>
+    jQuery(function(){
+        jQuery('#subBtn').click(function(){
+            onSubmitForm();
+        });
+    })
+    function onSubmitForm(){
+        //异步Form初始化
+        $('#nodeModuleform').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                alert(response)
+            },
+            error:function(){
+                alert('执行失败');
+            }
+        }).submit();
+    }
+</script>

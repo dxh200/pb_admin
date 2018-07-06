@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>登录</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/login.css" rel="stylesheet">
+  <!--[if lt IE 9]>
+  <meta http-equiv="refresh" content="0;ie.html" />
+  <![endif]-->
+  <script>
+      if (window.top !== window.self) {
+          window.top.location = window.location;
+      }
+  </script>
+</head>
+<body class="signin">
+<div class="signinpanel">
+  <div class="row">
+    <div class="col-sm-8">
+      <form method="post" action="index.html">
+        <h4 class="no-margins">登录</h4>
+        <input type="text" class="form-control uname" placeholder="用户名" required=""/>
+        <input type="password" class="form-control pword m-b" placeholder="密码" required=""/>
+        <div class="forget">
+          <strong style="float:right;"> <a href="#">忘记密码了？</a></strong>
+        </div>
+        <button class="btn btn-success btn-block">登录</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/content.js"></script>
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+</html>
+

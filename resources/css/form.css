@@ -1,0 +1,66 @@
+/*表格*/
+.ui-jqgrid table th, .ui-jqgrid table td {
+    text-align: center !important;
+}
+.display_mode{height: 30px;line-height: 30px;margin-bottom: 10px;}
+.mode{width:20%;float:left;}
+.mode p{float: left;color:#333;}
+.chose{width:1%;display:table-cell;margin-left: 15px;height: 30px;line-height: 30px;}
+.chose input{display: none;}
+.chose input + label {position: relative;display: inline-block;padding: 8px;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;border: 1px solid #ddd;vertical-align: middle;margin:0 3px 4px 0;}
+.chose input:checked + label{border: 1px solid #1ab394;}
+.chose input:checked + label:after {content:'';position: absolute;font-size: 15px;top: 5px;left: 5px;background: #1ab394;padding:3px;font-weight: normal;font-style: normal;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;}		
+@media screen and (max-width:1200px) {
+	.mode{width:35%;}
+}
+.entering{float: right;}
+.entering .btn-default{background: none;color:#333;margin-left: 15px;}
+.entering .btn-default:hover{background: #c2c2c2;color:#fff;}
+.gohome{display: none;}
+.glyphicon{margin-right: 5px;}
+/*表单*/
+.list{margin: 0 auto;float: initial;}
+.float-e-margins .btn{margin: 0 auto;display: block;}
+.btn_form{margin-bottom: 0;}
+.float-e-margins .btn:active{background: #05af8c;border: 1px solid #05af8c;}
+.help-block,.m-b{margin: 0;}
+.form-group .ibox-content,#uploader .queueList{border: none;margin: 0;}
+.form-group .ibox-content{padding: 0;clear: initial;float: left;margin-left: 15px;height: 120px;}
+.btn{padding: 6px 20px;}
+
+.fa.fa-angle-right:before {
+    content: "\f105";
+}
+.img-circle{width:60px;height: 60px;}
+.form-group .mode{width: 60%;margin-left: 15px;}
+.form-group .mode .chose{text-align: center;}
+.operation{margin-bottom: 20px;}
+.operation .mode{width:50%;}
+.operation .mode .chose{text-align: left;}
+/*#uploader .placeholder{background: url(../img/defalt-upload-image.jpg) center no-repeat;}*/
+
+.form_dropdown{min-height: 75px;padding: 20px;}
+.form_dropdown .dropdown{float: left;margin: 10px;}
+.form_dropdown .dropdown .btn:active{background: #ccc !important;}
+.ibox .open > .dropdown-menu{left:0;}
+@media (min-width: 768px){
+.set .col-sm-3 {
+    width: 30%;}
+}
+.set .operation .mode {
+    width: 30%;
+}
+
+#uploader .placeholder{padding-top: 0px;}
+#uploader .placeholder .webuploader-pick{box-shadow: none;width:200px;height:120px;display: block;margin:initial;}
+#uploader .filelist div.file-panel span{background: url(../img/icons.png) no-repeat;}
+#uploader .statusBar .info{float: left;line-height: 60px;}
+#uploader .statusBar .btns{position: initial;float: right;margin-top: 10px;height: 35px;line-height: 35px;}
+#uploader .statusBar{padding: 0;clear: both;}
+#uploader .queueList.filled{padding: 0;}
+#uploader .placeholder .webuploader-pick{background: url(../img/defalt-upload-image.jpg) center  no-repeat;}
+#uploader .filelist div.file-panel span.rotateLeft,#uploader .filelist div.file-panel span.rotateRight{display: none;}
+
+#content-main{height: calc(100% - 78px);}
+
+
