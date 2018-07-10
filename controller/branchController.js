@@ -44,7 +44,7 @@ class BranchController{
                 }
             })
         }else{
-            res.render("admin/branch/edit",{data:{}});
+            res.render("admin/branch/edit",{data:{type:1}});
         }
     }
 
