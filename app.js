@@ -30,7 +30,8 @@ app.use(cookieParser());
 
 //静态资源
 app.use(express.static(path.join(__dirname, 'resources')));
-app.use(express.static(path.join(__dirname, 'upload')));
+app.use("/upload",express.static(path.join(__dirname, 'upload')));
+
 
 //路由配置
 app.use('/', loginRouter);

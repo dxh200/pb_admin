@@ -42,7 +42,7 @@ module.exports = {
         if(!data){
             data = {};
         }
-        return new ResultAjax("0",msg,data);
+        return new ResultAjax(0,msg,data);
     },
     FAILED:(msg,data)=>{
         if(!msg){
@@ -51,7 +51,7 @@ module.exports = {
         if(!data){
             data = {};
         }
-        return new ResultAjax("1",msg,data);
+        return new ResultAjax(1,msg,data);
     },
     ERROR:(msg,data)=>{
         if(!msg){
@@ -60,6 +60,6 @@ module.exports = {
         if(!data){
             data = {};
         }
-        return new ResultAjax("-1",msg,data);
+        return new ResultAjax(-1,msg,data);
     }
 };

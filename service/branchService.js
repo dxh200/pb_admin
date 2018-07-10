@@ -7,35 +7,42 @@ class BranchService{
     constructor(){
     }
 
-    async add(req,res,next,callback){
-        let branchModel = new BranchModel(req.body);
-        branchModel.save((err)=>{
+    async add(option,callback){
+        let branchModel = new BranchModel(option);
+        await branchModel.save((err,data)=>{
             if(callback){
-                callback(err);
+                callback(err,null);
+            }else{
+                callback(null,data);
             }
         })
     }
 
-    async update(req,res,next,callback){
-        let id_ = BranchModel.ObjectId(req.query.id)
-        await BranchModel.update({"_id":id_},{$set:{"PHOTO_":"PHOTO_"}},(err)=>{
+    async update(id,options,callback){
+        let _id = BranchModel.ObjectId(id);
+        await BranchModel.update({"_id":_id},{$set:options},(err,raw)=>{
             if(err){
-               console.log("err");
                 callback(err,null);
             }else{
-                console.log("success")
                 callback(null);
             }
         });
     }
 
-    async del(req,res,next){
-
+    async del(id,callback){
+        let id_ = BranchModel.ObjectId(id);
+        await BranchModel.deleteOne({"_id":_id},(err)=>{
+            if(err){
+                callback(err);
+            }else{
+                callback(null);
+            }
+        })
     }
 
-    async findById(req,res,next,callback){
-        let id_ = BranchModel.ObjectId(req.query.id);
-        await BranchModel.findOne(id_,(err,data)=>{
+    async findById(id,callback){
+        let _id = BranchModel.ObjectId(id);
+        await BranchModel.findOne(_id,(err,data)=>{
             if(err){
                 console.log(err.message);
                 callback(err,null);
@@ -45,8 +52,9 @@ class BranchService{
                     console.log(moment(data.CTIME_, "YYYY-MM-DD HH:mm"));
                     console.log(moment(data.CTIME_).format('YYYY-MM-DD HH:mm:ss'));
                     console.log(data);*/
+                    callback(null,data)
                 }
-                callback(null,data)
+
             }
         })
     }
