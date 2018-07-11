@@ -16,11 +16,11 @@
       <div class="col-sm-7 list">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
-            <h5>支部编辑</h5>
+            <h5>支部<%if(data._id){%>编辑<%}else{%>添加<%}%></h5>
           </div>
           <div class="ibox-content">
             <form class="form-horizontal m-t" id="editForm" action="/admin/branch/edit" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="_id" value="<%=data._id%>" />
+              <input type="hidden" name="id" value="<%=data._id%>" />
               <input type="hidden" name="type" value="<%=data.type%>" />
               <input type="hidden" name="photo" value="<%=data.photo%>" />
               <div class="form-group">
@@ -99,10 +99,12 @@
 <!-- jQuery Validation plugin javascript-->
 <script src="/js/plugins/validate/jquery.validate.min.js"></script>
 <script src="/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
 
 <script>
     // 添加全局站点信息
     var BASE_URL = '/js/plugins/webuploader';
+    var _id_ = '<%=data._id%>';
     jQuery(function(){
         jQuery('#subBtn').click(function(){
             onSubmitForm();
@@ -110,19 +112,29 @@
         });
     })
     function onSubmitForm(){
+        layer.load();
         //异步Form初始化
         $('#editForm').ajaxForm({
             dataType:'json',//服务器返回json格式数据
             timeout:15000,//超时时间设置为10秒；
             success: function(response){
+                layer.closeAll('loading');
                 if(response.code==0){
-                    alert('编辑成功');
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                        if(_id_){
+                            window.location.href="/admin/branch/index";
+                        }else{
+                            window.location.href="/admin/branch/toEdit";
+                        }
+                    });
                 }else{
-                    alert(response.msg);
+                    layer.alert('数据保存失败');
                 }
             },
             error:function(){
-                alert('执行失败');
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
             }
         }).submit();
     }

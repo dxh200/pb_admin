@@ -4,6 +4,7 @@ const ResultAjax = require('./../utils/ResultAjax');
 const multiparty = require("multiparty");
 const fs = require("fs");
 const path = require('path');
+const moment = require('moment');
 const fileUploadUtil = require('./../utils/FileUploadUtil');
 /**
  * 支部控制器
@@ -70,7 +71,7 @@ class BranchController{
                 var allFile = data.allFile;
                 try{
                     var tempPhoto = data.photo[0];
-                    let id = data._id[0];
+                    let id = data.id[0];
                     var flag = data.file.length;
                     if(flag>0){
                         data['photo'] = data.file[0].urlPath;
@@ -106,14 +107,69 @@ class BranchController{
         })
     }
 
-    async list(req,res,next){
+    /**
+     * 后台列表管理
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async getList(req,res,next){
+        let page = parseInt(req.body.page);
+        let pageSize = parseInt(req.body.rows);
+        let type = req.body.type;
+        let bName = req.body.bName;
 
-        res.json(ResultAjax.SUCCESS("list",{}));
+        //查询条件
+        var queryOptions = {};
+        if(type){
+            queryOptions.type = type;
+        }
+        if(bName){
+            queryOptions.bName = new RegExp(bName);
+        }
+
+        console.log(queryOptions);
+        branchService.queryPageList(queryOptions,page,pageSize,(err,result)=>{
+            if(err){
+                res.json(ResultAjax.FAILED(err.message,{}));
+            }else{
+                let data = {};
+                let array = new Array();
+                result.docs.forEach((item,index)=>{
+                    let e = item.toObject();
+                    e.cTime = item.cTimeFormat;
+                    e.type = item.type_name;
+                    e.status = item.status_name;
+                    e.id = item._id;
+                    delete e._id;
+                    array.push(e);
+                })
+                data.rows = array;
+                data.total = result.pages;
+                data.page = result.page;
+                data.records = result.total;
+                res.json(data);
+            }
+        })
     }
 
+    /**
+     * 删除支部
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
     async del(req,res,next){
-
-        res.json(ResultAjax.SUCCESS("del",{}));
+        let id = req.body.id;
+        branchService.del(id,(err)=>{
+            if(err){
+                res.json(ResultAjax.FAILED(err.message,{}));
+            }else{
+                res.json(ResultAjax.SUCCESS("del",{}));
+            }
+        });
     }
 }
 

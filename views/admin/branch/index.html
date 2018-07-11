@@ -1,12 +1,237 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Main</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>支部编辑</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/ui.jqgrid.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  <style>
+    #alertmod_table_list_1 {
+      top: 900px !important;
+    }
+    .ibox{margin-bottom: 0;}
+  </style>
   </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-    <h1>系统主页</h1>
+<body class="gray-bg">
+<div class="wrapper wrapper-content  animated fadeInRight">
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="ibox">
+        <div class="ibox-content">
+          <div class="display_mode">
+            <div class="mode">
+              <p>显示方式：</p>
+              <div class="chose">
+                <input type="radio" name="r1" id="radio1" value="" />
+                <label for="radio1"></label>
+                <label for="radio1" class="num">手动</label>
+              </div>
+              <div class="chose">
+              <input type="radio" name="r1" id="radio2" value="" />
+              <label for="radio2"></label>
+              <label for="radio2" class="num">同步</label>
+            </div>
+              <div class="chose">
+                <input type="radio" name="r1" id="radio3" value="" />
+                <label for="radio3"></label>
+                <label for="radio3" class="num">所有</label>
+              </div>
+            </div>
+            <div class="entering">
+              <button id="btn_add" type="button" class="btn btn-default" onclick="toEdit();">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>录入
+              </button>
+              <button id="btn_add" type="button" class="btn btn-default">
+                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>同步
+              </button>
+              <button id="btn_add" type="button" class="btn btn-default" onclick="reloadGrid();">
+                <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
+              </button>
+            </div>
+          </div>
+          <div class="display_mode">
+            <input id="bName" name="bName" maxlength="30" type="text"/>
+            <button onclick="search()">搜索</button>
+          </div>
+          <div class="jqGrid_wrapper">
+            <table id="table_list_1"></table>
+            <div id="pager_list_1"></div>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   </body>
 </html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<!-- jqGrid -->
+<script src="/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
+<script src="/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<!-- 自定义js -->
+<script src="/js/content.js"></script>
+<script src="http://momentjs.cn/downloads/moment.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery.jgrid.defaults.styleUI = 'Bootstrap';
+        jQuery("#table_list_1").jqGrid({
+            url:'/admin/branch/getList?d='+new Date(),
+            datatype: "json",
+            mtype: 'POST',
+            height: 450,
+            autowidth: true,
+            shrinkToFit: true,
+            multiselect: false,
+            rownumbers: true,
+            pager: "#pager_list_1",
+            viewrecords: true,
+            rowNum: 20,
+            rowList: [10, 20, 30],
+            colNames: ['名称', '封面', '电话', '地址', '邮件', '类型','显示','时间','操作'],
+            colModel: [
+                {
+                    name: 'bName',
+                    index: 'bName',
+                    width: 90
+                },
+                {
+                    name: 'photo',
+                    index: 'photo',
+                    width: 100,
+                    formatter:function(cellvalue, options, rowObject){
+                        var img = '';
+                        if(cellvalue){
+                            img = '<img src="'+cellvalue+'" width="50"/>';
+                        }
+                        return img;
+                    }
+                },
+                {
+                    name: 'tel',
+                    index: 'tel',
+                    width: 80,
+                    align: "left"
+                },
+                {
+                    name: 'address',
+                    index: 'address',
+                    width: 80,
+                    align: "left"
+                },
+                {
+                    name: 'email',
+                    index: 'email',
+                    width: 80,
+                    align: "center"
+                },
+                {
+                    name: 'type',
+                    index: 'type',
+                    width: 100
+                },
+                {
+                    name: 'status',
+                    index: 'status',
+                    width: 100
+                },
+                {
+                    name: 'cTime',
+                    index: 'cTime',
+                    width: 100,
+                    formatter:function(cellvalue, options, rowObject){
+                        return cellvalue;
+                    }
+                },
+                {
+                    name: '',
+                    index: '',
+                    width: 100,
+                    formatter:function(cellvalue, options, rowObject){
+                        let cz = '<a href="javascript:;" onclick="toEdit(\''+rowObject.id+'\')">编辑</a>   <a href="javascript:;" onclick="del(\''+rowObject.id+'\')">删除</a>';
+                        return cz;
+                    }
+                }
+            ]
+        });
+
+
+        // 自适应大小
+        jQuery(window).bind('resize', function () {
+            var width = jQuery('.jqGrid_wrapper').width();
+            jQuery('#table_list_1').setGridWidth(width);
+        });
+    });
+
+    //编辑
+    function toEdit(id){
+        if(id){
+            window.location.href="/admin/branch/toEdit?id="+id;
+        }else{
+            window.location.href="/admin/branch/toEdit";
+        }
+    }
+
+    //删除
+    function del(id){
+        layer.confirm('确定删除所选中数据吗?', {icon: 3, title:'删除提示'}, function(index){
+            layer.close(index);
+            layer.load();
+            jQuery.ajax({
+                url:'/admin/branch/del',
+                type:'post',
+                data:{id:id},
+                dataType:"json",
+                success:function(data){
+                    layer.closeAll('loading');
+                    if(data.code==0){
+                        layer.alert('数据删除成功',function(index){
+                            layer.close(index);
+                            reloadGrid();
+                        });
+                    }else{
+                        layer.alert('数据删除失败');
+                    }
+                },
+                error:function(err){
+                    layer.closeAll('loading');
+                    layer.alert('服务器交互失败');
+                }
+            })
+        });
+    }
+
+    //搜索
+    function search(){
+        var bName = $("#bName").val();
+        $("#table_list_1").setGridParam({
+            url:'/admin/branch/getList?d='+new Date(),
+            mtype:'POST',
+            postData:{"bName":bName,page:1}
+        }).trigger("reloadGrid");
+    }
+
+    //获得选择行
+    function getSelectedRows() {
+        var grid = $("#table_list_1");
+        var rowKey = grid.getGridParam("selrow");
+
+        if (!rowKey)
+            return 0;
+        else {
+            return grid.getGridParam("selarrrow").toString();
+        }
+    }
+
+    //刷新
+    function reloadGrid(){
+        jQuery("#table_list_1").jqGrid('setGridParam',{datatype:'json',postData:{keywords:'',page:1}}).trigger("reloadGrid");
+    }
+</script>
