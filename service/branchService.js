@@ -73,10 +73,6 @@ class BranchService{
                 callback(err,null);
             }else{
                 if(data){
-                    /*console.log(data.CTIME_.toLocaleString())
-                    console.log(moment(data.CTIME_, "YYYY-MM-DD HH:mm"));
-                    console.log(moment(data.CTIME_).format('YYYY-MM-DD HH:mm:ss'));
-                    console.log(data);*/
                     callback(null,data)
                 }
 
