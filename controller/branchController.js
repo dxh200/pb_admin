@@ -76,6 +76,7 @@ class BranchController{
                     if(flag>0){
                         data['photo'] = data.file[0].urlPath;
                     }
+                    data['status'] = parseInt(data.status[0]);
                     if(id){
                         branchService.update(id,data,(err,data)=>{
                             if(err){

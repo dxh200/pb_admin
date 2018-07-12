@@ -1,13 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
 var ejs = require('ejs')
-var db = require('./mongodb/db')
+var db = require('./mongodb/db');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('config-lite')(__dirname);
 var ueditor = require('ueditor');
-var bodyParser = require('body-parser');
+var moment = require('moment');
 
 //引入路由
 var adminRouter = require('./routes/admin');
@@ -21,24 +21,24 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html',ejs.__express);
 app.set('view engine', 'html');
 
-//app.use(bodyParser.urlencoded({extended: true}))
-//app.use(bodyParser.json());
 //表单数据解析
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 //ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, res, next) {
-    var imgDir = '/content/img/' //默认上传地址为图片
+    var date = moment().format('YYYYMMDD');
+    var dirName = '/static';
+    var imgDir = dirName+'/img/'+date+'/'; //默认上传地址为图片
     var ActionType = req.query.action;
-    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo') {
+    if (ActionType === 'uploadimage' || ActionType === 'uploadfile' || ActionType === 'uploadvideo' || ActionType === 'uploadscrawl') {
         var file_url = imgDir;//默认上传地址为图片
-        /*其他上传格式的地址*/
+        /!*其他上传格式的地址*!/
         if (ActionType === 'uploadfile') {
-            file_url = '/content/file/'; //附件保存地址
+            file_url = dirName+'/file/'+date+'/'; //附件保存地址
         }
         if (ActionType === 'uploadvideo') {
-            file_url = '/content/video/'; //视频保存地址
+            file_url = dirName+'/video/'+date+'/'; //视频保存地址
         }
         res.ue_up(file_url); //你只要输入要保存的地址 。保存操作交给ueditor来做
         res.setHeader('Content-Type', 'text/html');
@@ -52,7 +52,10 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, 
     else {
         res.setHeader('Content-Type', 'application/json');
         res.redirect('/ueditor/ueditor.config.json')
-    }}));
+    }
+}));
+
+
 
 app.use(logger('dev'));
 

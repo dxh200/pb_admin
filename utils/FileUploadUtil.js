@@ -40,7 +40,7 @@ class fileUploadUtil{
                             }else{
                                 let ext = path.extname(originalFilename);  //.jpg
                                 let fileName = moment().format('x')+ext;
-                                var dstPath = path.join(__dirname,'./../upload/zb/'+fileName);
+                                var dstPath = path.join(__dirname,'./../'+urlPath+fileName);
                                 _self_.rename(__file_temp__.path,dstPath,(err)=>{
                                     if(err){
                                         _self_.delFiel(__file_temp__.path);

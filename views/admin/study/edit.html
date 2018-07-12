@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>学习宣传</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+  <body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-sm-12 list">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>学习宣传<%if(data._id){%>-编辑<%}else{%>-添加<%}%></h5>
+          </div>
+          <div class="ibox-content">
+            <form class="form-horizontal m-t" id="editForm" action="/admin/content/edit" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id" value="<%=data._id%>" />
+              <input type="hidden" name="type" value="<%=data.type%>" />
+              <input type="hidden" name="photo" value="<%=data.photo%>" />
+              <input type="hidden" name="module" value="1" />
+              <input type="hidden" name="content" id="content" value="<%=data.content%>" />
+              <div class="form-group">
+                <label class="col-sm-3 control-label">标题：</label>
+                <div class="col-sm-8">
+                  <input id="title" name="title" minlength="2" type="text" value="<%=data.title%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">来源：</label>
+                <div class="col-sm-8">
+                  <input id="source" name="source" minlength="2" type="text" value="<%=data.source%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">作者：</label>
+                <div class="col-sm-8">
+                  <input id="author" name="author" minlength="2" type="text" value="<%=data.author%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">分类：</label>
+                <div class="col-sm-8">
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" style="float: left;">封面图片：</label>
+                <div class="col-sm-8">
+                  <div id="file-pretty">
+                    <input type="file" name="file"  />
+                  </div>
+                  <%if(data.photo){%>
+                  <img src="<%=data.photo%>" width="50"/>
+                  <%}%>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">内容：</label>
+                <div class="col-sm-8" style="height:300px;">
+                  <div id="_content_" type="text/plain" style="width:100%;height:200px;"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">发布时间：</label>
+                <div class="col-sm-8">
+                  <input id="customTime" name="customTime" minlength="2" type="text" value="<%=data.customTime%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">访问量：</label>
+                <div class="col-sm-8">
+                  <input id="num" name="num" minlength="2" type="text" value="<%=data.num%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">显示/隐藏：</label>
+                <div class="col-sm-8">
+                  <div class="radio radio-info radio-inline">
+                    <input type="radio" name="status" id="status1" value="1">
+                    <label for="status1">显示</label>
+                  </div>
+                  <div class="radio radio-info radio-inline">
+                    <input type="radio" name="status" id="status2" value="0">
+                    <label for="status2">隐藏</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group btn_form">
+                <div class="">
+                  <button class="btn btn-primary" id="subBtn">保存</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<!-- ueditor-->
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/ueditor.all.js"> </script>
+<script type="text/javascript" charset="utf-8" src="/ueditor/lang/zh-cn/zh-cn.js"> </script>
+<!-- prettyfile -->
+<script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+
+<script>
+    var _id_ = '<%=data._id%>';
+    var ue = UE.getEditor('_content_');
+    ue.addListener("ready", function () {
+        ue.setContent(jQuery("#content").val());
+    });
+    jQuery(function(){
+
+        //status
+        jQuery(':radio[name="status"][value="<%=data.status%>"]').attr('checked',true);
+
+        //file
+        jQuery('#file-pretty input[type="file"]').prettyFile();
+
+        jQuery('#subBtn').click(function(){
+            onSubmitForm();
+            return false;
+        });
+    })
+    function onSubmitForm(){
+        var content = ue.getContent();
+        jQuery("#content").val(content);
+        layer.load();
+        //异步Form初始化
+        $('#editForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                        if(_id_){
+                            window.location.href="/admin/content/index?m=1";
+                        }else{
+                            window.location.href="/admin/content/toEdit?m=1";
+                        }
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+</script>

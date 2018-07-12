@@ -33,7 +33,7 @@ userSchema.virtual('type_name').get(function () {
     return this.type == 1 ? '手动' : '同步';
 });
 userSchema.virtual('status_name').get(function () {
-    return this.type == 1 ? '显示' : '隐藏';
+    return this.status == 1 ? '显示' : '隐藏';
 });
 userSchema.virtual('cTimeFormat').get(function () {
     return moment(this.cTime).format('YYYY-MM-DD HH:mm');
