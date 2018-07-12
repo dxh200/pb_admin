@@ -3,6 +3,7 @@ var router = express.Router();
 
 const branchRouter = require('./admin/branch');
 const contentRouter = require('./admin/content');
+const orgRouter = require('./admin/org');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -18,5 +19,6 @@ router.get('/main', function(req, res, next) {
 //子路由
 router.use('/branch',branchRouter);
 router.use('/content',contentRouter);
+router.use('/org',orgRouter);
 
 module.exports = router;

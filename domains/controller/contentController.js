@@ -1,11 +1,11 @@
 "use strict";
-const contentService = require('../service/contentService');
-const ResultAjax = require('./../utils/ResultAjax');
+const contentService = require('../../service/contentService');
+const ResultAjax = require('./../../utils/ResultAjax');
 const multiparty = require("multiparty");
 const fs = require("fs");
 const path = require('path');
 const moment = require('moment');
-const fileUploadUtil = require('./../utils/FileUploadUtil');
+const fileUploadUtil = require('./../../utils/FileUploadUtil');
 /**
  * 内容控制器
  */

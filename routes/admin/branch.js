@@ -2,7 +2,7 @@
 * 支部功能操作
 * */
 const express = require('express');
-const branchController = require('../../controller/branchController');
+const branchController = require('../../domains/controller/branchController');
 const router = express.Router();
 
 //管理页面

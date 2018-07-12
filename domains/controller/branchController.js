@@ -1,11 +1,11 @@
 "use strict";
-const branchService = require('../service/branchService');
-const ResultAjax = require('./../utils/ResultAjax');
+const branchService = require('../../service/branchService');
+const ResultAjax = require('./../../utils/ResultAjax');
 const multiparty = require("multiparty");
 const fs = require("fs");
 const path = require('path');
 const moment = require('moment');
-const fileUploadUtil = require('./../utils/FileUploadUtil');
+const fileUploadUtil = require('./../../utils/FileUploadUtil');
 /**
  * 支部控制器
  */

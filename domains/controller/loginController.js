@@ -1,5 +1,5 @@
 "use strict";
-const ResultAjax = require('../utils/ResultAjax')
+const ResultAjax = require('../../utils/ResultAjax')
 class LoginController{
 
     async index(req,res,next){

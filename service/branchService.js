@@ -80,7 +80,29 @@ class BranchService{
         })
     }
 
+    /**
+     * 查询全部支部信息
+     * @param queryOption  查询条件
+     * @param friends      查询字段多个空格分隔
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    async getAllList(queryOption,friends,callback){
+        queryOption.type = '1';
+        queryOption.status = 1;
+        await BranchModel.find(queryOption,friends,{sort:{cTime:-1}},(err,data)=>{
+            callback(err,data);
+        });
+    }
 
+    /**
+     * 分页查询支部数据
+     * @param queryOption
+     * @param page
+     * @param pageSize
+     * @param callback
+     * @returns {Promise<void>}
+     */
     async queryPageList(queryOption,page,pageSize,callback){
         if(Number.isNaN(page)){
             page = 1;

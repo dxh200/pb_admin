@@ -2,7 +2,7 @@
 * 支部功能操作
 * */
 const express = require('express');
-const contentController = require('../../controller/contentController');
+const contentController = require('../../domains/controller/contentController');
 const router = express.Router();
 
 //管理页面

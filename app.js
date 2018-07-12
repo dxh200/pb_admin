@@ -21,9 +21,28 @@ app.set('views', path.join(__dirname, 'views'));
 app.engine('html',ejs.__express);
 app.set('view engine', 'html');
 
+app.use(logger('dev'));
+
 //表单数据解析
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+//cookies
+app.use(cookieParser());
+
+//静态资源
+app.use(express.static(path.join(__dirname, 'resources')));
+app.use("/upload",express.static(path.join(__dirname, 'upload')));
+
+
+//路由配置
+app.get('/a',(req,res,next)=>{
+    res.render('index')
+})
+app.use('/', loginRouter);
+app.use('/admin', adminRouter);
+app.use('/login', loginRouter);
+app.use('/client', clientRouter);
 
 //ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, res, next) {
@@ -54,30 +73,6 @@ app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, 
         res.redirect('/ueditor/ueditor.config.json')
     }
 }));
-
-
-
-app.use(logger('dev'));
-
-
-
-
-//cookies
-app.use(cookieParser());
-
-//静态资源
-app.use(express.static(path.join(__dirname, 'resources')));
-app.use("/upload",express.static(path.join(__dirname, 'upload')));
-
-
-//路由配置
-app.get('/a',(req,res,next)=>{
-    res.render('index')
-})
-app.use('/', loginRouter);
-app.use('/admin', adminRouter);
-app.use('/login', loginRouter);
-app.use('/client', clientRouter);
 
 
 // catch 404 and forward to error handler
