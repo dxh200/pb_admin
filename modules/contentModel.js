@@ -8,16 +8,16 @@ const moment = require('moment');
 
 
 const contentSchema = new mongoose.Schema({
-    title:{type:String,default:""},        //标题
-    photo:{type:String,default:""},        //封面
+    title:{type:String,default:""},          //标题
+    photo:{type:String,default:""},          //封面
     source:{type:String,default:""},         //来源
     author:{type:String,default:""},         //作者
     module:{type:String,default:""},         //模块【1学习宣传、2党务工作、3关注热文】
     category:{type:String,default:""},       //分类->对应各个模块
-    num:{type:Number,default:0},            //访问量
+    num:{type:Number,default:0},             //访问量
     content:{type:String,default:""},        //内容
     type:{type:String,default:""},           //0同步、1手动
-    status:{type:Number,default:1},    //状态1显示、0隐藏
+    status:{type:Number,default:1},          //状态1显示、0隐藏
     cTime:{type:Date},
     uTime:{type:Date},
     customTime:{type:String,default:""}

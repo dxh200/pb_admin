@@ -1,5 +1,4 @@
 "use strict";
-const contentService = require('../../service/contentService');
 const categoryService = require('../../service/categoryService');
 const ResultAjax = require('./../../utils/ResultAjax');
 const multiparty = require("multiparty");
@@ -8,15 +7,9 @@ const path = require('path');
 const moment = require('moment');
 const fileUploadUtil = require('./../../utils/FileUploadUtil');
 /**
- * 内容控制器
+ * 学习宣传分类控制器
  */
-class ContentController{
-
-    constructor(){
-        this.index = this.index.bind(this);
-        this.toEdit = this.toEdit.bind(this);
-        this.getList = this.getList.bind(this);
-    }
+class CategoryController{
 
     /**
      * 进入列表页面
@@ -26,16 +19,7 @@ class ContentController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        let module = await this._getModule(req);
-        if(module=='1'){
-            console.log("categoryList:::"+ await this._getCategoryList());
-            res.render("admin/study/index",{module:module,categoryList:this._getCategoryList()});
-        }else if(module=='2'){
-            res.render("admin/work/index",{module:module});
-        }else if(module=='3'){
-            res.render("admin/news/index",{module:module});
-        }
-
+        res.render("admin/category/index")
     }
 
     /**
@@ -47,44 +31,21 @@ class ContentController{
      */
     async toEdit(req,res,next){
         var id = req.query.id;
-        var module = await this._getModule(req);
         if(id){
-            contentService.findById(id,(err,doc)=>{
+            categoryService.findById(id,(err,doc)=>{
                 if(err){
                     throw new Error(err.message);
                 }else{
                     if(doc){
-                        if(module=='1'){
-                            console.log("categoryList:::"+this._getCategoryList());
-                            res.render("admin/study/edit",{data:doc,categoryList:this._getCategoryList()});
-                        }else if(module=='2'){
-                            res.render("admin/work/edit",{data:doc});
-                        }else if(module=='3'){
-                            res.render("admin/news/edit",{data:doc});
-                        }
+                        res.render("admin/category/edit",{data:doc});
                     }else{
-                        if(module=='1'){
-                            console.log("categoryList:::"+this._getCategoryList());
-                            res.render("admin/study/edit",{data:{},categoryList:this._getCategoryList()});
-                        }else if(module=='2'){
-                            res.render("admin/work/edit",{data:{}});
-                        }else if(module=='3'){
-                            res.render("admin/news/edit",{data:{}});
-                        }
+                        res.render("admin/category/edit",{data:{}});
                     }
 
                 }
             })
         }else{
-            if(module=='1'){
-                console.log("=========================================")
-                console.log("categoryList5555:::"+JSON.stringify(this._getCategoryList()));
-                res.render("admin/study/edit",{data:{type:1},categoryList:this._getCategoryList()});
-            }else if(module=='2'){
-                res.render("admin/work/edit",{data:{type:1}});
-            }else if(module=='3'){
-                res.render("admin/news/edit",{data:{type:1}});
-            }
+            res.render("admin/category/edit",{data:{type:1}});
         }
     }
 
@@ -98,14 +59,13 @@ class ContentController{
     async edit(req,res,next){
         var modelData = {};
         var form = new multiparty.Form();
-        form.uploadDir = "upload/content";   /*前提目录必须存在*/
+        form.uploadDir = "upload/category";   /*前提目录必须存在*/
         form.maxFieldsSize = 2*1024*1024; //内存大小
         form.maxFilesSize= 5*1024*1024;//文件字节大小限制，超出会报错err
-        var urlPath = '/upload/content/';
+        var urlPath = '/upload/category/';
         await fileUploadUtil.upload(req,form,urlPath,(err,data)=>{
-            console.log("err:"+err);
             if(err){
-                res.json(ResultAjax.FAILED('封面图片上传失败',{}));
+                res.json(ResultAjax.FAILED('封面图片上传失败:'+err.message,{}));
             }else{
                 var allFile = data.allFile;
                 try{
@@ -115,10 +75,10 @@ class ContentController{
                     if(flag>0){
                         data['photo'] = data.file[0].urlPath;
                     }
-                    data['num'] = parseInt(data.num[0]);
                     data['status'] = parseInt(data.status[0]);
+                    data['num'] = parseInt(data.num[0]);
                     if(id){
-                        contentService.updateContent(id,data,(err,data)=>{
+                        categoryService.update(id,data,(err,data)=>{
                             if(err){
                                 res.json(ResultAjax.ERROR(err.message,{}));
                             }else{
@@ -130,7 +90,7 @@ class ContentController{
                             }
                         })
                     }else{
-                        contentService.addContent(data,(err,data)=>{
+                        categoryService.add(data,(err,data)=>{
                             if(err){
                                 res.json(ResultAjax.ERROR(err.message,{}));
                             }else{
@@ -156,31 +116,25 @@ class ContentController{
      * @returns {Promise<void>}
      */
     async getList(req,res,next){
-        let page = parseInt(req.body.page);
-        let pageSize = parseInt(req.body.rows);
-        let category = req.body.category;
-        let title = req.body.title;
-        var module = await this._getModule(req);
+        let type = req.body.type;
+        let name = req.body.name;
 
         //查询条件
         var queryOptions = {};
-        if(category){
-            queryOptions.category = category;
+        if(type){
+            queryOptions.type = type;
         }
-        if(title){
-            queryOptions.title = new RegExp(title);
-        }
-        if(module){
-            queryOptions.module = module;
+        if(name){
+            queryOptions.name = new RegExp(name);
         }
 
-        contentService.queryPageList(queryOptions,page,pageSize,(err,result)=>{
+        categoryService.getAllList(queryOptions,"",(err,result)=>{
             if(err){
                 res.json(ResultAjax.FAILED(err.message,{}));
             }else{
                 let data = {};
                 let array = new Array();
-                result.docs.forEach((item,index)=>{
+                result.forEach((item,index)=>{
                     let e = item.toObject();
                     e.cTime = item.cTimeFormat;
                     e.type = item.type_name;
@@ -190,9 +144,6 @@ class ContentController{
                     array.push(e);
                 })
                 data.rows = array;
-                data.total = result.pages;
-                data.page = result.page;
-                data.records = result.total;
                 res.json(data);
             }
         })
@@ -207,7 +158,7 @@ class ContentController{
      */
     async del(req,res,next){
         let id = req.body.id;
-        contentService.delContent(id,(err)=>{
+        categoryService.del(id,(err)=>{
             if(err){
                 res.json(ResultAjax.FAILED(err.message,{}));
             }else{
@@ -215,35 +166,6 @@ class ContentController{
             }
         });
     }
-
-    /**
-     * 获得模块类型
-     * @param req
-     * @returns {*}
-     */
-    _getModule(req){
-        let module = req.query.m; //【1学习宣传、2党务工作、3关注热文】
-        if(!module){
-            module = '1';
-        }
-        return module;
-    }
-
-    /**
-     * 获得学习宣传分类
-     * @returns {Array}
-     * @private
-     */
-    async _getCategoryList(){
-        //查询学习宣传分类
-        var categoryList = [];
-        await categoryService.getAllList({type:1,status:1},"name",(err,data)=>{
-            if(data){
-                categoryList = data;
-            }
-        });
-        return categoryList;
-    }
 }
 
-module.exports = new ContentController();
+module.exports = new CategoryController();

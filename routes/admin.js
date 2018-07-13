@@ -5,6 +5,7 @@ const branchRouter = require('./admin/branch');
 const contentRouter = require('./admin/content');
 const orgRouter = require('./admin/org');
 const operationRouter = require('./admin/operation');
+const categoryRouter = require('./admin/category');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,5 +23,6 @@ router.use('/branch',branchRouter);
 router.use('/content',contentRouter);
 router.use('/org',orgRouter);
 router.use('/operation',operationRouter);
+router.use('/category',categoryRouter);
 
 module.exports = router;
