@@ -28,8 +28,8 @@ class ContentController{
     async index(req,res,next){
         let module = await this._getModule(req);
         if(module=='1'){
-            console.log("categoryList:::"+ await this._getCategoryList());
-            res.render("admin/study/index",{module:module,categoryList:this._getCategoryList()});
+            var categoryList = await this._getCategoryList();
+            res.render("admin/study/index",{module:module,categoryList:categoryList});
         }else if(module=='2'){
             res.render("admin/work/index",{module:module});
         }else if(module=='3'){
@@ -48,15 +48,61 @@ class ContentController{
     async toEdit(req,res,next){
         var id = req.query.id;
         var module = await this._getModule(req);
+
         if(id){
+            var doc = await new Promise((resolve,reject)=>{
+                contentService.findById(id,(err,doc)=>{
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve(doc);
+                    }
+                });
+            });
+
+            if(doc){
+                if(module=='1'){
+                    var categoryList =  await this._getCategoryList();
+                    res.render("admin/study/edit",{data:doc,categoryList:categoryList});
+                }else if(module=='2'){
+                    res.render("admin/work/edit",{data:doc});
+                }else if(module=='3'){
+                    res.render("admin/news/edit",{data:doc});
+                }
+            }else{
+                if(module=='1'){
+                    var categoryList =  await this._getCategoryList();
+                    res.render("admin/study/edit",{data:{},categoryList:categoryList});
+                }else if(module=='2'){
+                    res.render("admin/work/edit",{data:{}});
+                }else if(module=='3'){
+                    res.render("admin/news/edit",{data:{}});
+                }
+            }
+        }else{
+            if(module=='1'){
+                var categoryList =  await this._getCategoryList();
+                res.render("admin/study/edit",{data:{type:1},categoryList:categoryList});
+            }else if(module=='2'){
+                res.render("admin/work/edit",{data:{type:1}});
+            }else if(module=='3'){
+                res.render("admin/news/edit",{data:{type:1}});
+            }
+        }
+
+
+
+
+
+        /*if(id){
             contentService.findById(id,(err,doc)=>{
                 if(err){
                     throw new Error(err.message);
                 }else{
                     if(doc){
                         if(module=='1'){
-                            console.log("categoryList:::"+this._getCategoryList());
-                            res.render("admin/study/edit",{data:doc,categoryList:this._getCategoryList()});
+                            var categoryList =  this._getCategoryList();
+                            res.render("admin/study/edit",{data:doc,categoryList:categoryList});
                         }else if(module=='2'){
                             res.render("admin/work/edit",{data:doc});
                         }else if(module=='3'){
@@ -64,8 +110,8 @@ class ContentController{
                         }
                     }else{
                         if(module=='1'){
-                            console.log("categoryList:::"+this._getCategoryList());
-                            res.render("admin/study/edit",{data:{},categoryList:this._getCategoryList()});
+                            var categoryList =  this._getCategoryList();
+                            res.render("admin/study/edit",{data:{},categoryList:categoryList});
                         }else if(module=='2'){
                             res.render("admin/work/edit",{data:{}});
                         }else if(module=='3'){
@@ -77,15 +123,14 @@ class ContentController{
             })
         }else{
             if(module=='1'){
-                console.log("=========================================")
-                console.log("categoryList5555:::"+JSON.stringify(this._getCategoryList()));
-                res.render("admin/study/edit",{data:{type:1},categoryList:this._getCategoryList()});
+                var categoryList =  this._getCategoryList();
+                res.render("admin/study/edit",{data:{type:1},categoryList:categoryList});
             }else if(module=='2'){
                 res.render("admin/work/edit",{data:{type:1}});
             }else if(module=='3'){
                 res.render("admin/news/edit",{data:{type:1}});
             }
-        }
+        }*/
     }
 
     /**
@@ -234,15 +279,16 @@ class ContentController{
      * @returns {Array}
      * @private
      */
-    async _getCategoryList(){
-        //查询学习宣传分类
-        var categoryList = [];
-        await categoryService.getAllList({type:1,status:1},"name",(err,data)=>{
-            if(data){
-                categoryList = data;
-            }
+    _getCategoryList(){
+        return new Promise((resolve, reject) => {
+            categoryService.getAllList({type:1,status:1},"name",(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
         });
-        return categoryList;
     }
 }
 
