@@ -14,7 +14,7 @@ const orgSchema = new mongoose.Schema({
     status:{type:Number,default:1},       //状态1显示、0隐藏
     cTime:{type:Date},
     uTime:{type:Date},
-    bId:{type:mongoose.Schema.ObjectId,ref:'PB_BRANCH'},         //支部名称
+    bId:{type:mongoose.Schema.ObjectId,ref:'PB_BRANCH'},         //支部名称与PB_BRANCH表关联
 },{
     versionKey: false,
     timestamps: { createdAt: 'cTime', updatedAt: 'uTime' }

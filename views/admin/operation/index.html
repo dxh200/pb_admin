@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>运营统计</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/ui.jqgrid.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-sm-12 list">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>运营统计</h5>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal m-t" id="_form" style="clear: both;">
+            <div class="form-group operation">
+              <label class="col-sm-3 control-label" style="float: left;">显示方式：</label>
+              <div class="col-sm-8">
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="status" id="status1" value="1">
+                  <label for="status1">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="status" id="status2" value="0">
+                  <label for="status2">同步</label>
+                </div>
+              </div>
+            </div>
+          </form>
+          <form class="form-horizontal m-t" action="/admin/operation/edit" id="manualForm" style="clear: both;" method="post">
+            <input type="hidden" name="type"  class="form-control" value="1">
+            <input type="hidden" name="id" value="<%=mData._id%>" />
+            <div class="form-group">
+              <label class="col-sm-3 control-label">统计选项：</label>
+              <div class="col-sm-4">
+                <input type="text" name="name"  class="form-control" value="<%=mData.name%>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">显示文本：</label>
+              <div class="col-sm-4">
+                <input type="text" name="tName" class="form-control" value="<%=mData.tName%>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">统计数据：</label>
+              <div class="col-sm-6">
+                <textarea name="data" class="form-control"><%=mData.data%></textarea>
+              </div>
+            </div>
+            <div class="form-group btn_form">
+              <div class="">
+                <button class="btn btn-primary" id="mBtn" type="button"><i class="fa fa-check"></i>&nbsp;保存数据</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal m-t" id="synchronizedForm" style="clear: both;">
+            <input type="hidden" name="type"  class="form-control" value="0">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">统计选项：</label>
+              <div class="col-sm-4">
+                <input type="text" name="name"  class="form-control" value="<%=sData.name%>" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">显示文本：</label>
+              <div class="col-sm-4">
+                <input type="text" name="tName" class="form-control" value="<%=sData.tName%>" readonly>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">统计数据：</label>
+              <div class="col-sm-6">
+                <textarea  name="data" class="form-control"><%=sData.data%></textarea>
+              </div>
+            </div>
+            <div class="form-group btn_form">
+              <div class="">
+                <button class="btn btn-primary" id="sBtn" type="button" disabled><i class="fa fa-repeat"></i>&nbsp;同步数据</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<!-- 自定义js -->
+<script src="/js/content.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('#mBtn').click(function(){
+            onManualForm();
+        });
+
+        jQuery('#sBtn').click(function(){
+            onSynchronizedForm();
+        });
+    });
+
+    //手动设置数据
+    function onManualForm(){
+        layer.load();
+        //异步Form初始化
+        jQuery('#manualForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+
+    //同步数据
+    function onSynchronizedForm(){
+        layer.load();
+        jQuery.ajax({
+          url:'/admin/operation/edit',
+          type:'post',
+          data:{type:1},
+          dataType:'json',
+          success:function(res){
+              if(response.code==0){
+                  laer.alert('数据同步完成');
+              } else{
+                  laer.alert('数据同步失败');
+              }
+          },
+          error:function(){
+              layer.closeAll('loading');
+              layer.alert('服务器交互失败');
+          }
+        })
+    }
+</script>

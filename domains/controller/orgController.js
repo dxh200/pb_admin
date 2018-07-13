@@ -133,7 +133,12 @@ class OrgController{
                     e.type = item.type_name;
                     e.status = item.status_name;
                     e.id = item._id;
-                    e.bName = item.bId.bName;
+                    if(item.bId){
+                        e.bName = item.bId.bName;
+                    }else{
+                        e.bName = '';
+                    }
+
                     delete e._id;
                     array.push(e);
                 })

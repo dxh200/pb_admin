@@ -85,6 +85,9 @@
     var _id_ = '<%=data._id%>';
     jQuery(function(){
 
+        //select
+        jQuery('#bId').val('<%=data.bId%>');
+
         //status
         jQuery(':radio[name="status"][value="<%=data.status%>"]').attr('checked',true);
 
