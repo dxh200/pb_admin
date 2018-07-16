@@ -1,0 +1,1 @@
+在upload目录下创建category、content、zb三个文件件

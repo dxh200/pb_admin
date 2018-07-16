@@ -89,48 +89,6 @@ class ContentController{
                 res.render("admin/news/edit",{data:{type:1}});
             }
         }
-
-
-
-
-
-        /*if(id){
-            contentService.findById(id,(err,doc)=>{
-                if(err){
-                    throw new Error(err.message);
-                }else{
-                    if(doc){
-                        if(module=='1'){
-                            var categoryList =  this._getCategoryList();
-                            res.render("admin/study/edit",{data:doc,categoryList:categoryList});
-                        }else if(module=='2'){
-                            res.render("admin/work/edit",{data:doc});
-                        }else if(module=='3'){
-                            res.render("admin/news/edit",{data:doc});
-                        }
-                    }else{
-                        if(module=='1'){
-                            var categoryList =  this._getCategoryList();
-                            res.render("admin/study/edit",{data:{},categoryList:categoryList});
-                        }else if(module=='2'){
-                            res.render("admin/work/edit",{data:{}});
-                        }else if(module=='3'){
-                            res.render("admin/news/edit",{data:{}});
-                        }
-                    }
-
-                }
-            })
-        }else{
-            if(module=='1'){
-                var categoryList =  this._getCategoryList();
-                res.render("admin/study/edit",{data:{type:1},categoryList:categoryList});
-            }else if(module=='2'){
-                res.render("admin/work/edit",{data:{type:1}});
-            }else if(module=='3'){
-                res.render("admin/news/edit",{data:{type:1}});
-            }
-        }*/
     }
 
     /**
@@ -201,6 +159,9 @@ class ContentController{
      * @returns {Promise<void>}
      */
     async getList(req,res,next){
+
+        var _self_ = this;
+
         let page = parseInt(req.body.page);
         let pageSize = parseInt(req.body.rows);
         let category = req.body.category;
@@ -219,28 +180,47 @@ class ContentController{
             queryOptions.module = module;
         }
 
-        contentService.queryPageList(queryOptions,page,pageSize,(err,result)=>{
-            if(err){
-                res.json(ResultAjax.FAILED(err.message,{}));
-            }else{
-                let data = {};
-                let array = new Array();
-                result.docs.forEach((item,index)=>{
-                    let e = item.toObject();
-                    e.cTime = item.cTimeFormat;
-                    e.type = item.type_name;
-                    e.status = item.status_name;
-                    e.id = item._id;
+        var r = {};
+        await contentService.queryPageList(queryOptions,page,pageSize).then((result)=>{
+            r = result;
+        }).catch((err)=>{
+            res.json(ResultAjax.FAILED(err.message,{}));
+        });
+
+        var data = {};
+        var array = new Array();
+        if(r){
+            await (async()=>{
+                var docs = r.docs;
+                for(let i=0;i<docs.length;i++){
+                    let e = docs[i].toObject();
+                    e.cTime = docs[i].cTimeFormat;
+                    e.type = docs[i].type_name;
+                    e.status = docs[i].status_name;
+                    e.id = docs[i]._id;
                     delete e._id;
+                    //如果当前是学习宣传就查询分类
+                    if(module=='1'){
+                        if(docs[i].category){
+                            var categoryObj = await this._getCategoryNameById(docs[i].category);
+                            if(categoryObj){
+                                e.category = categoryObj.name;
+                            }else{
+                                e.category = '';
+                            }
+                        }else{
+                            e.category = '';
+                        }
+                    }
                     array.push(e);
-                })
-                data.rows = array;
-                data.total = result.pages;
-                data.page = result.page;
-                data.records = result.total;
-                res.json(data);
-            }
-        })
+                }
+            })();
+        }
+        data.rows = array;
+        data.total = r.pages;
+        data.page = r.page;
+        data.records = r.total;
+        res.json(data);
     }
 
     /**
@@ -289,6 +269,28 @@ class ContentController{
                 }
             });
         });
+    }
+
+    /**
+     * 根据分类id获得分明名称
+     * @param id
+     * @returns {Promise<any>}
+     * @private
+     */
+    _getCategoryNameById(id){
+        if(id){
+            return new Promise((resolve,reject)=>{
+                categoryService.getCategoryNameById(id,(err,data)=>{
+                    if(err){
+                        reject(err);
+                    }else{
+                        resolve(data);
+                    }
+                });
+            });
+        }else{
+            return null;
+        }
     }
 }
 

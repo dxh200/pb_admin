@@ -88,7 +88,7 @@
                 <label class="col-sm-3 control-label">显示/隐藏：</label>
                 <div class="col-sm-8">
                   <div class="radio radio-info radio-inline">
-                    <input type="radio" name="status" id="status1" value="1">
+                    <input type="radio" name="status" id="status1" value="1" checked>
                     <label for="status1">显示</label>
                   </div>
                   <div class="radio radio-info radio-inline">
@@ -128,6 +128,7 @@
     var _id_ = '<%=data._id%>';
     var ue = UE.getEditor('_content_');
     ue.addListener("ready", function () {
+        var t = jQuery("#content").val();
         ue.setContent(jQuery("#content").val());
     });
     jQuery(function(){

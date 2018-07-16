@@ -81,7 +81,7 @@ class ContentService{
     }
 
 
-    async queryPageList(queryOption,page,pageSize,callback){
+    async queryPageList(queryOption,page,pageSize){
         if(Number.isNaN(page)){
             page = 1;
         }
@@ -91,9 +91,16 @@ class ContentService{
         if(!queryOption){
             queryOption = {};
         }
-        await ContentModel.paginate(queryOption, { select:'-uTime -module -content', page:page, limit:pageSize,sort:{cTime:-1} }, function(err, result) {
-            callback(err,result);
+        return new Promise(function (resolve, reject){
+            ContentModel.paginate(queryOption, { select:'-uTime -module -content', page:page, limit:pageSize,sort:{cTime:-1} }, function(err, result) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
         });
+
     }
 }
 

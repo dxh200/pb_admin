@@ -90,7 +90,6 @@ class CategoryService{
         let _id = CategoryModel.ObjectId(id);
         await CategoryModel.findOne(_id,"name",(err,data)=>{
             if(err){
-                console.log(err.message);
                 callback(err,null);
             }else{
                 if(data){
