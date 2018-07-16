@@ -1,5 +1,5 @@
 /**
- * 运营数据模型
+ * 设置数据模型
  */
 const db = require('./../mongodb/db'),
     mongoose = db.mongoose;
@@ -7,10 +7,9 @@ const mongoosePaginate = require('mongoose-paginate');
 const moment = require('moment');
 
 
-const operationSchema = new mongoose.Schema({
-    name:{type:String,default:""},        //支部名称
-    tName:{type:String,default:""},       //默认为：发起率、参与率
-    data:{type:String,default:""},       //统计数据
+const settingSchema = new mongoose.Schema({
+    key:{type:String,default:""},        //支部名称
+    val:mongoose.Schema.Types.Mixed,
     type:{type:String,default:""},        //0同步、1手动
     cTime:{type:Date},
     uTime:{type:Date}
@@ -20,18 +19,18 @@ const operationSchema = new mongoose.Schema({
 });
 
 //虚拟属性
-operationSchema.virtual('type_name').get(function () {
+settingSchema.virtual('type_name').get(function () {
     return this.type == 1 ? '手动' : '同步';
 });
-operationSchema.virtual('cTimeFormat').get(function () {
+settingSchema.virtual('cTimeFormat').get(function () {
     return moment(this.cTime).format('YYYY-MM-DD HH:mm');
 });
 
 //分页插件
-operationSchema.plugin(mongoosePaginate);
+settingSchema.plugin(mongoosePaginate);
 
-operationSchema.statics.ObjectId = function(id) {
+settingSchema.statics.ObjectId = function(id) {
     return mongoose.Types.ObjectId(id);
 }
 
-module.exports = mongoose.model('PB_OPERATION',operationSchema,"PB_OPERATION");
+module.exports = mongoose.model('PB_SETTINGS',settingSchema,"PB_SETTINGS");

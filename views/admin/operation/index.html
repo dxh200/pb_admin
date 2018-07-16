@@ -39,22 +39,23 @@
           <form class="form-horizontal m-t" action="/admin/operation/edit" id="manualForm" style="clear: both;" method="post">
             <input type="hidden" name="type"  class="form-control" value="1">
             <input type="hidden" name="id" value="<%=mData._id%>" />
+            <input type="hidden" name="key" value="<%=mData.key%>" />
             <div class="form-group">
               <label class="col-sm-3 control-label">统计选项：</label>
               <div class="col-sm-4">
-                <input type="text" name="name"  class="form-control" value="<%=mData.name%>">
+                <input type="text" name="label"  class="form-control" value="<%=mData.val.label%>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">显示文本：</label>
               <div class="col-sm-4">
-                <input type="text" name="tName" class="form-control" value="<%=mData.tName%>">
+                <input type="text" name="text" class="form-control" value="<%=mData.val.text%>">
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">统计数据：</label>
               <div class="col-sm-6">
-                <textarea name="data" class="form-control"><%=mData.data%></textarea>
+                <textarea name="data" class="form-control"><%=mData.val.data%></textarea>
               </div>
             </div>
             <div class="form-group btn_form">
@@ -67,22 +68,24 @@
         <div class="ibox-content">
           <form class="form-horizontal m-t" id="synchronizedForm" style="clear: both;">
             <input type="hidden" name="type"  class="form-control" value="0">
+            <input type="hidden" name="id" value="<%=sData._id%>" />
+            <input type="hidden" name="key" value="<%=sData.key%>" />
             <div class="form-group">
               <label class="col-sm-3 control-label">统计选项：</label>
               <div class="col-sm-4">
-                <input type="text" name="name"  class="form-control" value="<%=sData.name%>" readonly>
+                <input type="text" name="label"  class="form-control" value="<%=sData.val.label%>" readonly>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">显示文本：</label>
               <div class="col-sm-4">
-                <input type="text" name="tName" class="form-control" value="<%=sData.tName%>" readonly>
+                <input type="text" name="text" class="form-control" value="<%=sData.val.text%>" readonly>
               </div>
             </div>
             <div class="form-group">
               <label class="col-sm-3 control-label">统计数据：</label>
               <div class="col-sm-6">
-                <textarea  name="data" class="form-control"><%=sData.data%></textarea>
+                <textarea  name="data" class="form-control"><%=sData.val.data%></textarea>
               </div>
             </div>
             <div class="form-group btn_form">

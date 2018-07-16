@@ -1,5 +1,5 @@
 "use strict";
-const operationService = require('./../../service/operationService');
+const settingService = require('../../service/settingService');
 const multiparty = require('multiparty');
 const config = require('config-lite')(__dirname);
 
@@ -21,10 +21,10 @@ class OperationController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        var mData = config.operation;
-        var sData = config.operation;
+        var mData = config.operation.m;
+        var sData = config.operation.s;
         //手动
-        await operationService.findByType('1',(err,data)=>{
+        await settingService.getItem(config.operation.m.key,(err,data)=>{
             if(!err){
                 if(data){
                     mData = data;
@@ -32,7 +32,7 @@ class OperationController{
             }
         });
         //同步
-        await operationService.findByType('0',(err,data)=>{
+        await settingService.getItem(config.operation.s.key,(err,data)=>{
             if(!err){
                 if(data){
                     sData = data;
@@ -50,8 +50,8 @@ class OperationController{
      * @returns {Promise<void>}
      */
     async edit(req,res,next){
-        let t = req.body.type;
-        if(t=='1'){
+        let key = req.body.key;
+        if(key==config.operation.m.key){
             await this._mEdit(req,res,next);
         }else{
             await this._sEdit(req,res,next);
@@ -67,25 +67,20 @@ class OperationController{
      */
     _mEdit(req,res,next){
         var modelData = req.body;
+        var val = {
+            label:modelData.label,
+            text:modelData.text,
+            data:modelData.data
+        };
+        modelData.val = val;
         try{
-            let id = modelData.id;
-            if(id){
-                operationService.updateOpertation(modelData.type,modelData,(err,data)=>{
-                    if(err){
-                        res.json(ResultAjax.ERROR(err.message,{}));
-                    }else{
-                        res.json(ResultAjax.SUCCESS("数据编辑成功",data));
-                    }
-                });
-            }else{
-                operationService.addOpertation(modelData,(err,data)=>{
-                    if(err){
-                        res.json(ResultAjax.ERROR(err.message,{}));
-                    }else{
-                        res.json(ResultAjax.SUCCESS("数据编辑成功",data));
-                    }
-                });
-            }
+            settingService.setItem(modelData,(err,data)=>{
+                if(err){
+                    res.json(ResultAjax.ERROR(err.message,{}));
+                }else{
+                    res.json(ResultAjax.SUCCESS("数据编辑成功",data));
+                }
+            });
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,{}));
         }
