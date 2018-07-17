@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/ui.jqgrid.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-sm-12 list">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>显示设置</h5>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal m-t" action="/admin/set/display/edit" id="manualForm" style="clear: both;" method="post">
+            <input type="hidden" name="type"  class="form-control" value="1">
+            <input type="hidden" name="key" value="<%=data.key%>" />
+            <div class="form-group">
+              <label class="col-sm-3 control-label">支部数据：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d1" id="011" value="1">
+                  <label for="011">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d1" id="012" value="0">
+                  <label for="012">同步</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">基层组织：</label>
+              <div class="col-sm-4">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d2" id="021" value="1">
+                  <label for="021">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d2" id="022" value="0">
+                  <label for="022">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d2" id="023" value="2">
+                  <label for="023">所有</label>
+                </div>
+
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">学习宣传：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d3" id="031" value="1">
+                  <label for="031">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d3" id="032" value="0">
+                  <label for="032">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d3" id="033" value="2">
+                  <label for="033">所有</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">学习宣传模块：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d4" id="041" value="1">
+                  <label for="041">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d4" id="042" value="0">
+                  <label for="042">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d4" id="043" value="2">
+                  <label for="043">所有</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">党务工作：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d5" id="051" value="1">
+                  <label for="051">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d5" id="052" value="0">
+                  <label for="052">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d5" id="053" value="2">
+                  <label for="053">所有</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">关注热文：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d6" id="061" value="1">
+                  <label for="061">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d6" id="062" value="0">
+                  <label for="062">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d6" id="063" value="2">
+                  <label for="063">所有</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">党员信息：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d7" id="071" value="1">
+                  <label for="071">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d7" id="072" value="0">
+                  <label for="072">同步</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d7" id="073" value="2">
+                  <label for="073">所有</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">运营数据：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d8" id="081" value="1">
+                  <label for="081">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d8" id="082" value="0">
+                  <label for="082">同步</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-3 control-label">党员统计：</label>
+              <div class="col-sm-6">
+
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d9" id="091" value="1">
+                  <label for="091">手动</label>
+                </div>
+                <div class="radio radio-info radio-inline">
+                  <input type="radio" name="d9" id="092" value="0">
+                  <label for="092">同步</label>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="form-group btn_form">
+              <div class="">
+                <button class="btn btn-primary" id="mBtn" type="button"><i class="fa fa-check"></i>&nbsp;保存数据</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<!-- 自定义js -->
+<script src="/js/content.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script src="/js/json2.min.js"></script>
+<script>
+    var dataStr = '<%- JSON.stringify(data.val)%>';
+    jQuery(document).ready(function () {
+
+        jQuery('#mBtn').click(function(){
+            onManualForm();
+        });
+
+        //设置选中
+        let data = JSON.parse(dataStr);
+        for(let i=1;i<=9;i++){
+            let _key = 'd'+i;
+            jQuery(':radio[name="'+_key+'"][value="'+data['d1']+'"]').attr('checked',true);
+        }
+    });
+
+    //手动设置数据
+    function onManualForm(){
+        layer.load();
+        //异步Form初始化
+        jQuery('#manualForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+
+</script>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/ui.jqgrid.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+
+  <!-- 支部统计数据 -->
+  <div class="row">
+    <div class="col-sm-12 list">
+      <div class="ibox float-e-margins">
+
+
+
+        <div class="ibox-title">
+          <h5>支部设置</h5>
+        </div>
+        <div class="ibox-content">
+          <form class="form-horizontal m-t" action="/admin/set/branch/edit" id="manualForm" style="clear: both;" method="post">
+            <input type="hidden" name="type"  class="form-control" value="1">
+            <input type="hidden" name="key" value="<%=branch.key%>" />
+            <div class="form-group">
+              <label class="col-sm-3 control-label">支部数量：</label>
+              <div class="col-sm-4">
+                <input type="text" name="data1"  class="form-control" value="<%=branch.val.data1%>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">基层党组织：</label>
+              <div class="col-sm-4">
+                <input type="text" name="data2" class="form-control" value="<%=branch.val.data2%>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">优秀党员：</label>
+              <div class="col-sm-4">
+                <input type="text" name="data3" class="form-control" value="<%=branch.val.data3%>">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">优秀工作者：</label>
+              <div class="col-sm-4">
+                <input type="text" name="data4" class="form-control" value="<%=branch.val.data4%>">
+              </div>
+            </div>
+            <div class="form-group btn_form">
+              <div class="">
+                <button class="btn btn-primary" id="mBtn" type="button"><i class="fa fa-check"></i>&nbsp;保存数据</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 显示设置同步手动所有 -->
+
+  <!-- 其他设置 -->
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<!-- 自定义js -->
+<script src="/js/content.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('#mBtn').click(function(){
+            onManualForm();
+        });
+    });
+
+    //手动设置数据
+    function onManualForm(){
+        layer.load();
+        //异步Form初始化
+        jQuery('#manualForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+
+</script>

@@ -4,8 +4,8 @@ var router = express.Router();
 const branchRouter = require('./admin/branch');
 const contentRouter = require('./admin/content');
 const orgRouter = require('./admin/org');
-const operationRouter = require('./admin/operation');
 const categoryRouter = require('./admin/category');
+const settingRouter = require('./admin/setting');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -22,7 +22,7 @@ router.get('/main', function(req, res, next) {
 router.use('/branch',branchRouter);
 router.use('/content',contentRouter);
 router.use('/org',orgRouter);
-router.use('/operation',operationRouter);
 router.use('/category',categoryRouter);
+router.use('/set',settingRouter);
 
 module.exports = router;

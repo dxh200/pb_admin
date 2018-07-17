@@ -1,13 +1,13 @@
 "use strict";
-const settingService = require('../../service/settingService');
+const settingService = require('../../../service/settingService');
 const multiparty = require('multiparty');
 const config = require('config-lite')(__dirname);
 
-const ResultAjax = require('./../../utils/ResultAjax');
+const ResultAjax = require('./../../../utils/ResultAjax');
 /**
  * 运营数据控制器
  */
-class OperationController{
+class SetOperationController{
 
     constructor(){
         this.edit = this.edit.bind(this);
@@ -21,25 +21,22 @@ class OperationController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        var mData = config.operation.m;
-        var sData = config.operation.s;
-        //手动
-        await settingService.getItem(config.operation.m.key,(err,data)=>{
-            if(!err){
-                if(data){
-                    mData = data;
-                }
+        var mData = null,sData = null;
+        try{
+            //手动
+            mData = await settingService.getItem(config.operation.m.key);
+            //同步
+            sData = await settingService.getItem(config.operation.s.key);
+            if(!mData){
+                mData = config.operation.m;
             }
-        });
-        //同步
-        await settingService.getItem(config.operation.s.key,(err,data)=>{
-            if(!err){
-                if(data){
-                    sData = data;
-                }
+            if(!sData){
+                sData = config.operation.s;
             }
-        });
-        res.render("admin/operation/index",{mData:mData,sData:sData});
+        }catch(e){
+            console.log(e.message);
+        }
+        res.render("admin/set/operation/index",{mData:mData,sData:sData});
     }
 
     /**
@@ -100,4 +97,4 @@ class OperationController{
 
 }
 
-module.exports = new OperationController();
+module.exports = new SetOperationController();

@@ -13,15 +13,16 @@ class SettingService{
      * @param options
      * @param callback
      */
-    setItem(options,callback){
-        if('id' in options){
-            if(options.id){
-                this._updateItem(options,callback);
+    async setItem(options,callback){
+        try{
+            var countObj = await this.countItem({'key':options.key});
+            if(parseInt(countObj)>0){
+                await this._updateItem(options,callback);
             }else{
-                this._addItem(options,callback);
+                await this._addItem(options,callback);
             }
-        }else{
-            this._addItem(options,callback);
+        }catch(e){
+            callback(e,null);
         }
     }
 
@@ -50,8 +51,7 @@ class SettingService{
      * @returns {Promise<void>}
      */
     async _updateItem(options,callback){
-        let _id = SettingModel.ObjectId(options.id);
-        await SettingModel.update({"_id":_id},{$set:options},(err,raw)=>{
+        await SettingModel.update({"key":options.key},{$set:options},(err,raw)=>{
             if(err){
                 callback(err);
             }else{
@@ -64,19 +64,36 @@ class SettingService{
     /**
      * 根据setKey查询数据
      * @param setKey
-     * @param callback
      * @returns {Promise<void>}
      */
-    async getItem(key,callback){
-        await SettingModel.findOne({key:key},"-cTime -uTime",(err,data)=>{
-            if(err){
-                callback(err,null);
-            }else{
-                if(data){
-                    callback(null,data)
+    async getItem(key){
+        return await new Promise((resolve,reject)=>{
+            SettingModel.findOne({key:key},"-cTime -uTime",(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
                 }
-            }
-        })
+            });
+        });
+
+    }
+
+    /**
+     * 查询数据量
+     * @param query
+     * @returns {Promise<any>}
+     */
+    async countItem(query){
+        return await new Promise((resolve,reject)=>{
+            SettingModel.count(query,(err,count)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(count);
+                }
+            });
+        });
     }
 
 }
