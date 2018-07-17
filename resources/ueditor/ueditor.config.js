@@ -47,7 +47,7 @@
             'print', 'preview', 'searchreplace', 'drafts', 'help'
         ]]*/
         , toolbars: [
-            ['fullscreen', 'source', 'undo', 'redo','simpleupload','insertimage'],
+            ['fullscreen', 'source', 'undo', 'redo','simpleupload','insertimage','attachment','insertvideo'],
             ['bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc']
         ]
         //当鼠标放在工具栏上时显示的tooltip提示,留空支持自动多语言配置，否则以配置值为准
@@ -362,7 +362,7 @@
 		// xss 过滤是否开启,inserthtml等操作
 		,xssFilterRules: true
 		//input xss过滤
-		,inputXssFilter: true
+		,inputXssFilter: false
 		//output xss过滤
 		,outputXssFilter: true
 		// xss过滤白名单 名单来源: https://raw.githubusercontent.com/leizongmin/js-xss/master/lib/default.js
