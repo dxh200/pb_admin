@@ -8,6 +8,7 @@ var logger = require('morgan');
 var config = require('config-lite')(__dirname);
 var ueditor = require('ueditor');
 var moment = require('moment');
+var session = require('express-session');
 
 //引入路由
 var adminRouter = require('./routes/admin');
@@ -30,15 +31,42 @@ app.use(express.urlencoded({ extended: false }));
 //cookies
 app.use(cookieParser());
 
+//session配置
+app.use(session({
+    secret: 'chenglv',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        maxAge:1000*60*30  //30分钟
+    }
+    ,rolling:true
+}));
+
 //静态资源
 app.use(express.static(path.join(__dirname, 'resources')));
 app.use("/upload",express.static(path.join(__dirname, 'upload')));
 
+//session配置
+app.use((req,res,next)=>{
+    var _url_ = req.url;
+    if(_url_.indexOf("admin")>-1){
+        var userInfo = req.session.userInfo;
+        if(userInfo){
+            app.locals['userInfo'] = userInfo;
+            next();
+        }else{
+            res.redirect('/login/index');
+        }
+    }else{
+        next();
+    }
+    //res.redirect("/login/index");
+    //res.end();
 
-//路由配置
-app.get('/a',(req,res,next)=>{
-    res.render('index')
-})
+    //console.log("appUser:"+req.session.userInfo);
+    //next();
+});
+
 app.use('/', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/login', loginRouter);
