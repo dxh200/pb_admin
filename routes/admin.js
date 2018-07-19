@@ -7,6 +7,7 @@ const orgRouter = require('./admin/org');
 const categoryRouter = require('./admin/category');
 const settingRouter = require('./admin/setting');
 const archiveRouter = require('./admin/archive');
+const userRouter = require('./admin/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -26,5 +27,6 @@ router.use('/org',orgRouter);
 router.use('/category',categoryRouter);
 router.use('/set',settingRouter);
 router.use('/archive',archiveRouter);
+router.use('/user',userRouter);
 
 module.exports = router;

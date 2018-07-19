@@ -6,28 +6,33 @@
         <ul class="nav" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <span><img alt="image" class="img-circle" src="/img/loading-head.png" /></span>
+                    <span>
+                        <%if(userInfo.headImg!=""){%>
+                            <img alt="image" class="img-circle" src="<%=userInfo.headImg%>" />
+                        <%}else{%>
+                            <img alt="image" class="img-circle" src="/img/loading-head.png" />
+                        <%}%>
+                    </span>
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
-                               <span class="block m-t-xs"><strong class="font-bold">Beaut-zihan</strong></span>
-                                <span class="text-muted text-xs block">超级管理员<b class="caret"></b></span>
+                               <span class="block m-t-xs"><strong class="font-bold"><%=userInfo.account%></strong></span>
+                                <span class="text-muted text-xs block"><%=userInfo.name%><b class="caret"></b></span>
                                 </span>
                     </a>
                     <ul class="dropdown-menu animated fadeInRight m-t-xs">
-                        <li><a class="J_menuItem" href="form_avatar.html">修改头像</a>
-                        </li>
-                        <li><a class="J_menuItem" href="profile.html">个人资料</a>
-                        </li>
-                        <li><a class="J_menuItem" href="contacts.html">联系我们</a>
-                        </li>
-                        <li><a class="J_menuItem" href="mailbox.html">信箱</a>
+                        <li><a class="J_menuItem" href="/admin/user/toEdit?id=<%=userInfo._id%>">个人资料</a>
                         </li>
                         <li class="divider"></li>
-                        <li><a href="login.html">安全退出</a>
+                        <li><a href="/login/logout">安全退出</a>
                         </li>
                     </ul>
                 </div>
-                <div class="logo-element">H+
+                <div class="logo-element">
+                    <%if(userInfo.headImg!=""){%>
+                    <img alt="image" class="img-circle" src="<%=userInfo.headImg%>" />
+                    <%}else{%>
+                    <img alt="image" class="img-circle" src="/img/loading-head.png" />
+                    <%}%>
                 </div>
             </li>
             <li>
@@ -132,10 +137,10 @@
                 </a>
                 <ul class="nav nav-second-level">
                     <li>
-                        <a class="J_menuItem" href="table.html">添加</a>
+                        <a class="J_menuItem" href="/admin/user/toEdit">添加用户</a>
                     </li>
                     <li>
-                        <a class="J_menuItem" href="form_branch.html">表单</a>
+                        <a class="J_menuItem" href="/admin/user/index">用户管理</a>
                     </li>
                 </ul>
             </li>

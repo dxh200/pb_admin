@@ -15,7 +15,7 @@
   <body class="gray-bg">
   <div class="wrapper wrapper-content animated fadeInRight">
     <div class="row">
-      <div class="col-sm-12 list">
+      <div class="col-sm-10 message">
         <div class="ibox float-e-margins">
           <div class="ibox-title">
             <h5>党员信息<%if(data._id){%>-编辑<%}else{%>-添加<%}%></h5>
@@ -25,85 +25,183 @@
               <input type="hidden" name="id" value="<%=data._id%>" />
               <input type="hidden" name="type" value="<%=data.type%>" />
               <input type="hidden" name="headImg" value="<%=data.headImg%>" />
-              <div class="form-group">
-                <label class="col-sm-3 control-label">姓名：</label>
-                <div class="col-sm-8">
-                  <input id="title" name="name" minlength="2" type="text" value="<%=data.name%>" class="form-control" required="" aria-required="true">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label" style="float: left;">头像：</label>
-                <div class="col-sm-8">
-                  <div id="file-pretty">
-                    <input type="file" name="file"  />
-                  </div>
-                  <%if(data.headImg){%>
-                  <img src="<%=data.headImg%>" width="50"/>
-                  <%}%>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">支部：</label>
-                <div class="col-sm-4">
-                  <select name="branchId" id="branchId" class="form-control m-b">
-                    <option value="">==选择支部==</option>
-                    <%branchList.forEach(function(item){%>
-                    <option value="<%=item._id%>"><%=item.bName%></option>
-                    <%})%>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">职务：</label>
-                <div class="col-sm-4">
-                  <select name="position" id="position" class="form-control m-b">
-                    <option value="">==选择职务==</option>
-                    <option value="1">书记</option>
-                    <option value="2">副书记</option>
-                    <option value="3">委员</option>
-                    <option value="4">普通党员</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">性别：</label>
-                <div class="col-sm-8">
-                  <div class="radio radio-info radio-inline">
-                    <input type="radio" name="gender" id="gender1" value="男" checked>
-                    <label for="gender1">男</label>
-                  </div>
-                  <div class="radio radio-info radio-inline">
-                    <input type="radio" name="gender" id="gender2" value="女">
-                    <label for="gender2">女</label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">出生年月：</label>
-                <div class="col-sm-4">
-                  <input id="birthDate" name="birthDate" minlength="2" type="text" value="<%=data.birthDate%>" class="form-control" required="" aria-required="true">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">发布时间：</label>
-                <div class="col-sm-4">
-                  <input id="customTime" name="customTime" minlength="2" type="text" value="<%=data.customTime%>" class="form-control" required="" aria-required="true">
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">显示/隐藏：</label>
-                <div class="col-sm-4">
-                  <div class="radio radio-info radio-inline">
-                    <input type="radio" name="status" id="status1" value="1" checked>
-                    <label for="status1">显示</label>
-                  </div>
-                  <div class="radio radio-info radio-inline">
-                    <input type="radio" name="status" id="status2" value="0">
-                    <label for="status2">隐藏</label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group btn_form">
+              <table class="tabtop" width="100%" border="1" cellpadding="1" cellspacing="0" align="center">
+                <tr>
+                  <td width="10%" height="30">姓名</td>
+                  <td width="10%"><input type="text" name="name" id="name" value="<%=data.name%>" /></td>
+                  <td width="10%">性别</td>
+                  <td width="10%">
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="gender" id="gender1" value="男" checked>
+                      <label for="gender1">男</label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="gender" id="gender2" value="女">
+                      <label for="gender2">女</label>
+                    </div>
+                  </td>
+                  <td width="10%">出生日期</td>
+                  <td width="10%"><input type="text" name="birthDate" id="birthDate" value="<%=data.birthDate%>" /></td>
+                  <td width="10%" rowspan="4">
+                    <div class="photo">
+                      <input type="file" id="headImgFile" name="file" style="display: none;" />
+                      <%if(data.headImg){%>
+                        <img id="act_headImg" src="<%=data.headImg%>"/>
+                      <%}else{%>
+                        <img id="act_headImg" src="/img/photo.jpg"/>
+                      <%}%>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>民族</td>
+                  <td><input type="text" name="nation" id="nation" value="<%=data.nation%>" /></td>
+                  <td>籍贯</td>
+                  <td><input type="text" name="nativePlace" id="nativePlace" value="<%=data.nativePlace%>" /></td>
+                  <td>户籍所在地</td>
+                  <td><input type="text" name="registered" id="registered" value="<%=data.registered%>" /></td>
+                </tr>
+                <tr>
+                  <td>现居住地</td>
+                  <td><input type="text" name="residence" id="residence" value="<%=data.residence%>" /></td>
+                  <td>手机</td>
+                  <td><input type="text" name="mobile" id="mobile" value="<%=data.mobile%>" /></td>
+                  <td>QQ/微信</td>
+                  <td><input type="text" name="qqwX" id="qqwX" value="<%=data.qqwX%>" /></td>
+                </tr>
+                <tr>
+                  <td>身份证</td>
+                  <td colspan="2"><input type="text" name="idCard" id="idCard" value="<%=data.idCard%>" /></td>
+                  <td>婚姻状况</td>
+                  <td colspan="2" style="text-align: left">
+                    &nbsp;
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="marriage" id="marriage1" value="0" checked>
+                      <label for="marriage1">未婚</label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="marriage" id="marriage2" value=1">
+                      <label for="marriage2">已婚</label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="10%">全日制教育</td>
+                  <td colspan="2">
+                    <select name="ftEducation" id="ftEducation">
+                      <option value="">==选择学历==</option>
+                      <option value="小学">小学</option>
+                      <option value="初中">初中</option>
+                      <option value="高中">高中</option>
+                      <option value="大专">大专</option>
+                      <option value="本科">本科</option>
+                      <option value="研究生">研究生</option>
+                    </select>
+                  </td>
+                  <td>毕业院校及专业</td>
+                  <td colspan="3"><input type="text" name="ftSchool" id="ftSchool" value="<%=data.ftSchool%>" /></td>
+                </tr>
+                <tr>
+                  <td>参加工作日期</td>
+                  <td><input type="text" name="swDate" id="swDate" value="<%=data.swDate%>" /></td>
+                  <td>入党时间</td>
+                  <td><input type="text" name="rdDate" id="rdDate" value="<%=data.rdDate%>" /></td>
+                  <td>转正时间</td>
+                  <td colspan="2"><input type="text" name="zzDate" id="zzDate" value="<%=data.ftSchool%>" /></td>
+                </tr>
+                <tr>
+                  <td>进入现党支部时间</td>
+                  <td><input type="text" name="branchDate" id="branchDate" value="<%=data.branchDate%>" /></td>
+                  <td>现党支部</td>
+                  <td>
+                    <select name="branchId" id="branchId">
+                      <option value="">==选择支部==</option>
+                      <%branchList.forEach(function(item){%>
+                      <option value="<%=item._id%>"><%=item.bName%></option>
+                      <%})%>
+                    </select>
+                  </td>
+                  <td>现党支部职务</td>
+                  <td colspan="2">
+                    <select name="position" id="position">
+                      <option value="">==选择支部职务==</option>
+                      <option value="1">书记</option>
+                      <option value="2">副书记</option>
+                      <option value="3">委员</option>
+                      <option value="4">普通党员</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td>入党介绍人</td>
+                  <td><input type="text" name="introducer" id="introducer" value="<%=data.introducer%>" /></td>
+                  <td>入党所在支部</td>
+                  <td><input type="text" name="rdSzzb" id="rdSzzb" value="<%=data.rdSzzb%>" /></td>
+                  <td>转正所在支部</td>
+                  <td colspan="2"><input type="text" name="zzSzzb" id="zzSzzb" value="<%=data.zzSzzb%>" /></td>
+                </tr>
+                <tr>
+                  <td>工作单位及职务</td>
+                  <td colspan="2"><input type="text" name="work" id="work" value="<%=data.work%>" /></td>
+                  <td>组织关系单位</td>
+                  <td colspan="3"><input type="text" name="orgUnit" id="orgUnit" value="<%=data.orgUnit%>" /></td>
+                </tr>
+                <tr>
+                  <td>党员类型</td>
+                  <td colspan="2">
+                    <select name="bType" id="bType">
+                      <option value="">==选择党员类型==</option>
+                      <option value="1">入党申请</option>
+                      <option value="2">积极分子</option>
+                      <option value="3">发展对象</option>
+                      <option value="4">预备党员</option>
+                      <option value="5">转正党员</option>
+                    </select>
+                  </td>
+                  <td>奖惩情况</td>
+                  <td colspan="3"><input type="text" name="jcqk" id="jcqk" value="<%=data.jcqk%>" /></td>
+                </tr>
+                <tr>
+                  <td>民主评议时间</td>
+                  <td colspan="2"><input type="text" name="pyDate" id="pyDate" value="<%=data.pyDate%>" /></td>
+                  <td>民主评议内容</td>
+                  <td colspan="3"><input type="text" name="pyContent" id="pyContent" value="<%=data.pyContent%>" /></td>
+                </tr>
+                <tr>
+                  <td>优秀党员工作者</td>
+                  <td colspan="6" style="text-align: left">
+                    &nbsp;
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="good" id="good0" value="0" checked>
+                      <label for="good0">无</label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="good" id="good1" value="1">
+                      <label for="good1">优秀党员</label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="good" id="good2" value="2">
+                      <label for="good2">优秀工作者</label>
+                    </div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>显示/隐藏</td>
+                  <td colspan="2" style="text-align: left;">&nbsp;
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="status" id="status1" value="1" checked>
+                      <label for="status1">显示</label>
+                    </div>
+                    <div class="radio radio-info radio-inline">
+                      <input type="radio" name="status" id="status2" value="0">
+                      <label for="status2">隐藏</label>
+                    </div>
+                  </td>
+                  <td>发布时间</td>
+                  <td colspan="3"><input id="customTime" name="customTime"  type="text" value="<%=data.customTime%>" ></td>
+                </tr>
+              </table>
+              <div class="form-group btn_form" style="margin-top: 20px;">
                 <div class="">
                   <button class="btn btn-primary" id="subBtn">保存</button>
                 </div>
@@ -127,29 +225,43 @@
 <!-- prettyfile -->
 <script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
 <script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
-
+<!-- 自定义js -->
+<script src="/js/base64.js"></script>
 <script>
     var _id_ = '<%=data._id%>';
     jQuery(document).ready(function(){
 
-        //出生日期
-        jQuery("#birthDate").datepicker({autoclose:true});
-        //发布时间
-        jQuery("#customTime").datepicker({autoclose:true});
+        //日期
+        jQuery("#birthDate,#customTime,#swDate,#rdDate,#zzDate,#branchDate,#pyDate").datepicker({autoclose:true});
 
-        //gender
-        jQuery(':radio[name="gender"][value="<%=data.gender%>"]').attr('checked',true);
-
+        //ftEducation
+        jQuery('#ftEducation').val('<%=data.ftEducation%>');
         //branchId
         jQuery('#branchId').val('<%=data.branchId%>');
         //position
         jQuery('#position').val('<%=data.position%>');
+        //bType
+        jQuery('#bType').val('<%=data.bType%>');
 
         //status
         jQuery(':radio[name="status"][value="<%=data.status%>"]').attr('checked',true);
+        //marriage
+        jQuery(':radio[name="marriage"][value="<%=data.marriage%>"]').attr('checked',true);
+        //gender
+        jQuery(':radio[name="gender"][value="<%=data.gender%>"]').attr('checked',true);
+        //good
+        jQuery(':radio[name="good"][value="<%=data.good%>"]').attr('checked',true);
 
         //file
-        jQuery('#file-pretty input[type="file"]').prettyFile();
+        jQuery('#act_headImg').click(function(){
+            var headImg = jQuery("#headImgFile");
+            headImg.unbind("change");
+            headImg.change(function(){
+                var fileVal = headImg.val();
+                base64Img('act_headImg','headImgFile');
+            });
+            headImg.trigger('click');
+        });
 
         jQuery('#subBtn').click(function(){
             onSubmitForm();

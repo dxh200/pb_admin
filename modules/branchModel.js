@@ -7,7 +7,7 @@ const mongoosePaginate = require('mongoose-paginate');
 const moment = require('moment');
 
 
-const userSchema = new mongoose.Schema({
+const branchSchema = new mongoose.Schema({
     businessId:{type:String,default:""},   //业务系统id
     director:{type:[String],default:[]},    //书记
     vice:{type:[String],default:[]},        //副书记
@@ -29,21 +29,21 @@ const userSchema = new mongoose.Schema({
 });
 
 //虚拟属性
-userSchema.virtual('type_name').get(function () {
+branchSchema.virtual('type_name').get(function () {
     return this.type == 1 ? '手动' : '同步';
 });
-userSchema.virtual('status_name').get(function () {
+branchSchema.virtual('status_name').get(function () {
     return this.status == 1 ? '显示' : '隐藏';
 });
-userSchema.virtual('cTimeFormat').get(function () {
+branchSchema.virtual('cTimeFormat').get(function () {
     return moment(this.cTime).format('YYYY-MM-DD HH:mm');
 });
 
 //分页插件
-userSchema.plugin(mongoosePaginate);
+branchSchema.plugin(mongoosePaginate);
 
-userSchema.statics.ObjectId = function(id) {
+branchSchema.statics.ObjectId = function(id) {
     return mongoose.Types.ObjectId(id);
 }
 
-module.exports = mongoose.model('PB_BRANCH',userSchema,"PB_BRANCH");
+module.exports = mongoose.model('PB_BRANCH',branchSchema,"PB_BRANCH");

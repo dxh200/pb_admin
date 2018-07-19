@@ -81,6 +81,27 @@ class BranchService{
     }
 
     /**
+     * 根据id查询支部信息
+     * @param id
+     * @param fields   'field,field'
+     * @param callback
+     * @returns {Promise<void>}
+     */
+    async findFieldById(id,fields,callback){
+        let _id = BranchModel.ObjectId(id);
+        await BranchModel.findOne({_id:_id},fields,(err,data)=>{
+            if(err){
+                callback(err,null);
+            }else{
+                if(data){
+                    callback(null,data)
+                }
+
+            }
+        })
+    }
+
+    /**
      * 查询全部支部信息
      * @param queryOption  查询条件
      * @param friends      查询字段多个空格分隔

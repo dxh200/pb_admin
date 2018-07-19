@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>用户管理</title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+  <body class="gray-bg">
+  <div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+      <div class="col-sm-12 list">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>用户信息<%if(data._id){%>-编辑<%}else{%>-添加<%}%></h5>
+          </div>
+          <div class="ibox-content">
+            <form class="form-horizontal m-t" id="editForm" action="/admin/user/edit" method="post" enctype="multipart/form-data">
+              <input type="hidden" name="id" value="<%=data._id%>" />
+              <input type="hidden" name="headImg" value="<%=data.headImg%>" />
+              <input type="hidden" name="pass" value="<%=data.password%>" />
+              <div class="form-group">
+                <label class="col-sm-3 control-label">账号：</label>
+                <div class="col-sm-8">
+                  <input id="account" name="account" minlength="2" type="text" value="<%=data.account%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">密码：</label>
+                <div class="col-sm-8">
+                  <input id="password" name="password" minlength="2" type="text" value="" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label" style="float: left;">头像：</label>
+                <div class="col-sm-8">
+                  <input type="file" id="headImgFile" name="file" style="display: none;"/>
+                  <%if(data.headImg){%>
+                  <span><img alt="image" id="act_headImg" class="img-circle headImgBtn" style="cursor:pointer;" src="<%=data.headImg%>" /></span>
+                  <%}else{%>
+                  <span><img alt="image" id="act_headImg" class="img-circle headImgBtn" style="cursor:pointer;" src="/img/loading-head.png" /></span>
+                  <%}%>
+
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">姓名：</label>
+                <div class="col-sm-4">
+                  <input id="name" name="name" minlength="2" type="text" value="<%=data.name%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">性别：</label>
+                <div class="col-sm-8">
+                  <div class="radio radio-info radio-inline">
+                    <input type="radio" name="gender" id="gender1" value="男" checked>
+                    <label for="gender1">男</label>
+                  </div>
+                  <div class="radio radio-info radio-inline">
+                    <input type="radio" name="gender" id="gender2" value="女">
+                    <label for="gender2">女</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">电话：</label>
+                <div class="col-sm-4">
+                  <input id="tel" name="tel" minlength="2" type="text" value="<%=data.tel%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Email：</label>
+                <div class="col-sm-4">
+                  <input id="email" name="email" minlength="2" type="text" value="<%=data.email%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">地址：</label>
+                <div class="col-sm-4">
+                  <input id="address" name="address" minlength="2" type="text" value="<%=data.address%>" class="form-control" required="" aria-required="true">
+                </div>
+              </div>
+              <div class="form-group btn_form">
+                <div class="">
+                  <button class="btn btn-primary" id="subBtn">保存</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  </body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<!-- prettyfile -->
+<script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+<script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<!-- 自定义js -->
+<script src="/js/base64.js"></script>
+
+<script>
+    var _id_ = '<%=data._id%>';
+    jQuery(document).ready(function(){
+
+        //gender
+        jQuery(':radio[name="gender"][value="<%=data.gender%>"]').attr('checked',true);
+
+        //file
+        jQuery('.headImgBtn').click(function(){
+            var headImg = jQuery("#headImgFile");
+            headImg.unbind("change");
+            headImg.change(function(){
+                var fileVal = headImg.val();
+                base64Img('act_headImg','headImgFile');
+            });
+            headImg.trigger('click');
+        });
+
+        jQuery('#subBtn').click(function(){
+            onSubmitForm();
+            return false;
+        });
+    })
+    function onSubmitForm(){
+        jQuery("#content").val(content);
+        layer.load();
+        //异步Form初始化
+        $('#editForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                        if(_id_){
+                            window.location.href="/admin/user/index";
+                        }else{
+                            window.location.href="/admin/user/toEdit";
+                        }
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+</script>

@@ -1,4 +1,5 @@
 /*表格*/
+body{font-size: 14px;}
 .ui-jqgrid table th, .ui-jqgrid table td {
     text-align: center !important;
 }
@@ -9,13 +10,16 @@
 .chose input{display: none;}
 .chose input + label {position: relative;display: inline-block;padding: 8px;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;border: 1px solid #ddd;vertical-align: middle;margin:0 3px 4px 0;}
 .chose input:checked + label{border: 1px solid #1ab394;}
-.chose input:checked + label:after {content:'';position: absolute;font-size: 15px;top: 5px;left: 5px;background: #1ab394;padding:3px;font-weight: normal;font-style: normal;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;}		
+.chose input:checked + label:after {content:'';position: absolute;font-size: 15px;top: 5px;left: 5px;background: #1ab394;padding:3px;font-weight: normal;font-style: normal;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;}
 @media screen and (max-width:1200px) {
-	.mode{width:35%;}
+    .mode{width:35%;}
 }
 .entering{float: right;}
 .entering .btn-default{background: none;color:#333;margin-left: 15px;}
+.entering .btn:first-child{padding:0;}
+.entering .btn-default a{width:100%;height: 100%;display: block;color: #333;padding: 6px 20px;}
 .entering .btn-default:hover{background: #c2c2c2;color:#fff;}
+.entering .btn-default a:hover{background: #c2c2c2;color:#fff;}
 .gohome{display: none;}
 .glyphicon{margin-right: 5px;}
 /*表单*/
@@ -44,8 +48,8 @@
 .form_dropdown .dropdown .btn:active{background: #ccc !important;}
 .ibox .open > .dropdown-menu{left:0;}
 @media (min-width: 768px){
-.set .col-sm-3 {
-    width: 30%;}
+    .set .col-sm-3 {
+        width: 30%;}
 }
 .set .operation .mode {
     width: 30%;
@@ -62,5 +66,22 @@
 #uploader .filelist div.file-panel span.rotateLeft,#uploader .filelist div.file-panel span.rotateRight{display: none;}
 
 #content-main{height: calc(100% - 78px);}
+.input-wrap .form-control{width:15%;float:left;margin:0 5px 10px 0;}
+.classific{margin:15px 0;clear: both;}
+.classific .col-sm-12{padding: 0;}
+.classific .btn-default{background: none;color:#333;padding: 6px 10px;float: left;}
+.classific .btn-default:hover{background: #c2c2c2;color:#fff;}
+/*.ui-jqgrid-bdiv{height: initial !important;overflow: auto;}*/
 
-
+.message{margin: 0 auto;float: initial;font-size: 14px;}
+.message input{border: none;width: 100%;outline: none;text-align: center;padding: 0 5px;}
+.message td{height: 40px;text-align: center;}
+.ibox-title{border: none;}
+.message .otable{height: 40px;}
+.message .otable textarea{border: none;width: 100%;outline: none;text-align: center;resize: none;line-height: 25px;height:48px;max-height: 48px;text-align: left;padding:0 5px;overflow: auto;}
+.message select{border: none;width: 100%;outline: none;text-align: center;padding: 0 5px;height: 29px;}
+.message .chose label{margin-bottom: 0;}
+.message .chose{width: 20%;display: block;float: left;margin-left: 0;}
+.message .photo{padding: 5px;width:100%;}
+.message img{width:100px;height:100%;object-fit: cover;object-position: center;cursor: pointer;}
+.message .marriage{width:30%;}

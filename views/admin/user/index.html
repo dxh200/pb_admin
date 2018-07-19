@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>党员信息</title>
+  <title>用户管理</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/font-awesome.css" rel="stylesheet">
   <link href="/css/ui.jqgrid.css" rel="stylesheet">
@@ -64,7 +64,7 @@
             </div>
           </div>
           <div class="display_mode">
-            <input id="name" name="name" maxlength="30" type="text" placeholder="输入姓名"/>
+            <input id="account" name="account" maxlength="30" type="text" placeholder="输入账号"/>
             <button onclick="search()">搜索</button>
           </div>
           <div class="jqGrid_wrapper">
@@ -83,16 +83,16 @@
 <!-- jqGrid -->
 <script src="/js/plugins/jqgrid/i18n/grid.locale-cn.js"></script>
 <script src="/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
 <!-- 自定义js -->
 <script src="/js/content.js"></script>
-<script src="http://momentjs.cn/downloads/moment.js"></script>
-<script src="/js/plugins/layer/layer.min.js"></script>
+
 <script>
     jQuery(document).ready(function () {
 
         jQuery.jgrid.defaults.styleUI = 'Bootstrap';
         jQuery("#table_list_1").jqGrid({
-            url:'/admin/archive/getList?d='+new Date(),
+            url:'/admin/user/getList?d='+new Date(),
             datatype: "json",
             mtype: 'POST',
             height: 450,
@@ -106,7 +106,7 @@
             /*jqgrid滚动条*/
             shrinkToFit:false,
             autoScroll:true,
-            colNames: ['姓名','头像', '现所在支部','职务','性别', '出生年月', '学历', '参加工作时间','入党时间','类型','显示','时间','操作'],
+            colNames: ['姓名','头像', '账号','性别', '电话', '邮箱', '最后登陆时间','最近登录时间','时间','操作'],
             colModel: [
                 {
                     name: 'name',
@@ -126,15 +126,9 @@
                     }
                 },
                 {
-                    name: 'branchName',
-                    index: 'branchName',
+                    name: 'account',
+                    index: 'account',
                     width: 180,
-                    align: "left"
-                },
-                {
-                    name: 'position',
-                    index: 'position',
-                    width: 80,
                     align: "left"
                 },
                 {
@@ -143,36 +137,26 @@
                     width: 80,
                     align: "center"
                 },{
-                    name: 'birthDate',
-                    index: 'birthDate',
+                    name: 'tel',
+                    index: 'tel',
                     width: 100
                 },{
-                    name: 'ftEducation',
-                    index: 'ftEducation',
+                    name: 'email',
+                    index: 'email',
                     width: 100
                 },{
-                    name: 'swDate',
-                    index: 'swDate',
-                    width: 100
+                    name: 'loginTime',
+                    index: 'loginTime',
+                    width: 130
                 },{
-                    name: 'rdDate',
-                    index: 'rdDate',
-                    width: 100
-                },
-                {
-                    name: 'type',
-                    index: 'type',
-                    width: 100
-                },
-                {
-                    name: 'status',
-                    index: 'status',
-                    width: 100
+                    name: 'lastTime',
+                    index: 'lastTime',
+                    width: 130
                 },
                 {
                     name: 'cTime',
                     index: 'cTime',
-                    width: 150,
+                    width: 130,
                     formatter:function(cellvalue, options, rowObject){
                         return cellvalue;
                     }
@@ -200,9 +184,9 @@
     //编辑
     function toEdit(id){
         if(id){
-            window.location.href="/admin/archive/toEdit?id="+id;
+            window.location.href="/admin/user/toEdit?id="+id;
         }else{
-            window.location.href="/admin/archive/toEdit";
+            window.location.href="/admin/user/toEdit";
         }
     }
 
@@ -212,7 +196,7 @@
             layer.close(index);
             layer.load();
             jQuery.ajax({
-                url:'/admin/archive/del',
+                url:'/admin/user/del',
                 type:'post',
                 data:{id:id},
                 dataType:"json",
@@ -237,11 +221,11 @@
 
     //搜索
     function search(){
-        var name = $("#name").val();
+        var account = $("#account").val();
         $("#table_list_1").setGridParam({
-            url:'/admin/archive/getList?m=2&d='+new Date(),
+            url:'/admin/user/getList?d='+new Date(),
             mtype:'POST',
-            postData:{"name":name,page:1}
+            postData:{"account":account,page:1}
         }).trigger("reloadGrid");
     }
 
