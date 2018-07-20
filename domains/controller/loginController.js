@@ -35,8 +35,16 @@ class LoginController{
     async checkLogin(req,res,next){
         var account = req.body.account;
         var password = req.body.password;
+        var captcha = req.body.captcha;
+        var sessionCaptcha= req.session.captcha;
         if(account=="" || password==""){
             res.json(ResultAjax.FAILED("用户名或密码为空",{}))
+        }else if(captcha==""){
+            res.json(ResultAjax.FAILED("请输入验证码",{}))
+        }else if(sessionCaptcha==""){
+            res.json(ResultAjax.FAILED("验证码错误，请刷新验证码",{}))
+        }else if(sessionCaptcha.toLowerCase()!=captcha){
+            res.json(ResultAjax.FAILED("验证码输入错误",{}))
         }else{
             password = md5(password);
             await userService.findUser({account:account,password:password},"",(err,data)=>{

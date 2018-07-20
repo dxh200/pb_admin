@@ -28,8 +28,10 @@
         <h4 class="no-margins">登录</h4>
         <input type="text" name="account" id="account" class="form-control uname" placeholder="用户名" required=""/>
         <input type="password" name="password" id="password" class="form-control pword m-b" placeholder="密码" required=""/>
+        <input type="text" name="captcha" id="captcha" class="form-control" placeholder="验证码" required=""/>
+        <img src="/captcha" class="act_captcha" style="cursor: pointer;" alt="验证码" title="点击刷新验证码"/>
         <div class="forget">
-          <strong style="float:right;"> <a href="#">忘记密码了？</a></strong>
+          <strong style="float:right;"> <a href="#"></a></strong>
         </div>
         <button class="btn btn-success btn-block">登录</button>
       </form>
@@ -46,19 +48,24 @@
 <script src="/js/plugins/layer/layer.min.js"></script>
 </html>
 <script>
+  var captchaObj = jQuery('.act_captcha');
   jQuery(function(){
       jQuery('.btn-success').click(function(){
           login();
           return false;
       });
+      captchaObj.click(function(){
+          rCaptcha();
+      });
   })
   function login(){
       var account = jQuery("#account").val();
       var password = jQuery("#password").val();
+      var captcha = jQuery("#captcha").val();
       layer.load();
       jQuery.ajax({
           url:"/login/checkLogin",
-          data:{account:account,password:password},
+          data:{account:account,password:password,captcha:captcha},
           type:"post",
           dataType:"json",
           success:function(data){
@@ -66,7 +73,12 @@
               if(data.code==0){
                   window.location.href="/admin/index"
               }else{
-                  layer.alert('用户名或密码错误');
+                  layer.alert(data.msg,function(index){
+                      jQuery("#password").val("");
+                      jQuery("#captcha").val("");
+                      rCaptcha();
+                      layer.close(index);
+                  });
               }
           },
           error:function(err){
@@ -74,5 +86,9 @@
               layer.alert('服务器交互失败');
           }
       });
+  }
+
+  function rCaptcha(){
+      captchaObj.attr('src',"/captcha?time="+new Date());
   }
 </script>

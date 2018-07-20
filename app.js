@@ -9,6 +9,7 @@ var config = require('config-lite')(__dirname);
 var ueditor = require('ueditor');
 var moment = require('moment');
 var session = require('express-session');
+var svgCaptcha = require('svg-captcha');
 
 //引入路由
 var adminRouter = require('./routes/admin');
@@ -42,6 +43,14 @@ app.use(session({
     ,rolling:true
 }));
 
+//验证码
+app.get('/captcha', function (req, res) {
+    var captcha = svgCaptcha.create({ignoreChars: '0o1i',noise: 2,background:'#f4f3f2'});
+    req.session.captcha = captcha.text.toLowerCase();
+    res.type('svg'); // 使用ejs等模板时如果报错 res.type('html')
+    res.status(200).send(captcha.data);
+});
+
 //静态资源
 app.use(express.static(path.join(__dirname, 'resources')));
 app.use("/upload",express.static(path.join(__dirname, 'upload')));
@@ -49,8 +58,8 @@ app.use("/upload",express.static(path.join(__dirname, 'upload')));
 //session配置
 app.use((req,res,next)=>{
     var _url_ = req.url;
+    var userInfo = req.session.userInfo;
     if(_url_.indexOf("admin")>-1){
-        var userInfo = req.session.userInfo;
         if(userInfo){
             app.locals['userInfo'] = userInfo;
             next();
@@ -58,7 +67,15 @@ app.use((req,res,next)=>{
             res.redirect('/login/index');
         }
     }else{
-        next();
+        if(_url_.indexOf('logout')>-1){
+            next();
+        }else{
+            if(userInfo){
+                res.redirect('/admin/index');
+            }else{
+                next();
+            }
+        }
     }
 });
 
