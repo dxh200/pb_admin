@@ -60,11 +60,6 @@ app.use((req,res,next)=>{
     }else{
         next();
     }
-    //res.redirect("/login/index");
-    //res.end();
-
-    //console.log("appUser:"+req.session.userInfo);
-    //next();
 });
 
 app.use('/', loginRouter);
