@@ -37,6 +37,9 @@ class LoginController{
         var password = req.body.password;
         var captcha = req.body.captcha;
         var sessionCaptcha= req.session.captcha;
+        if(!sessionCaptcha){
+            sessionCaptcha = "";
+        }
         if(account=="" || password==""){
             res.json(ResultAjax.FAILED("用户名或密码为空",{}))
         }else if(captcha==""){
