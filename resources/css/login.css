@@ -117,6 +117,9 @@ body.signin {
 }
 .agree{vertical-align: middle;color:#888;}
 .gohome{display: none;}
-
+.code{height: 34px;position: relative;}
+.signinpanel .code input{width:75%;float: left;margin-top: 0;background: #fff;}
+.code img{width:90px;height: 33px;float: right;cursor: pointer;}
+.code .fa-file-text{font-size: 15px;color:#515151;position: absolute;top:9px;right: 120px;}
 
 
