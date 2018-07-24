@@ -203,7 +203,7 @@
               </table>
               <div class="form-group btn_form" style="margin-top: 20px;">
                 <div class="">
-                  <button class="btn btn-primary" id="subBtn">保存</button>
+                  <button type="button" class="btn btn-primary" id="subBtn" >保存</button>
                 </div>
               </div>
             </form>
@@ -265,11 +265,10 @@
 
         jQuery('#subBtn').click(function(){
             onSubmitForm();
-            return false;
         });
-    })
+    });
+
     function onSubmitForm(){
-        jQuery("#content").val(content);
         layer.load();
         //异步Form初始化
         $('#editForm').ajaxForm({

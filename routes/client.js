@@ -3,13 +3,17 @@
 * */
 const express = require('express');
 const router = express.Router();
+const ResultAjax = require('./../utils/ResultAjax');
 
-const users = require('./client/users')
+const users = require('./client/users');
+const home = require('./client/home');
 
 router.get('/',(req,res,next)=>{
-    res.send("client")
+
+    res.json(ResultAjax.SUCCESS("",{}));
 })
 
+router.use('/home',home);
 router.use('/users',users);
 
 module.exports = router;

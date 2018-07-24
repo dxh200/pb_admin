@@ -5,6 +5,7 @@ const ArchiveModel = require('./../modules/archiveModel');
  */
 class ArchiveService{
     constructor(){
+        this.getArchiveGoodCountClient = this.getArchiveGoodCountClient.bind(this);
     }
 
     /**
@@ -99,7 +100,39 @@ class ArchiveService{
                 }
             });
         });
+    }
 
+    /**
+     * 统计数据
+     * @param queryOption
+     * @returns {Promise<any>}
+     */
+    count(queryOption){
+        return new Promise(function (resolve, reject){
+            ArchiveModel.count(queryOption, function(err, result) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+    //===============================================================================================
+    /**
+     * 获得客户端首页数量
+     * @param type
+     * @param good [1优秀党员、2优秀工作者]
+     * @returns {Promise<any>}
+     */
+    getArchiveGoodCountClient(type,good){
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        queryOption.good = good;
+        return this.count(queryOption);
     }
 }
 

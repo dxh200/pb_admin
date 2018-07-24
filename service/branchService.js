@@ -5,6 +5,7 @@ const BranchModel = require('./../modules/branchModel');
  */
 class BranchService{
     constructor(){
+        this.getBranchCountClient = this.getBranchCountClient.bind(this);
     }
 
     /**
@@ -144,6 +145,67 @@ class BranchService{
                 console.log(data);
             }
         })*/
+    }
+
+    /**
+     * 支部数据统计
+     * @param queryOption
+     * @returns {Promise<any>}
+     */
+    count(queryOption) {
+        return new Promise((resolve,reject)=>{
+            /*BranchModel.aggregate([{ $match:queryOption}]).count('branchCount').exec((err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+
+            });*/
+            BranchModel.count(queryOption,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            })
+        });
+    }
+
+    //客户端=========================================================================================
+    /**
+     * 获得客户端首页支部名称、坐标
+     * @param type
+     * @param size
+     * @returns {Promise<any>}
+     */
+    getBranchNameListClient(type) {
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        return new Promise((resolve,reject)=>{
+            BranchModel.find(queryOption, "bName location",(err, data) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
+    }
+
+    /**
+     * 根据支部数据类型获得支部总数据量
+     * @param type
+     * @returns {Promise<any>}
+     */
+    getBranchCountClient(type) {
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        return this.count(queryOption);
     }
 }
 

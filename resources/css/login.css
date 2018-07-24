@@ -104,7 +104,6 @@ body.signin {
     position: relative;
     display: inline-block;
     padding: 8px;
-    background-color: ;
     border: 1px solid #888;vertical-align: middle;
 }
 .input input:checked + label{border: 1px solid #1c84c6;}

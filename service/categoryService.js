@@ -114,6 +114,29 @@ class CategoryService{
     }
 
 
+    /**
+     * client查询学习宣传分类
+     * @param type
+     * @param friends
+     * @param callback
+     * @returns {Promise<any>}
+     */
+    getListClient(type,friends,callback) {
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        return new Promise((resolve,reject)=>{
+            CategoryModel.find(queryOption, "-businessId -remark -type -status -cTime -uTime", {sort: {num: -1},limit:6}, (err, data) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
+    }
+
 }
 
 module.exports = new CategoryService();

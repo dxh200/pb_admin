@@ -59,6 +59,7 @@ app.use("/upload",express.static(path.join(__dirname, 'upload')));
 app.use((req,res,next)=>{
     var _url_ = req.url;
     var userInfo = req.session.userInfo;
+    //判断是否访问后台
     if(_url_.indexOf("admin")>-1){
         if(userInfo){
             app.locals['userInfo'] = userInfo;
@@ -67,7 +68,7 @@ app.use((req,res,next)=>{
             res.redirect('/login/index');
         }
     }else{
-        if(_url_.indexOf('logout')>-1){
+        if(_url_.indexOf('logout')>-1 || _url_.indexOf('client')>-1){
             next();
         }else{
             if(userInfo){
@@ -79,6 +80,7 @@ app.use((req,res,next)=>{
     }
 });
 
+//路由配置
 app.use('/', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/login', loginRouter);

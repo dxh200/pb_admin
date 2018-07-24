@@ -61,7 +61,7 @@ class ArchiveController{
     }
 
     /**
-     * 编辑支部数据
+     * 编辑党员信息
      * @param req
      * @param res
      * @param next
@@ -96,6 +96,7 @@ class ArchiveController{
                                 if(flag>0){
                                    fileUploadUtil.delFiel(path.join(form.uploadDir,path.basename(tempPhoto)));
                                 }
+                                console.log('dxh');
                                 res.json(ResultAjax.SUCCESS("数据编辑成功",data));
                             }
                         })
@@ -152,7 +153,6 @@ class ArchiveController{
             (async ()=>{
                 var d = result.docs;
                 for(let i=0;i<d.length;i++){
-                    console.log("i:" + i);
                     let e = d[i].toObject();
                     e.cTime = d[i].cTimeFormat;
                     e.type = d[i].type_name;
@@ -170,7 +170,6 @@ class ArchiveController{
                     array.push(e);
                 }
 
-                console.log("array:"+array);
                 data.rows = array;
                 data.total = result.pages;
                 data.page = result.page;

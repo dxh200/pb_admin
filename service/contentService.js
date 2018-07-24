@@ -102,6 +102,31 @@ class ContentService{
         });
 
     }
+
+    //客户端===========================================================================================================
+    /**
+     * 获得客户端首页关注热文图片
+     * @param type
+     * @param size
+     * @returns {Promise<any>}
+     */
+    getNewsImgClient(type,size) {
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        queryOption.photo = { $ne:''};
+        queryOption.module = '3';
+        return new Promise((resolve,reject)=>{
+            ContentModel.find(queryOption, "photo", {sort: {num: -1},limit:size}, (err, data) => {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
+    }
 }
 
 module.exports = new ContentService();

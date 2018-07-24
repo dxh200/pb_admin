@@ -5,6 +5,7 @@ const OrgModel = require('./../modules/orgModel');
  */
 class OrgService{
     constructor(){
+        this.getOrgCountClient = this.getOrgCountClient.bind(this);
     }
 
     /**
@@ -94,6 +95,45 @@ class OrgService{
         await OrgModel.paginate(queryOption, {page:page, limit:pageSize,sort:{cTime:-1},populate:{path:'bId',select:'bName'}}, function(err, result) {
             callback(err,result);
         });
+    }
+
+    /**
+     * 基层组织统计
+     * @param queryOption
+     * @returns {Promise<any>}
+     */
+    count(queryOption){
+        return new Promise((resolve,reject)=>{
+           /* OrgModel.aggregate([{$match:queryOption}]).count('orgCount').exec((err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });*/
+            OrgModel.count(queryOption,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
+
+    }
+
+    //====================================================================================================
+    /**
+     * 客户端统计基层组织数量
+     * @param type
+     * @returns {Promise<any>}
+     */
+    getOrgCountClient(type){
+        var queryOption = {status:1};
+        if(type!=2){
+            queryOption.type = type;
+        }
+        return this.count(queryOption);
     }
 }
 
