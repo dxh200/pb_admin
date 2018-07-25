@@ -1,4 +1,6 @@
 const ArchiveModel = require('./../modules/archiveModel');
+const config = require('config-lite')(__dirname);
+const moment = require('moment');
 
 /**
  * 党员信息业务管理
@@ -6,6 +8,7 @@ const ArchiveModel = require('./../modules/archiveModel');
 class ArchiveService{
     constructor(){
         this.getArchiveGoodCountClient = this.getArchiveGoodCountClient.bind(this);
+        this.getAgeCountClient = this.getAgeCountClient.bind(this);
     }
 
     /**
@@ -80,7 +83,32 @@ class ArchiveService{
         })
     }
 
+    /**
+     * 查询党员信息
+     * @param queryOption
+     * @param fields
+     * @param option
+     * @returns {Promise<any>}
+     */
+    async find(queryOption,fields,option){
+        return new Promise((resolve, reject)=>{
+            ArchiveModel.find(queryOption,fields,option,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data)
+                }
+            })
+        })
+    }
 
+    /**
+     * 后台分页查询
+     * @param queryOption
+     * @param page
+     * @param pageSize
+     * @returns {Promise<any>}
+     */
     async queryPageList(queryOption,page,pageSize){
         if(Number.isNaN(page)){
             page = 1;
@@ -119,6 +147,23 @@ class ArchiveService{
         });
     }
 
+    /**
+     * 数据统计
+     * @param aggregateOption
+     * @returns {Promise<any>}
+     */
+    getArchiveAggregate(aggregateOption){
+        return new Promise(function (resolve, reject){
+            ArchiveModel.aggregate(aggregateOption,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
+    }
+
     //===============================================================================================
     /**
      * 获得客户端首页数量
@@ -134,6 +179,52 @@ class ArchiveService{
         queryOption.good = good;
         return this.count(queryOption);
     }
+
+
+    /**
+     * 党员年龄统计
+     * @returns {Promise<void>}
+     */
+    async getAgeCountClient(type){
+        var resultData = [];
+        try{
+            var calus = config.pb_statistics.age.calu;
+            var pYear = 0;
+            for(let i=0;i<calus.length;i++){
+                let item = calus[i];
+                let sYear = 0;
+                let eYear = 0;
+                if(item>0){
+                    if(pYear==0){
+                        sYear = moment().subtract(item, "years").format("YYYY");
+                        eYear = moment().format("YYYY");
+                        pYear = sYear;
+                    }else{
+                        sYear = moment().subtract(item, "years").format("YYYY");
+                        eYear  = pYear-1;
+                        pYear = sYear;
+                    }
+                }else{
+                    sYear = moment().subtract(200, "years").format("YYYY");
+                    eYear = pYear-1;
+                }
+                //查询条件
+                sYear +='-01-01'; eYear+='-12-31';
+                var queryOption = {};
+                if(type!=2){
+                    queryOption.type = type;
+                }
+                queryOption.birthDate = {$gte: sYear, $lte: eYear};
+                var count = await this.count(queryOption);
+                await resultData.push(count);
+            }
+            return resultData;
+        }catch(e){
+            return resultData;
+        }
+    }
+
+
 }
 
 module.exports = new ArchiveService();

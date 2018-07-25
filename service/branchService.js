@@ -84,7 +84,7 @@ class BranchService{
     /**
      * 根据id查询支部信息
      * @param id
-     * @param fields   'field,field'
+     * @param fields   'field field'
      * @param callback
      * @returns {Promise<void>}
      */
@@ -96,6 +96,8 @@ class BranchService{
             }else{
                 if(data){
                     callback(null,data)
+                }else{
+                    callback(null,null)
                 }
 
             }

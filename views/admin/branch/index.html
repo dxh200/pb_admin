@@ -76,11 +76,9 @@
 <script src="/js/plugins/jqgrid/jquery.jqGrid.min.js"></script>
 <!-- 自定义js -->
 <script src="/js/content.js"></script>
-<script src="http://momentjs.cn/downloads/moment.js"></script>
 <script src="/js/plugins/layer/layer.min.js"></script>
 <script>
     jQuery(document).ready(function () {
-
         jQuery.jgrid.defaults.styleUI = 'Bootstrap';
         jQuery("#table_list_1").jqGrid({
             url:'/admin/branch/getList?d='+new Date(),
