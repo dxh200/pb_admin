@@ -21,7 +21,7 @@ const archiveSchema = new mongoose.Schema({
     residence:{type:String,default:""},     //现居住地
     mobile:{type:String,default:""},        //手机
     qqwX:{type:String,default:""},          //QQ微信
-    ftEducation:{type:String,default:""},    //全日制教育[小学、初中、高中、大专、本科]
+    ftEducation:{type:String,default:"1"},    //全日制教育[小学、初中、高中、大专、本科、硕士、博士]
     ftSchool:{type:String,default:""},      //毕业院校及专业
 
     swDate:{type:String,default:""},        //参加工作日期
@@ -61,6 +61,25 @@ archiveSchema.virtual('type_name').get(function () {
 });
 archiveSchema.virtual('status_name').get(function () {
     return this.status == 1 ? '显示' : '隐藏';
+});
+archiveSchema.virtual('ftEducation_name').get(function () {
+    var eName = "";
+    if(this.ftEducation == '1'){
+        eName = "小学";
+    }else if(this.ftEducation == '2'){
+        eName = "初中";
+    }else if(this.ftEducation == '3'){
+        eName = "高中\中专";
+    }else if(this.ftEducation == '4'){
+        eName = "大专";
+    }else if(this.ftEducation == '5'){
+        eName = "本科";
+    }else if(this.ftEducation == '6'){
+        eName = "硕士";
+    }else if(this.ftEducation == '7'){
+        eName = "博士";
+    }
+    return eName;
 });
 archiveSchema.virtual('cTimeFormat').get(function () {
     return moment(this.cTime).format('YYYY-MM-DD HH:mm');

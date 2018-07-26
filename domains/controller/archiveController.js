@@ -157,6 +157,7 @@ class ArchiveController{
                     e.cTime = d[i].cTimeFormat;
                     e.type = d[i].type_name;
                     e.status = d[i].status_name;
+                    e.ftEducation = d[i].ftEducation_name;
                     e.id = d[i]._id;
                     delete e._id;
 

@@ -10,6 +10,11 @@ router.get("/getBranchPersonnel",branchClient.getBranchPersonnel);
 router.get("/getBTypeCount",branchClient.getArchiveBTypeCount);
 router.get("/getGenderCount",branchClient.getArchiveGenderCount);
 router.get("/getArchiveAgeCount",branchClient.getArchiveAgeCount);
+router.get("/getArchiveDlCount",branchClient.getArchiveDlCount);
+router.get("/getArchiveEducationCount",branchClient.getArchiveEducationCount);
+
+
+
 
 
 module.exports = router;

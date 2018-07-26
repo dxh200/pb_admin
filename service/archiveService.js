@@ -224,6 +224,53 @@ class ArchiveService{
         }
     }
 
+    /**
+     * 入党时间统计
+     * @param type
+     * @returns {Promise<Array>}
+     */
+    async getDlCountClient(type){
+        var resultData = [];
+        try{
+            var calus = config.pb_statistics.dl.calu;
+            var pYear = 0;
+            for(let i=0;i<calus.length;i++){
+                let item = calus[i];
+                let sYear = 0;
+                let eYear = 0;
+                if(item>0){
+                    if(pYear==0){
+                        sYear = moment().subtract(item, "years").format("YYYY");
+                        eYear = moment().format("YYYY");
+                        pYear = sYear;
+                    }else{
+                        sYear = moment().subtract(item, "years").format("YYYY");
+                        eYear  = pYear-1;
+                        pYear = sYear;
+                    }
+                }else{
+                    sYear = moment().subtract(200, "years").format("YYYY");
+                    eYear = pYear-1;
+                }
+                //查询条件
+                sYear +='-01-01'; eYear+='-12-31';
+                var queryOption = {};
+                if(type!=2){
+                    queryOption.type = type;
+                }
+                queryOption.rdDate = {$gte: sYear, $lte: eYear};
+                var count = await this.count(queryOption);
+                await resultData.push(count);
+            }
+            return resultData;
+        }catch(e){
+            return resultData;
+        }
+    }
+
+    //学历统计
+
+
 
 }
 

@@ -108,9 +108,52 @@ class BranchClient extends baseClient{
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
     }
-    //4.3党员党龄分布[1-10年、11-20年、21-30年、31-40年、41-50年、50年以上]
 
-    //4.4党员学历分布
+    /**
+     * 4.3党员党龄分布[1-10年、11-20年、21-30年、31-40年、41-50年、50年以上]
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async getArchiveDlCount(req,res){
+        var resultData = config.pb_statistics.dl.val;
+        try{
+            var data = await archiveService.getDlCountClient(2);
+            resultData.data = data;
+            res.json(ResultAjax.SUCCESS("",resultData));
+        }catch(err){
+            res.json(ResultAjax.ERROR(err.message,resultData));
+        }
+    }
+
+    /**
+     * 4.4党员学历分布
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async getArchiveEducationCount(req,res){
+        var aggregateOption = [];
+        var resultData = config.pb_statistics.education.val;
+        try{
+            aggregateOption.push({$group:{_id:'$ftEducation',value:{$sum:1}}});
+            var data = await archiveService.getArchiveAggregate(aggregateOption);
+            resultData.forEach((_item)=>{
+                var _id = _item._id;
+                data.some((item)=>{
+                    if(item._id==_id){
+                        _item.value = item.value;
+                        return true;
+                    };
+                });
+                delete _item._id;
+            });
+            res.json(ResultAjax.SUCCESS("",resultData));
+        }catch(err){
+            resutlData.some((item)=>{delete item._id});
+            res.json(ResultAjax.ERROR(err.message,resultData));
+        }
+    }
 
     //4.5党员年龄分布[25岁以下、26-35岁、36-45岁、46-55岁、56岁以上]
     async getArchiveAgeCount(req,res){

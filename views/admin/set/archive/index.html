@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/font-awesome.css" rel="stylesheet">
+  <link href="/css/ui.jqgrid.css" rel="stylesheet">
+  <link href="/css/animate.css" rel="stylesheet">
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/form.css" rel="stylesheet">
+  </head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+  <form class="form-horizontal m-t" action="/admin/set/archive/edit" id="manualForm" style="clear: both;" method="post">
+  <div class="row">
+    <div class="col-sm-12 list">
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>发展党员</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">党员分布：</label>
+              <label class="col-sm-8 control-label" style="text-align: left">
+                入党申请,积极分子,发展对象,预备党员,党员
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">设置数据：</label>
+              <div class="col-sm-6">
+                <input type="text" name="data1" id="data1" class="form-control"  value="">
+                </br>
+                <lable style="font-size: 12px;"><span style="color: indianred;">注意：</span>设置数据与党员分布对应以“,”分隔5组，如:1,2,3,4,5(格式错误数据默认为0)</lable>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>党员性别</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">党员性别：</label>
+              <label class="col-sm-8 control-label" style="text-align: left">
+                男,女
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">设置数据：</label>
+              <div class="col-sm-6">
+                <input type="text" name="data2" id="data2" class="form-control"  value="">
+                </br>
+                <lable style="font-size: 12px;"><span style="color: indianred;">注意：</span>设置数据与党员性别对应以“,”分隔2组，如:1,2(格式错误数据默认为0)</lable>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <h5>党龄分布</h5>
+      </div>
+      <div class="ibox-content">
+          <div class="form-group">
+            <label class="col-sm-3 control-label">党龄分布：</label>
+            <label class="col-sm-8 control-label" style="text-align: left">
+              1-10年,11-20年,21-30年,31-40年,41-50年,50年以上
+            </label>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-3 control-label">设置数据：</label>
+            <div class="col-sm-6">
+              <input type="text" name="data3" id="data3" class="form-control"  value="">
+              </br>
+              <lable style="font-size: 12px;"><span style="color: indianred;">注意：</span>设置数据与党龄分布对应以“,”分隔6组，如:1,2,3,4,5,6(格式错误数据默认为0)</lable>
+            </div>
+          </div>
+      </div>
+    </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>学历分布</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">学历分布：</label>
+              <label class="col-sm-8 control-label" style="text-align: left">
+                小学,初中,高中,大专,本科,硕士,博士
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">设置数据：</label>
+              <div class="col-sm-6">
+                <input type="text" name="data4" id="data4" class="form-control"  value="">
+                </br>
+                <lable style="font-size: 12px;"><span style="color: indianred;">注意：</span>设置数据与学历分布对应以“,”分隔7组，如:1,2,3,4,5,6,7(格式错误数据默认为0)</lable>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="ibox float-e-margins">
+        <div class="ibox-title">
+          <h5>年龄分布</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">年龄分布：</label>
+              <label class="col-sm-8 control-label" style="text-align: left">
+                25岁以下,26-35岁,36-45岁,46-55岁,56岁以上
+              </label>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">设置数据：</label>
+              <div class="col-sm-6">
+                <input type="text" name="data5" id="data5" class="form-control"  value="">
+                </br>
+                <lable style="font-size: 12px;"><span style="color: indianred;">注意：</span>设置数据与年龄分布对应以“,”分隔5组，如:1,2,3,4,5(格式错误数据默认为0)</lable>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+    <center>
+      <div class="form-group btn_form">
+        <div class="">
+          <button class="btn btn-primary" id="mBtn" type="button"><i class="fa fa-check"></i>&nbsp;保存数据</button>
+        </div>
+      </div>
+    </center>
+  </form>
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/jquery.form.js"></script>
+<!-- jQuery Validation plugin javascript-->
+<script src="/js/plugins/validate/jquery.validate.min.js"></script>
+<script src="/js/plugins/validate/messages_zh.min.js"></script>
+<!-- 自定义js -->
+<script src="/js/content.js"></script>
+<script src="/js/plugins/layer/layer.min.js"></script>
+<script src="/js/plugins/jasny/jasny-bootstrap.min.js"></script>
+<script>
+    jQuery(document).ready(function () {
+
+        jQuery('#mBtn').click(function(){
+            onManualForm();
+        });
+    });
+
+    //手动设置数据
+    function onManualForm(){
+        layer.load();
+        //异步Form初始化
+        jQuery('#manualForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据保存成功',function(index){
+                        layer.close(index);
+                    });
+                }else{
+                    layer.alert('数据保存失败');
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+
+</script>

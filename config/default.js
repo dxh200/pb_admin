@@ -56,7 +56,10 @@ module.exports = {
             calu:[10,20,30,40,50,0]   //0是50以上
         },
         //党员学历分布
-
+        education:{
+            key:'sys_archive_education',
+            val:[{_id:'1',name:'小学',value:0},{_id:'2',name:'初中',value:0},{_id:'3',name:'高中',value:0},{_id:'4',name:'大专',value:0},{_id:'5',name:'本科',value:0},{_id:'6',name:'硕士',value:0},{_id:'7',name:'博士',value:0}]
+        },
         //党员年龄分布[25岁以下、26-35岁、36-45岁、46-55岁、56岁以上]
         age:{
             key:'sys_archive_age',
