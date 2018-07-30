@@ -1,6 +1,5 @@
 "use strict";
 const settingService = require('../../../service/settingService');
-const multiparty = require('multiparty');
 const config = require('config-lite')(__dirname);
 const ResultAjax = require('./../../../utils/ResultAjax');
 const NumberUtil = require('./../../../utils/NumberUtil');
@@ -21,17 +20,61 @@ class SetBranchController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        var data1,data2,data3,data4,data5 = '';
+        var d1 = '',d2 = '',d3 = '',d4 = '',d5 = '';
         try{
             //党员
-            data1 = await settingService.getItem(config.branch.key);
+            var data1 = await settingService.getItem(config.pb_statistics.bType.key);
             if(!data1){
-                data1 = config.branch;
+                data1 = config.pb_statistics.bType;
             }
+            data1.val.some((item)=>{
+                d1+=item.value+",";
+            });
+            d1 = d1.substring(0,d1.length-1);
+
+            //性别
+            var data2 = await settingService.getItem(config.pb_statistics.gender.key);
+            if(!data2){
+                data2 = config.pb_statistics.gender;
+            }
+            data2.val.some((item)=>{
+                d2+=item.value+",";
+            });
+            d2 = d2.substring(0,d2.length-1);
+
+            //党龄
+            var data3 = await settingService.getItem(config.pb_statistics.dl.key);
+            if(!data3){
+                data3 = config.pb_statistics.dl;
+            }
+            data3.val.data.some((item)=>{
+                d3+=item+",";
+            });
+            d3 = d3.substring(0,d3.length-1);
+
+            //学历
+            var data4 = await settingService.getItem(config.pb_statistics.education.key);
+            if(!data4){
+                data4 = config.pb_statistics.education;
+            }
+            data4.val.some((item)=>{
+                d4+=item.value+",";
+            });
+            d4 = d4.substring(0,d4.length-1);
+
+            //学历
+            var data5 = await settingService.getItem(config.pb_statistics.age.key);
+            if(!data5){
+                data5 = config.pb_statistics.age;
+            }
+            data5.val.data.some((item)=>{
+                d5+=item+",";
+            });
+            d5 = d5.substring(0,d5.length-1);
         }catch(e){
             console.log(e.message);
         }
-        res.render("admin/set/archive/index",{data:{}});
+        res.render("admin/set/archive/index",{data:{d1:d1,d2:d2,d3:d3,d4:d4,d5:d5}});
     }
 
     /**
@@ -49,37 +92,48 @@ class SetBranchController{
         data4 = req.body.data4;
         data5 = req.body.data5;
         try{
-            console.log(data1);
             //党员发展
-            var d1 = [];
-            var strD1 = JSON.stringify(config.pb_statistics.bType.val);
+            var d1 = {};
+            var strD1 = JSON.stringify(config.pb_statistics.bType);
             if(data1.split(",").length>=5){
                 let t1 = data1.split(",");
                 d1 = JSON.parse(strD1);
-                d1[0].value = NumberUtil.convertNumber(t1[0]);
-                d1[1].value = NumberUtil.convertNumber(t1[1]);
-                d1[2].value = NumberUtil.convertNumber(t1[2]);
-                d1[3].value = NumberUtil.convertNumber(t1[3]);
-                d1[4].value = NumberUtil.convertNumber(t1[4]);
+                d1.val[0].value = NumberUtil.convertNumber(t1[0]);
+                d1.val[1].value = NumberUtil.convertNumber(t1[1]);
+                d1.val[2].value = NumberUtil.convertNumber(t1[2]);
+                d1.val[3].value = NumberUtil.convertNumber(t1[3]);
+                d1.val[4].value = NumberUtil.convertNumber(t1[4]);
             }else{
-                d1 = config.pb_statistics.bType.val;
+                d1 = config.pb_statistics.bType;
             }
+            //保存数据
+            settingService.setItem(d1,(err,data)=>{
+                if(err){
+                    throw new Error(err);
+                }
+            });
 
             //性别
             var d2 = [];
-            var strD2 = JSON.stringify(config.pb_statistics.gender.val);
+            var strD2 = JSON.stringify(config.pb_statistics.gender);
             if(data2.split(",").length>=2){
                 let t2 = data2.split(",");
                 d2 = JSON.parse(strD2);
-                d2[0].value = NumberUtil.convertNumber(t2[0]);
-                d2[1].value = NumberUtil.convertNumber(t2[1]);
+                d2.val[0].value = NumberUtil.convertNumber(t2[0]);
+                d2.val[1].value = NumberUtil.convertNumber(t2[1]);
             }else{
-                d2 = config.pb_statistics.gender.val;
+                d2 = config.pb_statistics.gender;
             }
+            //保存数据
+            settingService.setItem(d2,(err,data)=>{
+                if(err){
+                    throw new Error(err);
+                }
+            });
 
             //党龄
             var d3 = {};
-            var strD3 = JSON.stringify(config.pb_statistics.dl.val);
+            var strD3 = JSON.stringify(config.pb_statistics.dl);
             if(data3.split(",").length>=6){
                 let array = [];
                 let t3 = data3.split(",");
@@ -90,31 +144,43 @@ class SetBranchController{
                 array.push(NumberUtil.convertNumber(t3[3]));
                 array.push(NumberUtil.convertNumber(t3[4]));
                 array.push(NumberUtil.convertNumber(t3[5]));
-                d3.data = array;
+                d3.val.data = array;
             }else{
-                d3 = config.pb_statistics.dl.val;
+                d3 = config.pb_statistics.dl;
             }
+            //保存数据
+            settingService.setItem(d3,(err,data)=>{
+                if(err){
+                    throw new Error(err);
+                }
+            });
 
             //学历
             var d4 = [];
-            var strD4 = JSON.stringify(config.pb_statistics.education.val);
+            var strD4 = JSON.stringify(config.pb_statistics.education);
             if(data4.split(",").length>=7){
                 let t4 = data4.split(",");
                 d4 = JSON.parse(strD4);
-                d4[0].value = NumberUtil.convertNumber(t4[0]);
-                d4[1].value = NumberUtil.convertNumber(t4[1]);
-                d4[2].value = NumberUtil.convertNumber(t4[2]);
-                d4[3].value = NumberUtil.convertNumber(t4[3]);
-                d4[4].value = NumberUtil.convertNumber(t4[4]);
-                d4[5].value = NumberUtil.convertNumber(t4[5]);
-                d4[6].value = NumberUtil.convertNumber(t4[6]);
+                d4.val[0].value = NumberUtil.convertNumber(t4[0]);
+                d4.val[1].value = NumberUtil.convertNumber(t4[1]);
+                d4.val[2].value = NumberUtil.convertNumber(t4[2]);
+                d4.val[3].value = NumberUtil.convertNumber(t4[3]);
+                d4.val[4].value = NumberUtil.convertNumber(t4[4]);
+                d4.val[5].value = NumberUtil.convertNumber(t4[5]);
+                d4.val[6].value = NumberUtil.convertNumber(t4[6]);
             }else{
-                d4 = config.pb_statistics.education.val;
+                d4 = config.pb_statistics.education;
             }
+            //保存数据
+            settingService.setItem(d4,(err,data)=>{
+                if(err){
+                    throw new Error(err);
+                }
+            });
 
             //年龄
             var d5 = {};
-            var strD5 = JSON.stringify(config.pb_statistics.age.val);
+            var strD5 = JSON.stringify(config.pb_statistics.age);
             if(data5.split(",").length>=5){
                 let array = [];
                 let t5 = data5.split(",");
@@ -124,14 +190,16 @@ class SetBranchController{
                 array.push(NumberUtil.convertNumber(t5[2]));
                 array.push(NumberUtil.convertNumber(t5[3]));
                 array.push(NumberUtil.convertNumber(t5[4]));
-                d5.data = array;
+                d5.val.data = array;
             }else{
-                d5 = config.pb_statistics.age.val;
+                d5 = config.pb_statistics.age;
             }
-
-            console.log(d5);
-
-
+            //保存数据
+            settingService.setItem(d5,(err,data)=>{
+                if(err){
+                    throw new Error(err);
+                }
+            });
             res.json(ResultAjax.SUCCESS("数据编辑成功",{}));
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,{}));
