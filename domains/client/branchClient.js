@@ -1,6 +1,7 @@
 "use strict";
 const branchService = require('./../../service/branchService');
 const archiveService = require('./../../service/archiveService');
+const settingService = require('./../../service/settingService');
 const ResultAjax = require('./../../utils/ResultAjax');
 const baseClient = require('./baseClient');
 const config = require('config-lite')(__dirname);
@@ -11,6 +12,11 @@ class BranchClient extends baseClient{
     constructor(){
         super();
         this.getBranchPersonnel = this.getBranchPersonnel.bind(this);
+        this.getArchiveBTypeCount = this.getArchiveBTypeCount.bind(this);
+        this.getArchiveGenderCount = this.getArchiveGenderCount.bind(this);
+        this.getArchiveDlCount = this.getArchiveDlCount.bind(this);
+        this.getArchiveEducationCount = this.getArchiveEducationCount.bind(this);
+        this.getArchiveAgeCount = this.getArchiveAgeCount.bind(this);
     }
 
     /**
@@ -65,24 +71,36 @@ class BranchClient extends baseClient{
      * @returns {Promise<void>}
      */
     async getArchiveBTypeCount(req,res){
+
         var aggregateOption = [];
         var resultData = config.pb_statistics.bType.val;
         try{
-            aggregateOption.push({$group:{_id:'$bType',value:{$sum:1}}});
-            var data = await archiveService.getArchiveAggregate(aggregateOption);
-            resultData.forEach((_item)=>{
-                var _id = _item._id;
-                data.some((item)=>{
-                    if(item._id==_id){
-                        _item.value = item.value;
-                        return true;
-                    };
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d10;
+            if(type=='1'){
+                var data = await settingService.getItem(config.pb_statistics.bType.key);
+                if(!data){
+                    data = config.pb_statistics.bType;
+                }
+                data.val.some((item)=>{delete item._id;});
+                resultData = data.val;
+            }else{
+                aggregateOption.push({$group:{_id:'$bType',value:{$sum:1}}});
+                var data = await archiveService.getArchiveAggregate(aggregateOption);
+                resultData.forEach((_item)=>{
+                    var _id = _item._id;
+                    data.some((item)=>{
+                        if(item._id==_id){
+                            _item.value = item.value;
+                            return true;
+                        };
+                    });
+                    delete _item._id;
                 });
-                delete _item._id;
-            });
+            }
             res.json(ResultAjax.SUCCESS("",resultData));
         }catch(err){
-            resutlData.some((item)=>{delete item._id});
+            resultData.some((item)=>{delete item._id});
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
     }
@@ -91,20 +109,29 @@ class BranchClient extends baseClient{
         var aggregateOption = [];
         var resultData = config.pb_statistics.gender.val;
         try{
-            aggregateOption.push({$group:{_id:'$gender',value:{$sum:1}}});
-            var data = await archiveService.getArchiveAggregate(aggregateOption);
-            resultData.forEach((_item)=>{
-                let name = _item.name;
-                data.some((item)=>{
-                    if(item._id==name){
-                        _item.value = item.value;
-                        return true;
-                    };
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d10;
+            if(type=='1'){
+                var data = await settingService.getItem(config.pb_statistics.gender.key);
+                if(!data){
+                    data = config.pb_statistics.gender;
+                }
+                resultData = data.val;
+            }else{
+                aggregateOption.push({$group:{_id:'$gender',value:{$sum:1}}});
+                var data = await archiveService.getArchiveAggregate(aggregateOption);
+                resultData.forEach((_item)=>{
+                    let name = _item.name;
+                    data.some((item)=>{
+                        if(item._id==name){
+                            _item.value = item.value;
+                            return true;
+                        };
+                    });
                 });
-            });
+            }
             res.json(ResultAjax.SUCCESS("",resultData));
         }catch(err){
-            resutlData.some((item)=>{delete item._id});
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
     }
@@ -118,8 +145,19 @@ class BranchClient extends baseClient{
     async getArchiveDlCount(req,res){
         var resultData = config.pb_statistics.dl.val;
         try{
-            var data = await archiveService.getDlCountClient(2);
-            resultData.data = data;
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d10;
+            if(type=='1'){
+                var data = await settingService.getItem(config.pb_statistics.dl.key);
+                if(!data){
+                    data = config.pb_statistics.dl;
+                }
+                resultData = data.val;
+            }else{
+                var data = await archiveService.getDlCountClient(2);
+                resultData.data = data;
+            }
+
             res.json(ResultAjax.SUCCESS("",resultData));
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,resultData));
@@ -136,21 +174,32 @@ class BranchClient extends baseClient{
         var aggregateOption = [];
         var resultData = config.pb_statistics.education.val;
         try{
-            aggregateOption.push({$group:{_id:'$ftEducation',value:{$sum:1}}});
-            var data = await archiveService.getArchiveAggregate(aggregateOption);
-            resultData.forEach((_item)=>{
-                var _id = _item._id;
-                data.some((item)=>{
-                    if(item._id==_id){
-                        _item.value = item.value;
-                        return true;
-                    };
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d10;
+            if(type=='1'){
+                var data = await settingService.getItem(config.pb_statistics.education.key);
+                if(!data){
+                    data = config.pb_statistics.education;
+                }
+                resultData = data.val;
+                resultData.some((item)=>{delete item._id;});
+            }else{
+                aggregateOption.push({$group:{_id:'$ftEducation',value:{$sum:1}}});
+                var data = await archiveService.getArchiveAggregate(aggregateOption);
+                resultData.forEach((_item)=>{
+                    var _id = _item._id;
+                    data.some((item)=>{
+                        if(item._id==_id){
+                            _item.value = item.value;
+                            return true;
+                        };
+                    });
+                    delete _item._id;
                 });
-                delete _item._id;
-            });
+            }
             res.json(ResultAjax.SUCCESS("",resultData));
         }catch(err){
-            resutlData.some((item)=>{delete item._id});
+            resultData.some((item)=>{delete item._id});
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
     }
@@ -159,8 +208,18 @@ class BranchClient extends baseClient{
     async getArchiveAgeCount(req,res){
         var resultData = config.pb_statistics.age.val;
         try{
-            var data = await archiveService.getAgeCountClient(2);
-            resultData.data = data;
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d10;
+            if(type=='1'){
+                var data = await settingService.getItem(config.pb_statistics.age.key);
+                if(!data){
+                    data = config.pb_statistics.age;
+                }
+                resultData = data.val;
+            }else{
+                var data = await archiveService.getAgeCountClient(2);
+                resultData.data = data;
+            }
             res.json(ResultAjax.SUCCESS("",resultData));
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,resultData));

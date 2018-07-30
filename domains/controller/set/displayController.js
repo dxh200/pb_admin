@@ -44,7 +44,7 @@ class SetDisplayController{
     async edit(req,res,next){
         var modelData = req.body;
         var val = {};
-        for(let i=1;i<=9;i++){
+        for(let i=1;i<=10;i++){
             let _key = 'd'+i;
             val[_key] = req.body[_key];
         }
