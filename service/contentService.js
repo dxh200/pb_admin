@@ -69,7 +69,6 @@ class ContentService{
         let _id = ContentModel.ObjectId(id);
         await ContentModel.findOne(_id,(err,data)=>{
             if(err){
-                console.log(err.message);
                 callback(err,null);
             }else{
                 if(data){
@@ -100,7 +99,6 @@ class ContentService{
                 }
             });
         });
-
     }
 
     //客户端===========================================================================================================
@@ -123,6 +121,39 @@ class ContentService{
                     reject(err);
                 }else{
                     resolve(data);
+                }
+            });
+        });
+    }
+
+    /**
+     * 客户端信息分页查询
+     * @param queryOption
+     * @param page
+     * @param pageSize
+     * @returns {Promise<any>}
+     */
+    async queryPageListClient(queryOption,page,pageSize){
+        if(Number.isNaN(page)){
+            page = 1;
+        }
+        if(Number.isNaN(pageSize)){
+            pageSize = 5;
+        }
+        if(!queryOption){
+            queryOption = {};
+        }
+        //如果type是2就是查询所有，删除查询条件type
+        if(queryOption.type==2){
+            delete queryOption.type;
+        }
+        queryOption.status = 1;
+        return new Promise(function (resolve, reject){
+            ContentModel.paginate(queryOption, { select:'title photo num', page:page, limit:pageSize,sort:{cTime:-1} }, function(err, result) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
                 }
             });
         });

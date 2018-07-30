@@ -12,6 +12,8 @@ router.get("/getArchiveGenderCount",branchClient.getArchiveGenderCount);
 router.get("/getArchiveAgeCount",branchClient.getArchiveAgeCount);
 router.get("/getArchiveDlCount",branchClient.getArchiveDlCount);
 router.get("/getArchiveEducationCount",branchClient.getArchiveEducationCount);
+router.get("/getArchiveInfo",branchClient.getArchiveInfo);
+
 
 
 

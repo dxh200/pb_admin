@@ -225,8 +225,28 @@ class BranchClient extends baseClient{
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
     }
-    //5查看人员基本信息
 
+    /**
+     * 查看人员基本信息
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async getArchiveInfo(req,res){
+        var id = req.query.id;
+        var resultData = {};
+        archiveService.findById(id,(err,data)=>{
+           if(err){
+               res.json(ResultAjax.ERROR(err.message,resultData));
+           }else{
+               if(data){
+                   res.json(ResultAjax.SUCCESS("",data));
+               }else{
+                   res.json(ResultAjax.ERROR("",resultData));
+               }
+           }
+        });
+    }
 
 }
 
