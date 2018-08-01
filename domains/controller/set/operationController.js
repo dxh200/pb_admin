@@ -29,10 +29,16 @@ class SetOperationController{
             sData = await settingService.getItem(config.operation.s.key);
             if(!mData){
                 mData = config.operation.m;
+            }else{
+                mData.val.label = JSON.stringify(mData.val.label);
+                mData.val.text = JSON.stringify(mData.val.text);
+                mData.val.data = JSON.stringify(mData.val.data);
             }
             if(!sData){
                 sData = config.operation.s;
             }
+
+
         }catch(e){
             console.log(e.message);
         }
@@ -65,9 +71,9 @@ class SetOperationController{
     _mEdit(req,res,next){
         var modelData = req.body;
         var val = {
-            label:modelData.label,
-            text:modelData.text,
-            data:modelData.data
+            label:JSON.parse(modelData.label),
+            text:JSON.parse(modelData.text),
+            data:JSON.parse(modelData.data)
         };
         modelData.val = val;
         try{

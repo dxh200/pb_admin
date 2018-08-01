@@ -119,7 +119,14 @@ class HomeClient extends baseClient{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d4;
             var dataList = await categoryService.getListClient(type);
-            res.json(ResultAjax.SUCCESS("",dataList));
+            var array=  [];
+            for(let i=0;i<dataList.length;i++){
+                let item = dataList[i].toObject();
+                let count = await contentService.countModuleClient('1',item._id,type);
+                item.count = count;
+                array.push(item);
+            }
+            res.json(ResultAjax.SUCCESS("",array));
         }catch(e){
             res.json(ResultAjax.FAILED(e.message,{}));
         }

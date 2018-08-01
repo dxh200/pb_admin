@@ -2,9 +2,7 @@
 const categoryService = require('../../service/categoryService');
 const ResultAjax = require('./../../utils/ResultAjax');
 const multiparty = require("multiparty");
-const fs = require("fs");
 const path = require('path');
-const moment = require('moment');
 const fileUploadUtil = require('./../../utils/FileUploadUtil');
 /**
  * 学习宣传分类控制器

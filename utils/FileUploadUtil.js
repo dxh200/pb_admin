@@ -1,7 +1,8 @@
 "use strict";
 const fs = require("fs");
 const path = require('path');
-const moment= require('moment')
+const moment= require('moment');
+const config = require('config-lite')(__dirname);
 
 class fileUploadUtil{
 
@@ -48,7 +49,7 @@ class fileUploadUtil{
                                 });
                                 //自定义属性
                                 __file_temp__.path = path.join(multipartyForm.uploadDir,fileName);
-                                __file_temp__.urlPath = urlPath+fileName;
+                                __file_temp__.urlPath = config.baseUrl+urlPath+fileName;
                                 __file_temp__.storeName = fileName;
                                 array.push(__file_temp__);
                                 allFile.push(__file_temp__);

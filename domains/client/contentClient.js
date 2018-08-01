@@ -52,19 +52,28 @@ class ContentClient extends baseClient{
     async contentInfo(req,res){
         try{
             var id = req.query.id;
-            contentService.findById(id,(err,data)=>{
-                if(err){
-                    res.json(ResultAjax.ERROR(err.message,{}));
-                }else{
-                    if(data){
-                        res.json(ResultAjax.SUCCESS("",data));
+            var m = req.query.m;
+            var c = req.query.c;
+
+            if(id){
+                contentService.findById(id,(err,data)=>{
+                    if(err){
+                        res.json(ResultAjax.ERROR(err.message,{}));
                     }else{
-                        res.json(ResultAjax.ERROR("",{}));
+                        if(data){
+                            res.json(ResultAjax.SUCCESS("",data));
+                        }else{
+                            res.json(ResultAjax.ERROR("",{}));
+                        }
                     }
-                }
-            });
+                });
+            }else{
+
+            }
         }catch(err){
             res.json(ResultAjax.SUCCESS(err.message,{}));
         }
     }
 }
+
+module.exports = new ContentClient();

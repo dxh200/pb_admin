@@ -5,6 +5,7 @@ const ContentModel = require('./../modules/contentModel');
  */
 class ContentService{
     constructor(){
+        this.countModuleClient = this.countModuleClient.bind(this);
     }
 
     /**
@@ -79,7 +80,13 @@ class ContentService{
         })
     }
 
-
+    /**
+     * 后台分页查询
+     * @param queryOption
+     * @param page
+     * @param pageSize
+     * @returns {Promise<any>}
+     */
     async queryPageList(queryOption,page,pageSize){
         if(Number.isNaN(page)){
             page = 1;
@@ -100,6 +107,20 @@ class ContentService{
             });
         });
     }
+
+    async count(queryOption){
+        return new Promise(function (resolve, reject){
+            ContentModel.count(queryOption, function(err, result) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });
+    }
+
+
 
     //客户端===========================================================================================================
     /**
@@ -157,6 +178,28 @@ class ContentService{
                 }
             });
         });
+    }
+
+    /**
+     * 根据moduel、category统计数量
+     * @param module
+     * @param category
+     * @param type
+     * @returns {Promise<*>}
+     */
+    async countModuleClient(module,category,type){
+        var queryOption = {};
+        if(module){
+            queryOption.module = module;
+        }
+        if(category){
+            queryOption.category = category;
+        }
+        if(type){
+            queryOption.type = type;
+        }
+        queryOption.status = 1;
+        return this.count(queryOption);
     }
 }
 
