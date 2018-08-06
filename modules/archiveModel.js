@@ -37,7 +37,7 @@ const archiveSchema = new mongoose.Schema({
     orgUnit:{type:String,default:""},       //组织关系单位
 
 
-
+    goodDeeds:{type:String,default:""},     //优秀事迹
     jcqk:{type:String,default:""},          //奖惩情况
     pyDate:{type:String,default:""},        //民主评议时间
     pyContent:{type:String,default:""},     //民主评议内容
@@ -56,11 +56,40 @@ const archiveSchema = new mongoose.Schema({
 });
 
 //虚拟属性
+
+archiveSchema.virtual('position_name').get(function () {
+    var eName = "";
+    if(this.position == '1'){
+        eName = "书记";
+    }else if(this.position == '2'){
+        eName = "副书记";
+    }else if(this.position == '3'){
+        eName = "委员";
+    }else if(this.position == '4'){
+        eName = "党员";
+    }
+    return eName;
+});
 archiveSchema.virtual('type_name').get(function () {
     return this.type == 1 ? '手动' : '同步';
 });
 archiveSchema.virtual('status_name').get(function () {
     return this.status == 1 ? '显示' : '隐藏';
+});
+archiveSchema.virtual('btype_name').get(function () {
+    var eName = "";
+    if(this.bType == '1'){
+        eName = "入党申请";
+    }else if(this.bType == '2'){
+        eName = "积极分子";
+    }else if(this.bType == '3'){
+        eName = "发展对象";
+    }else if(this.bType == '4'){
+        eName = "预备党员";
+    }else if(this.bType == '5'){
+        eName = "转正党员";
+    }
+    return eName;
 });
 archiveSchema.virtual('ftEducation_name').get(function () {
     var eName = "";

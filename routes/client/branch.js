@@ -5,14 +5,14 @@ const express = require('express');
 const router = express.Router();
 const branchClient = require('../../domains/client/branchClient');
 
-router.get("/getBranchInfo",branchClient.getBranchInfo);
-router.get("/getBranchPersonnel",branchClient.getBranchPersonnel);
-router.get("/getArchiveBTypeCount",branchClient.getArchiveBTypeCount);
-router.get("/getArchiveGenderCount",branchClient.getArchiveGenderCount);
-router.get("/getArchiveAgeCount",branchClient.getArchiveAgeCount);
-router.get("/getArchiveDlCount",branchClient.getArchiveDlCount);
-router.get("/getArchiveEducationCount",branchClient.getArchiveEducationCount);
-router.get("/getArchiveInfo",branchClient.getArchiveInfo);
+router.post("/getBranchInfo",branchClient.getBranchInfo);
+router.post("/getBranchPersonnel",branchClient.getBranchPersonnel);
+router.post("/getArchiveBTypeCount",branchClient.getArchiveBTypeCount);
+router.post("/getArchiveGenderCount",branchClient.getArchiveGenderCount);
+router.post("/getArchiveAgeCount",branchClient.getArchiveAgeCount);
+router.post("/getArchiveDlCount",branchClient.getArchiveDlCount);
+router.post("/getArchiveEducationCount",branchClient.getArchiveEducationCount);
+router.post("/getArchiveInfo",branchClient.getArchiveInfo);
 
 
 

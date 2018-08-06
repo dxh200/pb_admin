@@ -120,6 +120,9 @@ class ContentController{
                     }
                     data['num'] = parseInt(data.num[0]);
                     data['status'] = parseInt(data.status[0]);
+                    if(data['summary'][0].length>120){
+                        data['summary'] = data['summary'][0].substring(0,120);
+                    }
                     if(id){
                         contentService.updateContent(id,data,(err,data)=>{
                             if(err){

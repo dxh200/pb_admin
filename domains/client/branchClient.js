@@ -3,6 +3,7 @@ const branchService = require('./../../service/branchService');
 const archiveService = require('./../../service/archiveService');
 const settingService = require('./../../service/settingService');
 const ResultAjax = require('./../../utils/ResultAjax');
+const moment = require('moment');
 const baseClient = require('./baseClient');
 const config = require('config-lite')(__dirname);
 
@@ -26,7 +27,7 @@ class BranchClient extends baseClient{
      * @returns {Promise<void>}
      */
     async getBranchInfo(req,res){
-        var id = req.query.id;
+        var id = req.body.id;
         branchService.findFieldById(id,"bName photo tel address summary",(err,data)=>{
             if(err){
                 res.json(ResultAjax.ERROR(err.message,{}));
@@ -49,14 +50,28 @@ class BranchClient extends baseClient{
     async getBranchPersonnel(req,res){
         var d1,d2 = [];
         try{
-            var branchId = req.query.id;
+            var branchId = req.body.id;
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d7;
             //获得书记、副书记
             d1 = await archiveService.find({status:1,type:type,branchId:branchId,position:{$in:['1','2']}},"name headImg position",{sort:{position:1}});
             //获得其他人员
             d2 = await archiveService.find({status:1,type:type,branchId:branchId,position:{$in:['3','4']}},"name headImg position",{sort:{position:1}});
-            res.json(ResultAjax.SUCCESS("",{d1:d1,d2:d2}));
+
+            var array1 = [];
+            d1.forEach((item)=>{
+                let d = item.toObject();
+                d.position = item.position_name;
+                array1.push(d);
+            });
+
+            var array2 = [];
+            d2.forEach((item)=>{
+                let d = item.toObject();
+                d.position = item.position_name;
+                array2.push(d);
+            });
+            res.json(ResultAjax.SUCCESS("",{d1:array1,d2:array2}));
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,{d1:d1,d2:d2}));
         }
@@ -233,19 +248,26 @@ class BranchClient extends baseClient{
      * @returns {Promise<void>}
      */
     async getArchiveInfo(req,res){
-        var id = req.query.id;
+        var id = req.body.id;
         var resultData = {};
-        archiveService.findById(id,(err,data)=>{
-           if(err){
-               res.json(ResultAjax.ERROR(err.message,resultData));
-           }else{
-               if(data){
-                   res.json(ResultAjax.SUCCESS("",data));
-               }else{
-                   res.json(ResultAjax.ERROR("",resultData));
-               }
-           }
-        });
+        try{
+            resultData = await archiveService.findFieldsById(id,"name headImg bType goodDeeds birthDate residence");
+            if(resultData){
+                if(resultData.birthDate!=""){
+                    const birthdayYear = moment(resultData.birthDate,'YYYY-MM-DD').year();
+                    const newYear = new Date().getFullYear();
+                    let bTypeName = resultData.btype_name
+                    resultData = resultData.toObject();
+                    resultData.age = newYear - birthdayYear;
+                    resultData.bType = bTypeName;
+                }
+                res.json(ResultAjax.SUCCESS("",resultData));
+            }else{
+                res.json(ResultAjax.ERROR("",resultData));
+            }
+        }catch(err){
+            res.json(ResultAjax.ERROR(err.message,resultData));
+        }
     }
 
 }

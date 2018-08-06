@@ -84,6 +84,30 @@ class ArchiveService{
     }
 
     /**
+     * 根据id查询
+     * @param id
+     * @param fields 指定字段
+     * @returns {Promise<any>}
+     */
+    async findFieldsById(id,fields){
+        let _id = ArchiveModel.ObjectId(id);
+        return new Promise((resolve, reject) => {
+            ArchiveModel.findOne(_id,fields,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    if(data){
+                        resolve(data)
+                    }else{
+                        resolve(null)
+                    }
+                }
+            })
+        });
+
+    }
+
+    /**
      * 查询党员信息
      * @param queryOption
      * @param fields

@@ -5,7 +5,8 @@ const baseClient = require('./baseClient');
 class ContentClient extends baseClient{
     constructor(){
         super();
-        this.contentListClient = this.contentListClient.bind(this);
+        this.contentList = this.contentList.bind(this);
+        this.contentInfo = this.contentInfo.bind(this);
     }
 
     /**
@@ -14,16 +15,16 @@ class ContentClient extends baseClient{
      * @param res
      * @returns {Promise<void>}
      */
-    async contentListClient(req,res){
+    async contentList(req,res){
         try{
             //数据显示方式
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = '1';
 
             let page = parseInt(req.body.page);
-            let pageSize = parseInt(req.body.rows);
-            let category = req.body.category;
-            var module = req.query.m; //【1学习宣传、2党务工作、3关注热文】
+            let pageSize = parseInt(req.body.pageSize);
+            let category = req.body.c;
+            var module = req.body.m; //【1学习宣传、2党务工作、3关注热文】
             if(module=='1'){
                 type = sysDataDisplay.val.d3;
             }else if(module=='2'){
@@ -40,8 +41,16 @@ class ContentClient extends baseClient{
             if(module){
                 queryOptions.module = module;
             }
+
             queryOptions.type = type;
-            var dataList = contentService.queryPageListClient(queryOption,page,pageSize);
+            var dataList = await contentService.queryPageListClient(queryOptions,page,pageSize);
+            var array = [];
+            dataList.docs.forEach((item)=>{
+                let d = item.toObject();
+                d.cTime = item.cTimeFormat;
+                array.push(d);
+            });
+            dataList.docs = array;
             res.json(ResultAjax.SUCCESS("",{dataList:dataList}));
         }catch(err){
             res.json(ResultAjax.SUCCESS(err.message,{dataList:{}}));
@@ -51,27 +60,29 @@ class ContentClient extends baseClient{
     //查询内容
     async contentInfo(req,res){
         try{
-            var id = req.query.id;
-            var m = req.query.m;
-            var c = req.query.c;
-
-            if(id){
-                contentService.findById(id,(err,data)=>{
-                    if(err){
-                        res.json(ResultAjax.ERROR(err.message,{}));
-                    }else{
-                        if(data){
-                            res.json(ResultAjax.SUCCESS("",data));
-                        }else{
-                            res.json(ResultAjax.ERROR("",{}));
-                        }
-                    }
-                });
-            }else{
-
+            var id = req.body.id;
+            var m = req.body.m;
+            var c = req.body.c;
+            var content = {};
+            var lastId = "";
+            var nextId = "";
+            //数据显示方式
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = '1';
+            if(module=='1'){
+                type = sysDataDisplay.val.d3;
+            }else if(module=='2'){
+                type = sysDataDisplay.val.d5;
+            }else if(module=='3'){
+                type = sysDataDisplay.val.d6;
             }
-        }catch(err){
-            res.json(ResultAjax.SUCCESS(err.message,{}));
+
+            content = await contentService.findFieldById(id,'title source author num content');
+            lastId = await contentService.lastContentByIdClient(id,m,c,type);
+            nextId = await contentService.nextContentByIdClient(id,m,c,type);
+            res.json(ResultAjax.SUCCESS("",{content:content,lastId:lastId,nextId:nextId}));
+        }catch(e){
+            res.json(ResultAjax.FAILED(e.message,{content:{},lastId:"",nextId:""}));
         }
     }
 }

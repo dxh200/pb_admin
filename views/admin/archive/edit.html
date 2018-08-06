@@ -129,7 +129,7 @@
                       <option value="1">书记</option>
                       <option value="2">副书记</option>
                       <option value="3">委员</option>
-                      <option value="4">普通党员</option>
+                      <option value="4">党员</option>
                     </select>
                   </td>
                 </tr>
@@ -167,6 +167,12 @@
                   <td colspan="2"><input type="text" name="pyDate" id="pyDate" value="<%=data.pyDate%>" /></td>
                   <td>民主评议内容</td>
                   <td colspan="3"><input type="text" name="pyContent" id="pyContent" value="<%=data.pyContent%>" /></td>
+                </tr>
+                <tr>
+                  <td>优秀事迹</td>
+                  <td colspan="6" style="text-align: left">&nbsp;
+                    <textarea name="goodDeeds" id="goodDeeds"><%=data.goodDeeds%></textarea>
+                  </td>
                 </tr>
                 <tr>
                   <td>优秀党员工作者</td>

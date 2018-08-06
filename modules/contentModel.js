@@ -12,6 +12,7 @@ const contentSchema = new mongoose.Schema({
     photo:{type:String,default:""},          //封面
     source:{type:String,default:""},         //来源
     author:{type:String,default:""},         //作者
+    summary:{type:String,default:""},        //简介
     module:{type:String,default:""},         //模块【1学习宣传、2党务工作、3关注热文】
     category:{type:String,default:""},       //分类->对应各个模块
     num:{type:Number,default:0},             //访问量

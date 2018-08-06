@@ -81,6 +81,28 @@ class ContentService{
     }
 
     /**
+     * 根据id查询指定字段
+     * @param id
+     * @param field
+     * @returns {Promise<any>}
+     */
+    async findFieldById(id,field){
+        let _id = ContentModel.ObjectId(id);
+        return new Promise(function (resolve, reject){
+            ContentModel.findOne(_id,field,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    if(data){
+                        resolve(data)
+                    }
+
+                }
+            })
+        });
+    }
+
+    /**
      * 后台分页查询
      * @param queryOption
      * @param page
@@ -170,7 +192,7 @@ class ContentService{
         }
         queryOption.status = 1;
         return new Promise(function (resolve, reject){
-            ContentModel.paginate(queryOption, { select:'title photo num', page:page, limit:pageSize,sort:{cTime:-1} }, function(err, result) {
+            ContentModel.paginate(queryOption, { select:'title photo num customTime summary', page:page, limit:pageSize,sort:{cTime:-1} }, function(err, result) {
                 if(err){
                     reject(err);
                 }else{
@@ -200,6 +222,116 @@ class ContentService{
         }
         queryOption.status = 1;
         return this.count(queryOption);
+    }
+
+    /**
+     * 根据id查询上一条数据
+     * @param id
+     * @param module
+     * @param category
+     * @param type
+     * @returns {Promise<any>}
+     */
+    async lastContentByIdClient(id,module,category,type){
+        var queryOption = {};
+
+        if(module){
+            queryOption.module = module;
+        }
+        if(category){
+            queryOption.category = category;
+        }
+        //上一条
+        if(id){
+            queryOption._id = { "$gt" :ContentModel.ObjectId(id)};
+        }
+        queryOption.type = type;
+        queryOption.status = 1;
+        return new Promise(function (resolve, reject){
+            ContentModel.find(queryOption, "_id", {sort: {cTime: -1},limit:1},(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    if(data.length==0){
+                        resolve("");
+                    }else{
+                        resolve(data[0]._id);
+                    };
+                }
+            })
+        });
+    }
+
+    /**
+     * 根据id查询下一条数据
+     * @param id
+     * @param module
+     * @param category
+     * @param type
+     * @returns {Promise<any>}
+     */
+    async nextContentByIdClient(id,module,category,type){
+        var queryOption = {};
+
+        if(module){
+            queryOption.module = module;
+        }
+        if(category){
+            queryOption.category = category;
+        }
+        //上一条
+        if(id){
+            queryOption._id = { "$lt" :ContentModel.ObjectId(id)};
+        }
+        queryOption.type = type;
+        queryOption.status = 1;
+        return new Promise(function (resolve, reject){
+            ContentModel.find(queryOption, "_id", {sort: {cTime: -1},limit:1},(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    if(data.length==0){
+                        resolve("");
+                    }else{
+                        resolve(data[0]._id);
+                    };
+                }
+            })
+        });
+    }
+
+    /**
+     * 根据module、category获得id
+     * @param module
+     * @param category
+     * @param type
+     * @returns {Promise<any>}
+     */
+    async getContentByModuleClient(module,category,type){
+        var queryOption = {};
+
+        if(module){
+            queryOption.module = module;
+        }
+        if(category){
+            queryOption.category = category;
+        }
+        queryOption.type = type;
+        queryOption.status = 1;
+        return new Promise(function (resolve, reject){
+            ContentModel.find(queryOption, "_id", {sort: {cTime: -1},limit:1},(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    if(data.length==0){
+                        resolve("");
+                    }else{
+                        resolve(data[0]._id);
+                    };
+
+                }
+            })
+        });
     }
 }
 

@@ -21,6 +21,7 @@ class HomeClient extends baseClient{
         this.getStudyCategory = this.getStudyCategory.bind(this);
         this.getNewsData = this.getNewsData.bind(this);
         this.getBranchData = this.getBranchData.bind(this);
+        this.getWorkContentId = this.getWorkContentId.bind(this);
     }
 
     /**
@@ -122,10 +123,37 @@ class HomeClient extends baseClient{
             var array=  [];
             for(let i=0;i<dataList.length;i++){
                 let item = dataList[i].toObject();
-                let count = await contentService.countModuleClient('1',item._id,type);
-                item.count = count;
+                let cid = await contentService.getContentByModuleClient('1',item._id,type);
+                item.cid = cid;
                 array.push(item);
             }
+            res.json(ResultAjax.SUCCESS("",array));
+        }catch(e){
+            res.json(ResultAjax.FAILED(e.message,{}));
+        }
+    }
+
+    /**
+     * 查询党务工作分类第一条信息id
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async getWorkContentId(req,res){
+        try{
+            var sysDataDisplay = await this.getSysDataDisplay();
+            var type = sysDataDisplay.val.d4;
+
+            //1会议记录  2活动简报 3培训学习
+            var array=  {data1:"",data2:"",data3:""};
+
+            let data1 = await contentService.getContentByModuleClient('2','1',type);
+            let data2 = await contentService.getContentByModuleClient('2','2',type);
+            let data3 = await contentService.getContentByModuleClient('2','3',type);
+
+            array.data1 = data1;
+            array.data2 = data2;
+            array.data3 = data3;
             res.json(ResultAjax.SUCCESS("",array));
         }catch(e){
             res.json(ResultAjax.FAILED(e.message,{}));

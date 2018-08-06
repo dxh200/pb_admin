@@ -26,6 +26,7 @@
               <input type="hidden" name="photo" value="<%=data.photo%>" />
               <input type="hidden" name="module" value="3" />
               <input type="hidden" name="content" id="content" value="<%=data.content%>" />
+              <input type="hidden" name="summary" id="summary" value="<%=data.summary%>" />
               <div class="form-group">
                 <label class="col-sm-3 control-label">标题：</label>
                 <div class="col-sm-8">
@@ -135,6 +136,7 @@
     })
     function onSubmitForm(){
         var content = ue.getContent();
+        jQuery("#summary").val(ue.getContentTxt());
         jQuery("#content").val(content);
         layer.load();
         //异步Form初始化
