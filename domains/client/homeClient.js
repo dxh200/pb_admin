@@ -35,9 +35,21 @@ class HomeClient extends baseClient{
             var type = sysDataDisplay.val.d1;
             //手动
             var dataList = await branchService.getBranchNameListClient(type);
-            res.json(ResultAjax.SUCCESS("",dataList));
+            var array = [];
+            dataList.forEach((item)=>{
+                var _item_ = {};
+                _item_.id = item._id;
+                _item_.title = item.bName;
+                if(item.location.length>0){
+                    _item_.point = item.location[0]+"|"+item.location[1];
+                }else{
+                    _item_.point = "|";
+                }
+                array.push(_item_);
+            })
+            res.json(ResultAjax.SUCCESS("",array));
         }catch(e){
-            res.json(ResultAjax.FAILED(e.message,{}));
+            res.json(ResultAjax.FAILED(e.message,[]));
         }
     }
 

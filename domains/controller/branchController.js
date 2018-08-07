@@ -37,6 +37,9 @@ class BranchController{
                     throw new Error(err.message);
                 }else{
                     if(doc){
+                        var arrayLocation = doc.location;
+                        doc.lng = arrayLocation[0]==0?"":arrayLocation[0];
+                        doc.lat = arrayLocation[1]==0?"":arrayLocation[1];
                         res.render("admin/branch/edit",{data:doc});
                     }else{
                         res.render("admin/branch/edit",{data:{}});
@@ -77,6 +80,12 @@ class BranchController{
                         data['photo'] = data.file[0].urlPath;
                     }
                     data['status'] = parseInt(data.status[0]);
+
+                    //坐标
+                    var arrayLocation = [];
+                    arrayLocation.push(parseFloat(data.lng[0]));arrayLocation.push(parseFloat(data.lat[0]));
+                    data['location'] = arrayLocation;
+
                     if(id){
                         branchService.update(id,data,(err,data)=>{
                             if(err){
@@ -130,7 +139,6 @@ class BranchController{
             queryOptions.bName = new RegExp(bName);
         }
 
-        console.log(queryOptions);
         branchService.queryPageList(queryOptions,page,pageSize,(err,result)=>{
             if(err){
                 res.json(ResultAjax.FAILED(err.message,{}));

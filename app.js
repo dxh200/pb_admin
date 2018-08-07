@@ -14,7 +14,7 @@ var svgCaptcha = require('svg-captcha');
 //引入路由
 var adminRouter = require('./routes/admin');
 var loginRouter = require('./routes/login');
-var clientRouter = require('./routes/client')
+var clientRouter = require('./routes/client');
 
 var app = express();
 
