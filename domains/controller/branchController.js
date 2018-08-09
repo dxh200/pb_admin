@@ -6,6 +6,7 @@ const fs = require("fs");
 const path = require('path');
 const moment = require('moment');
 const fileUploadUtil = require('./../../utils/FileUploadUtil');
+const config = require('config-lite')(__dirname);
 /**
  * 支部控制器
  */
@@ -19,7 +20,7 @@ class BranchController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        res.render("admin/branch/index",{title: '支部列表页面'})
+        res.render("admin/branch/index",{baseUrl:config.baseUrl})
     }
 
     /**
@@ -180,6 +181,7 @@ class BranchController{
             }
         });
     }
+
 }
 
 module.exports = new BranchController();

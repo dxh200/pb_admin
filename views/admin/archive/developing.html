@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="/css/font-awesome.css" rel="stylesheet">
+    <link href="/css/ui.jqgrid.css" rel="stylesheet">
+    <link href="/css/animate.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/form.css" rel="stylesheet">
+</head>
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12 list">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>第一阶段 入党申请</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">1、<a href="javascript:;" data="data1" class="develop">入党申请&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data1'].s=="1"){%>通过(<%=result['data1'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">2、<a href="javascript:;" data="data2" class="develop">党组织谈话&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data2'].s=="1"){%>通过(<%=result['data2'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>第二价段 积极分子</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">3、<a href="javascript:;" data="data3" class="develop">确定入党积极分子&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data3'].s=="1"){%>通过(<%=result['data3'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">4、<a href="javascript:;" data="data4" class="develop">上级党委备案&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data4'].s=="1"){%>通过(<%=result['data4'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">5、<a href="javascript:;" data="data5" class="develop">指定培养联系人&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data5'].s=="1"){%>通过(<%=result['data5'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">6、<a href="javascript:;" data="data6" class="develop">培养教育考察&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data6'].s=="1"){%>通过(<%=result['data6'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>第三价段 发展对象</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">7、<a href="javascript:;" data="data7" class="develop">确定发展对象&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data7'].s=="1"){%>通过(<%=result['data7'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">8、<a href="javascript:;" data="data8" class="develop">上级党委备案&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data8'].s=="1"){%>通过(<%=result['data8'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">9、<a href="javascript:;" data="data9" class="develop">确定入党介绍人&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data9'].s=="1"){%>通过(<%=result['data9'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">10、<a href="javascript:;" data="data10" class="develop">进行整治审查&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data10'].s=="1"){%>通过(<%=result['data10'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">11、<a href="javascript:;" data="data11" class="develop">开展集中培训&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data11'].s=="1"){%>通过(<%=result['data11'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>第四价段 预备党员</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">12、<a href="javascript:;" data="data12" class="develop">支部委员会审核&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data12'].s=="1"){%>通过(<%=result['data12'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">13、<a href="javascript:;" data="data13" class="develop">上级党委预审&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data13'].s=="1"){%>通过(<%=result['data13'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">14、<a href="javascript:;" data="data14" class="develop">填写入党志愿书&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data14'].s=="1"){%>通过(<%=result['data14'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">15、<a href="javascript:;" data="data15" class="develop">支部大会讨论&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data15'].s=="1"){%>通过(<%=result['data15'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">16、<a href="javascript:;" data="data16" class="develop">上级党委派人谈话&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data16'].s=="1"){%>通过(<%=result['data16'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">17、<a href="javascript:;" data="data17" class="develop">上级党委审批&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data17'].s=="1"){%>通过(<%=result['data17'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">18、<a href="javascript:;" data="data18" class="develop">再上一级党委组织部门备案&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data18'].s=="1"){%>通过(<%=result['data18'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>第五价段 预备党员考察和转正</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">19、<a href="javascript:;" data="data19" class="develop">编入党支部和党小组&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data19'].s=="1"){%>通过(<%=result['data19'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">20、<a href="javascript:;" data="data20" class="develop">入党宣誓&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data20'].s=="1"){%>通过(<%=result['data20'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">21、<a href="javascript:;" data="data21" class="develop">继续教育考察&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data21'].s=="1"){%>通过(<%=result['data21'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">22、<a href="javascript:;" data="data22" class="develop">提出转正申请&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data22'].s=="1"){%>通过(<%=result['data22'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">23、<a href="javascript:;" data="data23" class="develop">支部大会讨论&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data23'].s=="1"){%>通过(<%=result['data23'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">24、<a href="javascript:;" data="data24" class="develop">上级党委审批&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data24'].s=="1"){%>通过(<%=result['data24'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">25、<a href="javascript:;" data="data25" class="develop">材料归档&gt&gt</a></label>
+                            <label class="col-sm-8 control-label" style="text-align: left">
+                                <%if(result['data25'].s=="1"){%>通过(<%=result['data25'].d%>)<%}else{%>未通过<%}%>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+</div>
+</body>
+</html>
+<script src="/js/jquery.min.js"></script>
+<script>
+    var archiveId = '<%=archiveId%>';
+    jQuery(function(){
+        jQuery(".develop").click(function(){
+            var data = jQuery(this).attr("data");
+            var text = jQuery(this).text();
+            openEditDevelop(data,text);
+        });
+    })
+
+    function openEditDevelop(field,title){
+        top.layer.open({
+            type: 2,
+            id:"openJoin",
+            scrollbar: false,
+            maxmin: false,
+            title: title,
+            area: ['650px', '450px'],
+            content: "<%=baseUrl%>/admin/archive/toEditDeveloping?archiveId="+archiveId+"&field="+field
+            ,yes: function(index, layero){
+                var iframeWin = top.window[layero.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+                iframeWin.onManualForm(window.name,function(){
+                    history.go(0);
+                });
+
+            }
+            ,btn: ['保存','关闭']
+        });
+    }
+</script>

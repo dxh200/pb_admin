@@ -9,7 +9,7 @@ const router = express.Router();
 router.get('/',(req,res,next)=>{
     res.redirect('/index')
 })
-router.get('/index',branchController.index)
+router.get('/index',branchController.index);
 router.get('/toEdit',branchController.toEdit);
 router.post('/edit',branchController.edit);
 router.post('/del',branchController.del);

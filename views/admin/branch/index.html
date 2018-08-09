@@ -15,6 +15,16 @@
       top: 900px !important;
     }
     .ibox{margin-bottom: 0;}
+
+    /*jqgrid滚动条*/
+    .ui-jqgrid .ui-jqgrid-bdiv {
+      border-top: 1px solid #E1E1E1;
+      overflow-x: auto;
+    }
+    .frozen-div, .frozen-bdiv {
+      background-color: #E4E6E9;/*与网页背景色一致*/ */
+    }
+    /*jqgrid滚动条*/
   </style>
   </head>
 <body class="gray-bg">
@@ -45,9 +55,6 @@
             <div class="entering">
               <button id="btn_add" type="button" class="btn btn-default" onclick="toEdit();">
                 <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>录入
-              </button>
-              <button id="btn_add" type="button" class="btn btn-default">
-                <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>同步
               </button>
               <button id="btn_add" type="button" class="btn btn-default" onclick="reloadGrid();">
                 <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>刷新
@@ -86,19 +93,21 @@
             mtype: 'POST',
             height: 450,
             autowidth: true,
-            shrinkToFit: true,
             multiselect: false,
             rownumbers: true,
             pager: "#pager_list_1",
             viewrecords: true,
             rowNum: 20,
             rowList: [10, 20, 30],
+            /*jqgrid滚动条*/
+            shrinkToFit:false,
+            autoScroll:true,
             colNames: ['名称', '封面', '电话', '地址', '邮件', '类型','显示','时间','操作'],
             colModel: [
                 {
                     name: 'bName',
                     index: 'bName',
-                    width: 90
+                    width: 100
                 },
                 {
                     name: 'photo',
@@ -115,35 +124,35 @@
                 {
                     name: 'tel',
                     index: 'tel',
-                    width: 80,
+                    width: 100,
                     align: "left"
                 },
                 {
                     name: 'address',
                     index: 'address',
-                    width: 80,
+                    width: 100,
                     align: "left"
                 },
                 {
                     name: 'email',
                     index: 'email',
-                    width: 80,
+                    width: 100,
                     align: "center"
                 },
                 {
                     name: 'type',
                     index: 'type',
-                    width: 100
+                    width: 80
                 },
                 {
                     name: 'status',
                     index: 'status',
-                    width: 100
+                    width: 80
                 },
                 {
                     name: 'cTime',
                     index: 'cTime',
-                    width: 100,
+                    width: 140,
                     formatter:function(cellvalue, options, rowObject){
                         return cellvalue;
                     }
@@ -151,9 +160,9 @@
                 {
                     name: '',
                     index: '',
-                    width: 100,
+                    width: 200,
                     formatter:function(cellvalue, options, rowObject){
-                        let cz = '<a href="javascript:;" onclick="toEdit(\''+rowObject.id+'\')">编辑</a>   <a href="javascript:;" onclick="del(\''+rowObject.id+'\')">删除</a>';
+                        let cz = '<a href="javascript:;" onclick="toEdit(\''+rowObject.id+'\')">编辑</a>   <a href="javascript:;" onclick="del(\''+rowObject.id+'\')">删除</a>   <a href="javascript:;" onclick="openStatistics(\''+rowObject.id+'\',\''+rowObject.bName+'\')">党员信息统计</a>';
                         return cz;
                     }
                 }
@@ -203,6 +212,20 @@
                     layer.alert('服务器交互失败');
                 }
             })
+        });
+    }
+
+    //支部统计信息
+    function openStatistics(id,title){
+        layer.open({
+            type: 2,
+            id:"openStatistics",
+            maxmin: false,
+            scrollbar: false,
+            title: title+' - 党员统计',
+            area: ['750px', '550px'],
+            content: "<%=baseUrl%>/admin/set/archive/index?branchId="+id
+            ,btn: ['关闭']
         });
     }
 

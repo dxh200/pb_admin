@@ -56,7 +56,7 @@ class BranchClient extends baseClient{
             //获得书记、副书记
             d1 = await archiveService.find({status:1,type:type,branchId:branchId,position:{$in:['1','2']}},"name headImg position",{sort:{position:1}});
             //获得其他人员
-            d2 = await archiveService.find({status:1,type:type,branchId:branchId,position:{$in:['3','4']}},"name headImg position",{sort:{position:1}});
+            d2 = await archiveService.find({status:1,type:type,branchId:branchId,position:{$in:['1','2','3','4']}},"name headImg position",{sort:{position:1}});
 
             var array1 = [];
             d1.forEach((item)=>{
@@ -87,19 +87,21 @@ class BranchClient extends baseClient{
      */
     async getArchiveBTypeCount(req,res){
 
+        var branchId = req.body.id;
         var aggregateOption = [];
         var resultData = config.pb_statistics.bType.val;
         try{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d10;
             if(type=='1'){
-                var data = await settingService.getItem(config.pb_statistics.bType.key);
+                var data = await settingService.getItem(config.pb_statistics.bType.key,branchId);
                 if(!data){
                     data = config.pb_statistics.bType;
                 }
                 data.val.some((item)=>{delete item._id;});
                 resultData = data.val;
             }else{
+                aggregateOption.push({$match:{branchId:branchId}});
                 aggregateOption.push({$group:{_id:'$bType',value:{$sum:1}}});
                 var data = await archiveService.getArchiveAggregate(aggregateOption);
                 resultData.forEach((_item)=>{
@@ -121,18 +123,20 @@ class BranchClient extends baseClient{
     }
     //4.2党员性别分布[男女]
     async getArchiveGenderCount(req,res){
+        var branchId = req.body.id;
         var aggregateOption = [];
         var resultData = config.pb_statistics.gender.val;
         try{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d10;
             if(type=='1'){
-                var data = await settingService.getItem(config.pb_statistics.gender.key);
+                var data = await settingService.getItem(config.pb_statistics.gender.key,branchId);
                 if(!data){
                     data = config.pb_statistics.gender;
                 }
                 resultData = data.val;
             }else{
+                aggregateOption.push({$match:{branchId:branchId}});
                 aggregateOption.push({$group:{_id:'$gender',value:{$sum:1}}});
                 var data = await archiveService.getArchiveAggregate(aggregateOption);
                 resultData.forEach((_item)=>{
@@ -158,18 +162,19 @@ class BranchClient extends baseClient{
      * @returns {Promise<void>}
      */
     async getArchiveDlCount(req,res){
+        var branchId = req.body.id;
         var resultData = config.pb_statistics.dl.val;
         try{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d10;
             if(type=='1'){
-                var data = await settingService.getItem(config.pb_statistics.dl.key);
+                var data = await settingService.getItem(config.pb_statistics.dl.key,branchId);
                 if(!data){
                     data = config.pb_statistics.dl;
                 }
                 resultData = data.val;
             }else{
-                var data = await archiveService.getDlCountClient(2);
+                var data = await archiveService.getDlCountClient(type,branchId);
                 resultData.data = data;
             }
 
@@ -186,19 +191,21 @@ class BranchClient extends baseClient{
      * @returns {Promise<void>}
      */
     async getArchiveEducationCount(req,res){
+        var branchId = req.body.id;
         var aggregateOption = [];
         var resultData = config.pb_statistics.education.val;
         try{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d10;
             if(type=='1'){
-                var data = await settingService.getItem(config.pb_statistics.education.key);
+                var data = await settingService.getItem(config.pb_statistics.education.key,branchId);
                 if(!data){
                     data = config.pb_statistics.education;
                 }
                 resultData = data.val;
                 resultData.some((item)=>{delete item._id;});
             }else{
+                aggregateOption.push({$match:{branchId:branchId}});
                 aggregateOption.push({$group:{_id:'$ftEducation',value:{$sum:1}}});
                 var data = await archiveService.getArchiveAggregate(aggregateOption);
                 resultData.forEach((_item)=>{
@@ -221,18 +228,19 @@ class BranchClient extends baseClient{
 
     //4.5党员年龄分布[25岁以下、26-35岁、36-45岁、46-55岁、56岁以上]
     async getArchiveAgeCount(req,res){
+        var branchId = req.body.id;
         var resultData = config.pb_statistics.age.val;
         try{
             var sysDataDisplay = await this.getSysDataDisplay();
             var type = sysDataDisplay.val.d10;
             if(type=='1'){
-                var data = await settingService.getItem(config.pb_statistics.age.key);
+                var data = await settingService.getItem(config.pb_statistics.age.key,branchId);
                 if(!data){
                     data = config.pb_statistics.age;
                 }
                 resultData = data.val;
             }else{
-                var data = await archiveService.getAgeCountClient(2);
+                var data = await archiveService.getAgeCountClient(type,branchId);
                 resultData.data = data;
             }
             res.json(ResultAjax.SUCCESS("",resultData));
@@ -268,6 +276,75 @@ class BranchClient extends baseClient{
         }catch(err){
             res.json(ResultAjax.ERROR(err.message,resultData));
         }
+    }
+
+    /**
+     * 获得发展党员阶段信息
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async getArchiveDevelop(req,res){
+        var id = req.body.id;
+        var field = req.body.field;
+        var resultData = {content:""};
+        try{
+            var data = await archiveService.findDevelopByArchiveId(id,field);
+            if(data){
+                resultData.content = data[field];
+                res.json(ResultAjax.SUCCESS("",resultData));
+            }else{
+                res.json(ResultAjax.ERROR("",resultData));
+            }
+        }catch(err){
+            res.json(ResultAjax.ERROR(err.message,resultData));
+        }
+    }
+
+    /**
+     * 获得党员发展阶段状态
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async getArchiveDevelopStatus(req,res,next){
+        var archiveId = req.body.id;
+        var result = {};
+        try{
+            var data = await archiveService.findDevelopByArchiveId(archiveId,"params");
+
+            if(data){
+                var dataParams = data.params.data;
+                for(let i=1;i<=25;i++){
+                    let d = "data"+i;
+                    if(dataParams[d]){
+                        if(dataParams[d].status=='1'){
+                            result[d] = {s:dataParams[d].status,d:dataParams[d].date}
+                        }else{
+                            result[d] = {s:dataParams[d].status}
+                        }
+
+                    }else{
+                        result[d] = {s:"0"};
+                    }
+                }
+            }else{
+                for(let i=1;i<=25;i++){
+                    let d = "data"+i;
+                    result[d] = {s:"0"};
+                }
+            }
+            res.json(ResultAjax.SUCCESS("",result));
+        }catch(err){
+            for(let i=1;i<=25;i++){
+                let d = "data"+i;
+                result[d] = {s:"0"};
+            }
+            res.json(ResultAjax.ERROR(err.message,result));
+        }
+
+
     }
 
 }

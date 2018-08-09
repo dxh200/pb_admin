@@ -13,9 +13,8 @@ router.post("/getArchiveAgeCount",branchClient.getArchiveAgeCount);
 router.post("/getArchiveDlCount",branchClient.getArchiveDlCount);
 router.post("/getArchiveEducationCount",branchClient.getArchiveEducationCount);
 router.post("/getArchiveInfo",branchClient.getArchiveInfo);
-
-
-
+router.post("/getArchiveDevelop",branchClient.getArchiveDevelop);
+router.post("/getArchiveDevelopStatus",branchClient.getArchiveDevelopStatus);
 
 
 

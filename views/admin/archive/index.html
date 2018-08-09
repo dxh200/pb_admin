@@ -179,9 +179,9 @@
                 {
                     name: '',
                     index: '',
-                    width: 100,
+                    width: 200,
                     formatter:function(cellvalue, options, rowObject){
-                        let cz = '<a href="javascript:;" onclick="toEdit(\''+rowObject.id+'\')">编辑</a>   <a href="javascript:;" onclick="del(\''+rowObject.id+'\')">删除</a>';
+                        let cz = '<a href="javascript:;" onclick="toEdit(\''+rowObject.id+'\')">编辑</a>   <a href="javascript:;" onclick="del(\''+rowObject.id+'\')">删除</a>   <a href="javascript:;" onclick="openJoin(\''+rowObject.id+'\')">发展党员阶段信息</a>';
                         return cz;
                     }
                 }
@@ -233,6 +233,21 @@
             })
         });
     }
+
+    //发展党员阶段
+    function openJoin(id){
+        layer.open({
+            type: 2,
+            id:"openJoin",
+            scrollbar: false,
+            maxmin: false,
+            title: '发展党员阶段',
+            area: ['750px', '550px'],
+            content: "<%=baseUrl%>/admin/archive/toDeveloping?id="+id
+            ,btn: ['关闭']
+        });
+    }
+
 
     //搜索
     function search(){

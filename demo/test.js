@@ -14,6 +14,11 @@ const birthdayYear = moment("1987-02-03",'YYYY-MM-DD').year();
 const newYear = new Date().getFullYear();
 console.log(newYear - birthdayYear);
 
+var a = '{"'+field+'":{"status":"'+status+'"}}';
+var b = {};
+b.a = "s";
+console.log(b);
+
 
 
 

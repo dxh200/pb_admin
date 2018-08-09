@@ -1,4 +1,5 @@
 const ArchiveModel = require('./../modules/archiveModel');
+const ArchiveDevelopModel = require('./../modules/archiveDevelopModel');
 const config = require('config-lite')(__dirname);
 const moment = require('moment');
 
@@ -9,6 +10,8 @@ class ArchiveService{
     constructor(){
         this.getArchiveGoodCountClient = this.getArchiveGoodCountClient.bind(this);
         this.getAgeCountClient = this.getAgeCountClient.bind(this);
+
+        this.editDevelop = this.editDevelop.bind(this);
     }
 
     /**
@@ -189,6 +192,62 @@ class ArchiveService{
     }
 
     //===============================================================================================
+    //党员发展阶段操作
+    async editDevelop(id,options,field){
+        if(id){
+            let _id = ArchiveDevelopModel.ObjectId(id);
+            var paramsObj = await this.findDevelopByArchiveId(options.archiveId,"params");
+            let _params_  = paramsObj.params;
+            _params_.currentStage = options.params.currentStage;
+            _params_.state = options.params.state;
+
+            if(_params_.data[field]){
+                if(_params_.data[field].status=="0" && options.params.data[field].status=="1"){
+                    _params_.data[field] = options.params.data[field];
+                }
+                if(_params_.data[field].status=="1" && options.params.data[field].status=="0"){
+                    _params_.data[field] = options.params.data[field];
+                }
+            }else{
+                _params_.data[field] = options.params.data[field];
+            }
+            options.params = _params_;
+            ArchiveDevelopModel.update({_id:_id},{$set:options},(err,data)=>{
+                if(err){
+                    console.log(err);
+                }else{
+                    console.log(data);
+                }
+            });
+        }else{
+            new ArchiveDevelopModel(options).save();
+        }
+    }
+
+    async findDevelopByArchiveId(id,fields){
+        return new Promise(function (resolve, reject){
+            ArchiveDevelopModel.findOne({archiveId:id},fields,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data)
+                }
+            })
+        });
+    }
+
+    countDevelop(queryOption){
+        return new Promise(function (resolve, reject){
+            ArchiveDevelopModel.count(queryOption, function(err, result) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });
+    }
+    //===============================================================================================
     /**
      * 获得客户端首页数量
      * @param type
@@ -209,7 +268,7 @@ class ArchiveService{
      * 党员年龄统计
      * @returns {Promise<void>}
      */
-    async getAgeCountClient(type){
+    async getAgeCountClient(type,branchId){
         var resultData = [];
         try{
             var calus = config.pb_statistics.age.calu;
@@ -238,6 +297,9 @@ class ArchiveService{
                 if(type!=2){
                     queryOption.type = type;
                 }
+                if(branchId){
+                    queryOption.branchId = branchId;
+                }
                 queryOption.birthDate = {$gte: sYear, $lte: eYear};
                 var count = await this.count(queryOption);
                 await resultData.push(count);
@@ -253,7 +315,7 @@ class ArchiveService{
      * @param type
      * @returns {Promise<Array>}
      */
-    async getDlCountClient(type){
+    async getDlCountClient(type,branchId){
         var resultData = [];
         try{
             var calus = config.pb_statistics.dl.calu;
@@ -281,6 +343,9 @@ class ArchiveService{
                 var queryOption = {};
                 if(type!=2){
                     queryOption.type = type;
+                }
+                if(branchId){
+                    queryOption.branchId = branchId;
                 }
                 queryOption.rdDate = {$gte: sYear, $lte: eYear};
                 var count = await this.count(queryOption);

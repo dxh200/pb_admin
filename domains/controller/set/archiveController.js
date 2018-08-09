@@ -20,10 +20,11 @@ class SetBranchController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
+        var branchId = req.query.branchId;
         var d1 = '',d2 = '',d3 = '',d4 = '',d5 = '';
         try{
             //党员
-            var data1 = await settingService.getItem(config.pb_statistics.bType.key);
+            var data1 = await settingService.getItem(config.pb_statistics.bType.key,branchId);
             if(!data1){
                 data1 = config.pb_statistics.bType;
             }
@@ -33,7 +34,7 @@ class SetBranchController{
             d1 = d1.substring(0,d1.length-1);
 
             //性别
-            var data2 = await settingService.getItem(config.pb_statistics.gender.key);
+            var data2 = await settingService.getItem(config.pb_statistics.gender.key,branchId);
             if(!data2){
                 data2 = config.pb_statistics.gender;
             }
@@ -43,7 +44,7 @@ class SetBranchController{
             d2 = d2.substring(0,d2.length-1);
 
             //党龄
-            var data3 = await settingService.getItem(config.pb_statistics.dl.key);
+            var data3 = await settingService.getItem(config.pb_statistics.dl.key,branchId);
             if(!data3){
                 data3 = config.pb_statistics.dl;
             }
@@ -53,7 +54,7 @@ class SetBranchController{
             d3 = d3.substring(0,d3.length-1);
 
             //学历
-            var data4 = await settingService.getItem(config.pb_statistics.education.key);
+            var data4 = await settingService.getItem(config.pb_statistics.education.key,branchId);
             if(!data4){
                 data4 = config.pb_statistics.education;
             }
@@ -63,7 +64,7 @@ class SetBranchController{
             d4 = d4.substring(0,d4.length-1);
 
             //学历
-            var data5 = await settingService.getItem(config.pb_statistics.age.key);
+            var data5 = await settingService.getItem(config.pb_statistics.age.key,branchId);
             if(!data5){
                 data5 = config.pb_statistics.age;
             }
@@ -74,7 +75,7 @@ class SetBranchController{
         }catch(e){
             console.log(e.message);
         }
-        res.render("admin/set/archive/index",{data:{d1:d1,d2:d2,d3:d3,d4:d4,d5:d5}});
+        res.render("admin/set/archive/index",{data:{d1:d1,d2:d2,d3:d3,d4:d4,d5:d5},branchId:branchId});
     }
 
     /**
@@ -85,6 +86,7 @@ class SetBranchController{
      * @returns {Promise<void>}
      */
     async edit(req,res,next){
+        var branchId = req.body.branchId;
         var data1,data2,data3,data4,data5 = '';
         data1 = req.body.data1;
         data2 = req.body.data2;
@@ -106,7 +108,9 @@ class SetBranchController{
             }else{
                 d1 = config.pb_statistics.bType;
             }
+
             //保存数据
+            d1.branchId = branchId;
             settingService.setItem(d1,(err,data)=>{
                 if(err){
                     throw new Error(err);
@@ -125,6 +129,7 @@ class SetBranchController{
                 d2 = config.pb_statistics.gender;
             }
             //保存数据
+            d2.branchId = branchId;
             settingService.setItem(d2,(err,data)=>{
                 if(err){
                     throw new Error(err);
@@ -149,6 +154,7 @@ class SetBranchController{
                 d3 = config.pb_statistics.dl;
             }
             //保存数据
+            d3.branchId = branchId;
             settingService.setItem(d3,(err,data)=>{
                 if(err){
                     throw new Error(err);
@@ -172,6 +178,7 @@ class SetBranchController{
                 d4 = config.pb_statistics.education;
             }
             //保存数据
+            d4.branchId = branchId;
             settingService.setItem(d4,(err,data)=>{
                 if(err){
                     throw new Error(err);
@@ -195,6 +202,7 @@ class SetBranchController{
                 d5 = config.pb_statistics.age;
             }
             //保存数据
+            d5.branchId = branchId;
             settingService.setItem(d5,(err,data)=>{
                 if(err){
                     throw new Error(err);

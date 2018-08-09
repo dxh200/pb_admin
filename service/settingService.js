@@ -15,7 +15,13 @@ class SettingService{
      */
     async setItem(options,callback){
         try{
-            var countObj = await this.countItem({'key':options.key});
+            var countObj = 0;
+            if(options.branchId){
+                countObj = await this.countItem({'key':options.key,branchId:options.branchId});
+            }else{
+                countObj = await this.countItem({'key':options.key});
+            }
+
             if(parseInt(countObj)>0){
                 await this._updateItem(options,callback);
             }else{
@@ -51,7 +57,14 @@ class SettingService{
      * @returns {Promise<void>}
      */
     async _updateItem(options,callback){
-        await SettingModel.update({"key":options.key},{$set:options},(err,raw)=>{
+        var queryOption = {};
+        if(options.branchId){
+            queryOption.key = options.key;
+            queryOption.branchId = options.branchId;
+        }else{
+            queryOption.key = options.key;
+        }
+        await SettingModel.update(queryOption,{$set:options},(err,raw)=>{
             if(err){
                 callback(err);
             }else{
@@ -76,7 +89,24 @@ class SettingService{
                 }
             });
         });
+    }
 
+    /**
+     * 根据key，branchId查询
+     * @param key
+     * @param branchId
+     * @returns {Promise<any>}
+     */
+    async getItem(key,branchId){
+        return await new Promise((resolve,reject)=>{
+            SettingModel.findOne({key:key,branchId:branchId},"-cTime -uTime",(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data);
+                }
+            });
+        });
     }
 
     /**

@@ -14,5 +14,8 @@ router.get('/toEdit',archiveController.toEdit);
 router.post('/edit',archiveController.edit);
 router.post('/del',archiveController.del);
 router.post('/getList',archiveController.getList);
+router.get('/toDeveloping',archiveController.toDeveloping);
+router.get('/toEditDeveloping',archiveController.toEditDeveloping);
+router.post('/editDeveloping',archiveController.editDeveloping);
 
 module.exports = router;

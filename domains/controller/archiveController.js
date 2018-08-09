@@ -7,6 +7,7 @@ const fs = require("fs");
 const path = require('path');
 const moment = require('moment');
 const fileUploadUtil = require('./../../utils/FileUploadUtil');
+const config = require('config-lite')(__dirname);
 /**
  * 党员控制器
  */
@@ -24,7 +25,7 @@ class ArchiveController{
      * @returns {Promise<void>}
      */
     async index(req,res,next){
-        res.render("admin/archive/index")
+        res.render("admin/archive/index",{baseUrl:config.baseUrl})
     }
 
     /**
@@ -219,6 +220,117 @@ class ArchiveController{
             });
         }else{
             return null;
+        }
+    }
+
+    //============================
+    /**
+     * 进入列表页面
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async toDeveloping(req,res,next){
+        var archiveId = req.query.id;
+        var data = await archiveService.findDevelopByArchiveId(archiveId,"params");
+        var result = {};
+        if(data){
+            var dataParams = data.params.data;
+            for(let i=1;i<=25;i++){
+                let d = "data"+i;
+                if(dataParams[d]){
+                    if(dataParams[d].status=='1'){
+                        result[d] = {s:dataParams[d].status,d:dataParams[d].date}
+                    }else{
+                        result[d] = {s:dataParams[d].status}
+                    }
+
+                }else{
+                    result[d] = {s:"0"};
+                }
+            }
+        }else{
+            for(let i=1;i<=25;i++){
+                let d = "data"+i;
+                result[d] = {s:"0"};
+            }
+        }
+        res.render("admin/archive/developing",{archiveId:archiveId,result:result,baseUrl:config.baseUrl})
+    }
+
+    /**
+     * 党员阶段内容编辑页
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async toEditDeveloping(req,res,next){
+        var archiveId = req.query.archiveId;
+        var field = req.query.field;
+        var content = "";
+        var status = "0";
+        var id = "";
+        var data = await archiveService.findDevelopByArchiveId(archiveId,field+" params");
+        if(data){
+            content = data[field] ;
+            if(data.params.data[field]){
+                status = data.params.data[field].status;
+            }
+            id = data._id;
+        }
+        res.render("admin/archive/editDeveloping",{id:id,archiveId:archiveId,field:field,content:content,status:status,baseUrl:config.baseUrl})
+    }
+
+    /**
+     * 党员阶段内容编辑
+     * @param req
+     * @param res
+     * @param next
+     * @returns {Promise<void>}
+     */
+    async editDeveloping(req,res,next){
+        try{
+            var options = {};
+            var id = req.body.id;
+            var archiveId = req.body.archiveId;
+            var field = req.body.field;
+            var content = req.body.content;
+            var status = req.body.status;
+            var jsonStr = '{"archiveId":"'+archiveId+'","'+field+'":""}';
+
+            //当前数据params
+            var currentParams = JSON.parse('{"'+field+'":{"status":"'+status+'"}}');
+            var paramsObj = {currentStage:1,state:1,data:{}};
+            var num = field.substring("data".length, field.length);
+            if(num<=2){
+                paramsObj.currentStage = 1;
+            }else if(num>2 && num<=6){
+                paramsObj.currentStage = 2;
+            }else if(num>6 && num<=11){
+                paramsObj.currentStage = 3;
+            }else if(num>11 && num<=18){
+                paramsObj.currentStage = 4;
+            }else if(num>18 && num<=25){
+                paramsObj.currentStage = 5;
+            }
+            paramsObj.state = num;
+            paramsObj.data = currentParams;
+
+            options = JSON.parse(jsonStr);
+            options[field] = content;
+            options.params = paramsObj;
+
+            //判断是否通过
+            if(options.params.data[field].status=='1'){
+                options.params.data[field].date = moment(new Date()).format('YYYY-MM-DD HH:mm');
+            }
+
+            await archiveService.editDevelop(id,options,field);
+            res.json(ResultAjax.SUCCESS("success",{}));
+        }catch(err){
+            res.json(ResultAjax.FAILED(err.message,{}));
         }
     }
 }

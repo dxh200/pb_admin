@@ -68,7 +68,7 @@ app.use((req,res,next)=>{
             res.redirect('/login/index');
         }
     }else{
-        if(_url_.indexOf('logout')>-1 || _url_.indexOf('client')>-1){
+        if(_url_.indexOf('logout')>-1 || _url_.indexOf('client')>-1 || _url_.indexOf('ueditor')>-1){
             next();
         }else{
             if(userInfo){

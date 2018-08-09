@@ -8,9 +8,10 @@ const moment = require('moment');
 
 
 const settingSchema = new mongoose.Schema({
-    key:{type:String,default:""},        //支部名称
+    key:{type:String,default:""},        //KEY
     val:mongoose.Schema.Types.Mixed,
     type:{type:String,default:""},        //0同步、1手动
+    branchId:{type:String,default:""},    //支部ID
     cTime:{type:Date},
     uTime:{type:Date}
 },{
