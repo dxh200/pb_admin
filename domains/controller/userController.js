@@ -194,6 +194,27 @@ class UserController{
         });
     }
 
+    /**
+     * 验证用户名是否存在
+     * @param req
+     * @param res
+     * @returns {Promise<void>}
+     */
+    async isExistAccount(req,res){
+        let account = req.body.account;
+        userService.findUser({account:account},"account",function(err,data){
+            if(err){
+                res.json(false);
+            }else{
+                if(data){
+                    res.json(false);
+                }else{
+                    res.json(true);
+                }
+            }
+        })
+    }
+
 }
 
 module.exports = new UserController();

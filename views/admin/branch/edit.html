@@ -22,55 +22,55 @@
           </div>
           <div class="ibox-content">
             <form class="form-horizontal m-t" id="editForm" action="/admin/branch/edit" method="post" enctype="multipart/form-data">
-              <input type="hidden" name="id" value="<%=data._id%>" />
+              <input type="hidden" name="id" id="id" value="<%=data._id%>" />
               <input type="hidden" name="type" value="<%=data.type%>" />
-              <input type="hidden" name="photo" value="<%=data.photo%>" />
+              <input type="hidden" name="photo" id="photo" value="<%=data.photo%>" />
               <input type="hidden" name="lng" id="lng" value="<%=data.lng%>" />
               <input type="hidden" name="lat" id="lat" value="<%=data.lat%>" />
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部名称：</label>
-                <div class="col-sm-8">
-                  <input id="bName" name="bName" minlength="2" type="text" value="<%=data.bName%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="bName" name="bName" type="text" value="<%=data.bName%>" class="form-control"  >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部电话：</label>
-                <div class="col-sm-8">
-                  <input id="tel" name="tel" minlength="2" type="text" value="<%=data.tel%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="tel" name="tel" type="text" value="<%=data.tel%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部地址：</label>
-                <div class="col-sm-8">
-                  <input id="address" name="address" minlength="2" type="text" value="<%=data.address%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="address" name="address" type="text" value="<%=data.address%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部Email：</label>
-                <div class="col-sm-8">
-                  <input id="email" name="email" minlength="2" type="text" value="<%=data.email%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="email" name="email"  type="text" value="<%=data.email%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label" style="float: left;">支部封面：</label>
                 <div class="col-sm-8">
-                  <input type="file" name="file" id="filePhoto" style="display: none;"/>
                   <%if(data.photo){%>
                   <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="<%=data.photo%>" />
                   <%}else{%>
-                  <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="/img/webuploader.png" />
+                  <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="/img/img.png" />
                   <%}%>
+                  <input type="file" name="file" id="filePhoto" style="width: 0px;height: 0px"/>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部简介：</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                   <textarea id="summary" name="summary" class="form-control"><%=data.summary%></textarea>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">支部位置：</label>
-                <div class="col-sm-8">
+                <div class="col-sm-6">
                   <iframe width="100%" height="300" name="parent" frameborder="0" scrolling="no" src="/common/baiDu.html?lng=<%=data.lng%>&lat=<%=data.lat%>"></iframe>
                   <br/>注意：请拖拽小红点选择支部地址
                 </div>
@@ -78,7 +78,7 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label">发布时间：</label>
                 <div class="col-sm-3">
-                  <input id="customTime" name="customTime" minlength="2" type="text" readonly value="<%=data.customTime%>" class="form-control" required="" aria-required="true">
+                  <input id="customTime" name="customTime"  type="text" readonly value="<%=data.customTime%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
@@ -124,6 +124,66 @@
     var _id_ = '<%=data._id%>';
     jQuery(function(){
 
+        jQuery.validator.setDefaults({
+            highlight: function (element) {
+                jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            success: function (element) {
+                element.closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                if (element.is(":radio") || element.is(":checkbox")) {
+                    error.appendTo(element.parent().parent().parent());
+                } else {
+                    error.appendTo(element.parent());
+                }
+            },
+            errorClass: "help-block m-b-none",
+            validClass: "help-block m-b-none"
+        });
+
+       //验证
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        jQuery("#editForm").validate({
+            rules: {
+                bName: {
+                    required: true,
+                    maxlength: 30
+                },
+                tel: {
+                    required: true,
+                    maxlength: 20
+                },
+                address:{
+                    required: true,
+                    maxlength: 20
+                },
+                email: {
+                    required: false,
+                    email: true
+                }
+            },
+            messages: {
+                bName: {
+                    required: icon + "请输入支部名称",
+                    maxlength: icon + "支部名称最多可输入{0}字符"
+                },
+                tel:{
+                    required: icon + "请输入支部电话",
+                    maxlength: icon + "支部电话最多可输入{0}字符"
+                },
+                address:{
+                    required: icon + "请输入支部地址",
+                    maxlength: icon + "支部地址最多可输入{0}字符"
+                },
+                email: {
+                    required:icon + "请输入您的E-mail",
+                    email: icon+"E-mail格式错误"
+                }
+            }
+        });
+
         //日期
         jQuery("#customTime").datepicker({autoclose:true});
 
@@ -137,14 +197,29 @@
             var filePhoto = jQuery("#filePhoto");
             filePhoto.unbind("change");
             filePhoto.change(function(){
+                var fileVal = filePhoto.val();
+                var suffix = fileVal.substring(fileVal.lastIndexOf(".")+1,fileVal.length).toLocaleLowerCase();
+                if(!/(gif|jpg|jpeg|png|bpm)$/.test(suffix)){
+                    layer.alert("支持可上传图片类型为[GIF,JPG,JPEG,PNG,BPM]");return false;
+                }
+
                 base64Img('act_photo','filePhoto');
             });
             filePhoto.trigger('click');
         });
 
         jQuery('#subBtn').click(function(){
-            onSubmitForm();
-            return false;
+            var fileVal = jQuery("#filePhoto").val();
+            if(jQuery("#editForm").valid()){
+                if(_id_==""){
+                    if(fileVal==""){
+                        layer.alert("请选择支部封面图片");return false;
+                    }
+                }
+                onSubmitForm();
+                return false;
+            }
+
         });
     })
     function onSubmitForm(){

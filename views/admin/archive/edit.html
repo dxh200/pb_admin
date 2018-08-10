@@ -27,7 +27,7 @@
               <input type="hidden" name="headImg" value="<%=data.headImg%>" />
               <table class="tabtop" width="100%" border="1" cellpadding="1" cellspacing="0" align="center">
                 <tr>
-                  <td width="10%" height="30">姓名</td>
+                  <td width="10%" height="30">姓名*</td>
                   <td width="10%"><input type="text" name="name" id="name" value="<%=data.name%>" /></td>
                   <td width="10%">性别</td>
                   <td width="10%">
@@ -40,8 +40,8 @@
                       <label for="gender2">女</label>
                     </div>
                   </td>
-                  <td width="10%">出生日期</td>
-                  <td width="10%"><input type="text" name="birthDate" id="birthDate" value="<%=data.birthDate%>" /></td>
+                  <td width="10%">出生日期*</td>
+                  <td width="10%"><input type="text" name="birthDate"  readonly id="birthDate" value="<%=data.birthDate%>" /></td>
                   <td width="10%" rowspan="4">
                     <div class="photo">
                       <input type="file" id="headImgFile" name="file" style="display: none;" />
@@ -54,9 +54,9 @@
                   </td>
                 </tr>
                 <tr>
-                  <td>民族</td>
+                  <td>民族*</td>
                   <td><input type="text" name="nation" id="nation" value="<%=data.nation%>" /></td>
-                  <td>籍贯</td>
+                  <td>籍贯*</td>
                   <td><input type="text" name="nativePlace" id="nativePlace" value="<%=data.nativePlace%>" /></td>
                   <td>户籍所在地</td>
                   <td><input type="text" name="registered" id="registered" value="<%=data.registered%>" /></td>
@@ -64,13 +64,13 @@
                 <tr>
                   <td>现居住地</td>
                   <td><input type="text" name="residence" id="residence" value="<%=data.residence%>" /></td>
-                  <td>手机</td>
+                  <td>手机*</td>
                   <td><input type="text" name="mobile" id="mobile" value="<%=data.mobile%>" /></td>
                   <td>QQ/微信</td>
                   <td><input type="text" name="qqwX" id="qqwX" value="<%=data.qqwX%>" /></td>
                 </tr>
                 <tr>
-                  <td>身份证</td>
+                  <td>身份证*</td>
                   <td colspan="2"><input type="text" name="idCard" id="idCard" value="<%=data.idCard%>" /></td>
                   <td>婚姻状况</td>
                   <td colspan="2" style="text-align: left">
@@ -86,7 +86,7 @@
                   </td>
                 </tr>
                 <tr>
-                  <td width="10%">全日制教育</td>
+                  <td width="10%">全日制教育*</td>
                   <td colspan="2">
                     <select name="ftEducation" id="ftEducation">
                       <option value="">==选择学历==</option>
@@ -103,17 +103,17 @@
                   <td colspan="3"><input type="text" name="ftSchool" id="ftSchool" value="<%=data.ftSchool%>" /></td>
                 </tr>
                 <tr>
-                  <td>参加工作日期</td>
-                  <td><input type="text" name="swDate" id="swDate" value="<%=data.swDate%>" /></td>
+                  <td>参加工作日期*</td>
+                  <td><input type="text" name="swDate" id="swDate"  readonly value="<%=data.swDate%>" /></td>
                   <td>入党时间</td>
-                  <td><input type="text" name="rdDate" id="rdDate" value="<%=data.rdDate%>" /></td>
+                  <td><input type="text" name="rdDate" id="rdDate" readonly value="<%=data.rdDate%>" /></td>
                   <td>转正时间</td>
-                  <td colspan="2"><input type="text" name="zzDate" id="zzDate" value="<%=data.ftSchool%>" /></td>
+                  <td colspan="2"><input type="text" name="zzDate" readonly id="zzDate" value="<%=data.ftSchool%>" /></td>
                 </tr>
                 <tr>
                   <td>进入现党支部时间</td>
-                  <td><input type="text" name="branchDate" id="branchDate" value="<%=data.branchDate%>" /></td>
-                  <td>现党支部</td>
+                  <td><input type="text" name="branchDate" id="branchDate" readonly value="<%=data.branchDate%>" /></td>
+                  <td>现党支部*</td>
                   <td>
                     <select name="branchId" id="branchId">
                       <option value="">==选择支部==</option>
@@ -122,7 +122,7 @@
                       <%})%>
                     </select>
                   </td>
-                  <td>现党支部职务</td>
+                  <td>现党支部职务*</td>
                   <td colspan="2">
                     <select name="position" id="position">
                       <option value="">==选择支部职务==</option>
@@ -164,14 +164,14 @@
                 </tr>
                 <tr>
                   <td>民主评议时间</td>
-                  <td colspan="2"><input type="text" name="pyDate" id="pyDate" value="<%=data.pyDate%>" /></td>
+                  <td colspan="2"><input type="text" name="pyDate" readonly id="pyDate" value="<%=data.pyDate%>" /></td>
                   <td>民主评议内容</td>
                   <td colspan="3"><input type="text" name="pyContent" id="pyContent" value="<%=data.pyContent%>" /></td>
                 </tr>
                 <tr>
                   <td>优秀事迹</td>
                   <td colspan="6" style="text-align: left">&nbsp;
-                    <textarea name="goodDeeds" id="goodDeeds"><%=data.goodDeeds%></textarea>
+                    <textarea name="goodDeeds" id="goodDeeds" class="form-control"><%=data.goodDeeds%></textarea>
                   </td>
                 </tr>
                 <tr>
@@ -205,7 +205,7 @@
                     </div>
                   </td>
                   <td>发布时间</td>
-                  <td colspan="3"><input id="customTime" name="customTime"  type="text" value="<%=data.customTime%>" ></td>
+                  <td colspan="3"><input id="customTime" name="customTime" readonly type="text" value="<%=data.customTime%>" ></td>
                 </tr>
               </table>
               <div class="form-group btn_form" style="margin-top: 20px;">
@@ -236,7 +236,85 @@
 <script src="/js/base64.js"></script>
 <script>
     var _id_ = '<%=data._id%>';
+
     jQuery(document).ready(function(){
+
+        jQuery.validator.setDefaults({
+            highlight: function (element) {
+                jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            success: function (element) {
+                element.closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                if (element.is(":radio") || element.is(":checkbox")) {
+                    error.appendTo(element.parent().parent().parent());
+                } else {
+                    error.appendTo(element.parent());
+                }
+            },
+            errorClass: "help-block m-b-none",
+            validClass: "help-block m-b-none"
+        });
+
+        //验证
+        jQuery("#editForm").validate({
+            rules: {
+                name: {
+                    required: true,
+                    maxlength: 10
+                },
+                birthDate:{
+                    required: true,
+                },
+                nation:{//民族
+                    required: true,
+                    maxlength: 10
+                },nativePlace:{//籍贯
+                    required: true,
+                    maxlength: 30
+                },mobile:{//手机*
+                    required: true,
+                    maxlength: 20
+                },idCard:{//身份证
+                    required: true,
+                    maxlength: 20
+                }
+            },
+            messages: {
+                name: {
+                    required: "请输入姓名",
+                    maxlength:"姓名最多可输入{0}字符"
+                },birthDate:{
+                    required: "请选择出生日期"
+                },
+                nation:{//民族
+                    required: "请输入民族",
+                    maxlength:"民族最多可输入{0}字符"
+                },nativePlace:{//籍贯
+                    required: "请输入籍贯",
+                    maxlength:"籍贯最多可输入{0}字符"
+                },mobile:{//手机*
+                    required: "请输入手机",
+                    maxlength:"手机最多可输入{0}字符"
+                },idCard:{//身份证
+                    required: "请输入身份证",
+                    maxlength:"身份证多可输入{0}字符"
+                }
+            },
+            showErrors:function(errorMap,errorList){
+                var msg = "";
+                if(errorList.length>0){
+                    msg =  errorList[0].message;
+                }
+                if(msg!="") layer.alert(msg);
+
+            },
+            /* 失去焦点时不验证 */
+            onfocusout: false,
+            onkeyup:false
+        });
 
         //日期
         jQuery("#birthDate,#customTime,#swDate,#rdDate,#zzDate,#branchDate,#pyDate").datepicker({autoclose:true});
@@ -271,7 +349,16 @@
         });
 
         jQuery('#subBtn').click(function(){
-            onSubmitForm();
+            if(jQuery("#editForm").valid()){
+                if(_id_==""){
+                    var fileVal = jQuery("#headImgFile").val();
+                    if(fileVal==""){
+                        layer.alert("请上传头像");return false;
+                    }
+                }
+                onSubmitForm();
+                return false;
+            }
         });
     });
 

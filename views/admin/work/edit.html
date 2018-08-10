@@ -6,6 +6,7 @@
   <title>学习宣传</title>
   <link href="/css/bootstrap.min.css" rel="stylesheet">
   <link href="/css/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+  <link href="/css/plugins/datapicker/datepicker3.css" rel="stylesheet">
   <link href="/css/font-awesome.css" rel="stylesheet">
   <link href="/css/animate.css" rel="stylesheet">
   <link href="/css/style.css" rel="stylesheet">
@@ -29,25 +30,25 @@
               <input type="hidden" name="summary" id="summary" value="<%=data.summary%>" />
               <div class="form-group">
                 <label class="col-sm-3 control-label">标题：</label>
-                <div class="col-sm-8">
-                  <input id="title" name="title" minlength="2" type="text" value="<%=data.title%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="title" name="title"  type="text" value="<%=data.title%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">来源：</label>
-                <div class="col-sm-8">
-                  <input id="source" name="source" minlength="2" type="text" value="<%=data.source%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="source" name="source"  type="text" value="<%=data.source%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">作者：</label>
-                <div class="col-sm-8">
-                  <input id="author" name="author" minlength="2" type="text" value="<%=data.author%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-4">
+                  <input id="author" name="author"  type="text" value="<%=data.author%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">分类：</label>
-                <div class="col-sm-8">
+                <div class="col-sm-4">
                   <div class="radio radio-info radio-inline">
                     <input type="radio" name="category" id="c1" value="1">
                     <label for="c1">会议记录</label>
@@ -65,13 +66,13 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label" style="float: left;">封面图片：</label>
                 <div class="col-sm-8">
-                  <div id="file-pretty">
-                    <input type="file" name="file"  />
+                    <%if(data.photo){%>
+                    <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="<%=data.photo%>" />
+                    <%}else{%>
+                    <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="/img/img.png" />
+                    <%}%>
+                    <input type="file" name="file" id="filePhoto" style="width: 0px;height: 0px"/>
                   </div>
-                  <%if(data.photo){%>
-                    <img src="<%=data.photo%>" width="50"/>
-                  <%}%>
-                </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">内容：</label>
@@ -81,21 +82,21 @@
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">发布时间：</label>
-                <div class="col-sm-8">
-                  <input id="customTime" name="customTime" minlength="2" type="text" value="<%=data.customTime%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-3">
+                  <input id="customTime" name="customTime"  type="text" value="<%=data.customTime%>" class="form-control" readonly>
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">访问量：</label>
-                <div class="col-sm-8">
-                  <input id="num" name="num" minlength="2" type="text" value="<%=data.num%>" class="form-control" required="" aria-required="true">
+                <div class="col-sm-3">
+                  <input id="num" name="num"  type="text" value="<%=data.num%>" class="form-control" >
                 </div>
               </div>
               <div class="form-group">
                 <label class="col-sm-3 control-label">显示/隐藏：</label>
                 <div class="col-sm-8">
                   <div class="radio radio-info radio-inline">
-                    <input type="radio" name="status" id="status1" value="1">
+                    <input type="radio" name="status" id="status1" value="1" checked>
                     <label for="status1">显示</label>
                   </div>
                   <div class="radio radio-info radio-inline">
@@ -131,6 +132,8 @@
 <script src="/ueditor/lang/zh-cn/zh-cn.js"></script>
 <!-- prettyfile -->
 <script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+<script src="/js/plugins/datapicker/bootstrap-datepicker.js"></script>
+<script src="/js/base64.js"></script>
 
 <script>
     var _id_ = '<%=data._id%>';
@@ -140,6 +143,63 @@
     });
     jQuery(function(){
 
+        jQuery.validator.setDefaults({
+            highlight: function (element) {
+                jQuery(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            success: function (element) {
+                element.closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: "span",
+            errorPlacement: function (error, element) {
+                if (element.is(":radio") || element.is(":checkbox")) {
+                    error.appendTo(element.parent().parent().parent());
+                } else {
+                    error.appendTo(element.parent());
+                }
+            },
+            errorClass: "help-block m-b-none",
+            validClass: "help-block m-b-none"
+        });
+
+        //验证
+        var icon = "<i class='fa fa-times-circle'></i> ";
+        jQuery("#editForm").validate({
+            rules: {
+                title: {
+                    required: true,
+                    maxlength: 30
+                },
+                source: {
+                    required: true,
+                    maxlength: 10
+                },
+                category:{
+                    required: true
+                },
+                num:{
+                    digits:true
+                }
+            },
+            messages: {
+                title: {
+                    required: icon + "请输入标题",
+                    maxlength: icon + "支标题最多可输入{0}字符"
+                },
+                source:{
+                    required: icon + "请输入来源",
+                    maxlength: icon + "来源最多可输入{0}字符"
+                },
+                category:{
+                    required: icon + "请选择分类"
+                }
+            }
+        });
+
+        //日期
+        jQuery("#customTime").datepicker({autoclose:true});
+
+
         //category
         jQuery(':radio[name="category"][value="<%=data.category%>"]').attr('checked',true);
 
@@ -148,10 +208,27 @@
 
         //file
         jQuery('#file-pretty input[type="file"]').prettyFile();
+        //file
+        jQuery('.PhotoImgBtn').click(function(){
+            var filePhoto = jQuery("#filePhoto");
+            filePhoto.unbind("change");
+            filePhoto.change(function(){
+                var fileVal = filePhoto.val();
+                var suffix = fileVal.substring(fileVal.lastIndexOf(".")+1,fileVal.length).toLocaleLowerCase();
+                if(!/(gif|jpg|jpeg|png|bpm)$/.test(suffix)){
+                    layer.alert("支持可上传图片类型为[GIF,JPG,JPEG,PNG,BPM]");return false;
+                }
+
+                base64Img('act_photo','filePhoto');
+            });
+            filePhoto.trigger('click');
+        });
 
         jQuery('#subBtn').click(function(){
-            onSubmitForm();
-            return false;
+            if(jQuery("#editForm").valid()){
+                onSubmitForm();
+                return false;
+            }
         });
     })
     function onSubmitForm(){

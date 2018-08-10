@@ -14,5 +14,6 @@ router.get('/toEdit',userController.toEdit);
 router.post('/edit',userController.edit);
 router.post('/del',userController.del);
 router.post('/getList',userController.getList);
+router.post('/isExistAccount',userController.isExistAccount);
 
 module.exports = router;
