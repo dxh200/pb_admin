@@ -7,6 +7,7 @@ body.signin {
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+    color: rgba(255,255,255,.95);
 }
 
 .signinpanel {
@@ -45,11 +46,11 @@ body.signin {
 }
 
 .signinpanel form {
-    background: rgba(255, 255, 255, 0.2);
+    background: #d6e6f5;
     border: 1px solid rgba(255,255,255,.3);
     -moz-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
-    -webkit-box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
-    box-shadow: 0 3px 0 rgba(12, 12, 12, 0.03);
+    -webkit-box-shadow: 0 3px 3px #ddd;
+    box-shadow: 0 3px 3px #ddd;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -94,7 +95,7 @@ body.signin {
 
 .col-sm-8{margin: 0 auto;float: initial;width:500px;position: fixed;top:50%;left:50%;transform: translate(-50%,-50%);-webkit-transform: translate(-50%,-50%);-moz-transform: translate(-50%,-50%);}
 .no-margins{text-align: center;font-weight: 600;font-size: 20px;color:#1c84c6;letter-spacing: 2px;line-height: 30px;}
-.forget{height: 30px;line-height: 30px;margin-top: 20px;}
+.forget{height: 30px;line-height: 30px;margin-top: 20px;clear: both;}
 .text-muted{margin: 20px 0 0;}
 .iCheck-helper{border: 1px solid #2c8f7b !important;opacity: 1 !important;background: none !important;width:18px !important;height: 18px !important;}
 .signinpanel .btn:active{background: #1a7bb9;}
@@ -117,7 +118,7 @@ body.signin {
 .agree{vertical-align: middle;color:#888;}
 .gohome{display: none;}
 .code{height: 34px;position: relative;}
-.signinpanel .code input{width:75%;float: left;margin-top: 0;background: #fff;}
+.signinpanel .code input{width:75%;float: left;margin-top: 0;background: #fff;color: #333;}
 .code img{width:90px;height: 33px;float: right;cursor: pointer;}
 .code .fa-file-text{font-size: 15px;color:#515151;position: absolute;top:9px;right: 120px;}
 

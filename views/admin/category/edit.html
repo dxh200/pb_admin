@@ -33,12 +33,12 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label" style="float: left;">图片：</label>
                 <div class="col-sm-8">
-                  <div id="file-pretty">
-                    <input type="file" name="file"  />
-                  </div>
                   <%if(data.photo){%>
-                  <img src="<%=data.photo%>" width="50"/>
+                  <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="<%=data.photo%>" />
+                  <%}else{%>
+                  <img alt="image" id="act_photo" class="PhotoImgBtn img-preview" style="cursor:pointer; width: 200px;" src="/img/img.png" />
                   <%}%>
+                  <input type="file" name="file" id="filePhoto" style="display: none;"/>
                 </div>
               </div>
               <div class="form-group">
@@ -89,6 +89,7 @@
 <script src="/js/plugins/layer/layer.min.js"></script>
 <!-- prettyfile -->
 <script src="/js/plugins/prettyfile/bootstrap-prettyfile.js"></script>
+<script src="/js/base64.js"></script>
 
 <script>
     var _id_ = '<%=data._id%>';
@@ -99,6 +100,21 @@
 
         //file
         jQuery('#file-pretty input[type="file"]').prettyFile();
+        //file
+        jQuery('.PhotoImgBtn').click(function(){
+            var filePhoto = jQuery("#filePhoto");
+            filePhoto.unbind("change");
+            filePhoto.change(function(){
+                var fileVal = filePhoto.val();
+                var suffix = fileVal.substring(fileVal.lastIndexOf(".")+1,fileVal.length).toLocaleLowerCase();
+                if(!/(gif|jpg|jpeg|png|bpm)$/.test(suffix)){
+                    layer.alert("支持可上传图片类型为[GIF,JPG,JPEG,PNG,BPM]");return false;
+                }
+
+                base64Img('act_photo','filePhoto');
+            });
+            filePhoto.trigger('click');
+        });
 
         //提交数据
         jQuery('#subBtn').click(function(){

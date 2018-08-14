@@ -82,6 +82,6 @@ body{font-size: 14px;}
 .message select{border: none;width: 100%;outline: none;text-align: center;padding: 0 5px;height: 29px;}
 .message .chose label{margin-bottom: 0;}
 .message .chose{width: 20%;display: block;float: left;margin-left: 0;}
-.message .photo{padding: 5px;width:100%;}
+.message .photo{padding: 5px;width:100%;height: 100%;}
 .message img{width:100px;height:100%;object-fit: cover;object-position: center;cursor: pointer;}
 .message .marriage{width:30%;}

@@ -4,7 +4,7 @@ module.exports = {
     //数据库连接
     mongooseUrl:'mongodb://127.0.0.1:27017/pbAdmin',
     //系统访问路径
-    baseUrl:"http://localhost:3000",
+    baseUrl:"http://192.168.111.75:3000",
     //运营数据
     operation:{
         //手动

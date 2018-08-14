@@ -56,7 +56,7 @@ app.use(express.static(path.join(__dirname, 'resources')));
 app.use("/upload",express.static(path.join(__dirname, 'upload')));
 
 //session配置
-/*app.use((req,res,next)=>{
+app.use((req,res,next)=>{
     var _url_ = req.url;
     var userInfo = req.session.userInfo;
     //判断是否访问后台
@@ -78,7 +78,7 @@ app.use("/upload",express.static(path.join(__dirname, 'upload')));
             }
         }
     }
-});*/
+});
 
 //路由配置
 app.use('/', loginRouter);
