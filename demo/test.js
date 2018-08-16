@@ -6,19 +6,25 @@ const NumberUtil = require('./../utils/NumberUtil')
 
 console.log(md5('1'));
 
-console.log(NumberUtil.convertNumber('33e234'));
+console.log(moment("123","YYYY-MM-DD",true).isValid());
 
+var data = "[[0,0,0,0,0,0],[0,0,0,0,]]";
+var dataObj = null;
+try {
+    dataObj = JSON.parse(data);
+}catch(e){
+    console.log(e.message);
+}
+if(dataObj){
+    if(dataObj.length==2){
+        if(dataObj[0].length!=6 && dataObj[1].length!=6){
+            console.log("数据JSON格式错误");
+        }
+    }else{
+        console.log("数据JSON格式错误");
+    }
+}else{
+    console.log("数据JSON格式错误");
+}
 
-
-const birthdayYear = moment("1987-02-03",'YYYY-MM-DD').year();
-const newYear = new Date().getFullYear();
-console.log(newYear - birthdayYear);
-
-var a = '{"'+field+'":{"status":"'+status+'"}}';
-var b = {};
-b.a = "s";
-console.log(b);
-
-
-
-
+console.log(dataObj);

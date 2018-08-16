@@ -16,7 +16,6 @@ body{font-size: 14px;}
 }
 .entering{float: right;}
 .entering .btn-default{background: none;color:#333;margin-left: 15px;}
-.entering .btn:first-child{padding:0;}
 .entering .btn-default a{width:100%;height: 100%;display: block;color: #333;padding: 6px 20px;}
 .entering .btn-default:hover{background: #c2c2c2;color:#fff;}
 .entering .btn-default a:hover{background: #c2c2c2;color:#fff;}

@@ -5,6 +5,8 @@ module.exports = {
     mongooseUrl:'mongodb://127.0.0.1:27017/pbAdmin',
     //系统访问路径
     baseUrl:"http://192.168.111.75:3000",
+    //系统后台支部默认坐标，主要使用【支部接口API，系统后添加支部百度地图默认坐标（resources/common/baiDu.html）没有关联config】
+    location:"112.616725,37.712248",
     //运营数据
     operation:{
         //手动

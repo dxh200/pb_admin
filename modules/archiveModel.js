@@ -16,12 +16,12 @@ const archiveSchema = new mongoose.Schema({
     idCard:{type:String,default:""},        //身份证
     nation:{type:String,default:""},        //民族
     nativePlace:{type:String,default:""},   //籍贯
-    marriage:{type:String,default:""},      //婚姻状况 0未婚1已婚
+    marriage:{type:String,default:"0"},      //婚姻状况 0未婚1已婚
     registered:{type:String,default:""},    //户籍所在地
     residence:{type:String,default:""},     //现居住地
     mobile:{type:String,default:""},        //手机
     qqwX:{type:String,default:""},          //QQ微信
-    ftEducation:{type:String,default:"1"},    //全日制教育[小学、初中、高中、大专、本科、硕士、博士]
+    ftEducation:{type:String,default:"4"},    //全日制教育[小学、初中、高中、大专、本科、硕士、博士]
     ftSchool:{type:String,default:""},      //毕业院校及专业
 
     swDate:{type:String,default:""},        //参加工作日期
@@ -44,7 +44,7 @@ const archiveSchema = new mongoose.Schema({
     bType:{type:String,default:"5"},        //党员类型[1入党申请、2积极分子、3发展对象、4预备党员、5转正党员]
     good:{type:String,default:"0"},         //优秀党员工作者[1优秀党员、2优秀工作者]
 
-    df:{type:String,default:""},            //党费
+    df:{type:String,default:"0"},            //党费
     type:{type:String,default:""},          //0同步、1手动
     status:{type:Number,default:1},         //状态1显示、0隐藏
     cTime:{type:Date},

@@ -121,5 +121,5 @@ body.signin {
 .signinpanel .code input{width:75%;float: left;margin-top: 0;background: #fff;color: #333;}
 .code img{width:90px;height: 33px;float: right;cursor: pointer;}
 .code .fa-file-text{font-size: 15px;color:#515151;position: absolute;top:9px;right: 120px;}
-
+.layui-layer-dialog .layui-layer-content{color:#555}
 

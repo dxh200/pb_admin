@@ -15,6 +15,7 @@ var svgCaptcha = require('svg-captcha');
 var adminRouter = require('./routes/admin');
 var loginRouter = require('./routes/login');
 var clientRouter = require('./routes/client');
+var apiouter = require('./routes/api');
 
 var app = express();
 
@@ -85,6 +86,7 @@ app.use('/', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/login', loginRouter);
 app.use('/client', clientRouter);
+app.use('/api', apiouter);
 
 //ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, res, next) {

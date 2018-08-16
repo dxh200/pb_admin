@@ -105,6 +105,24 @@ class BranchService{
     }
 
     /**
+     * 查询支部
+     * @param queryOption
+     * @param fields
+     * @returns {Promise<any>}
+     */
+    async findBranch(queryOption,fields){
+        return new Promise((resolve, reject)=>{
+            BranchModel.findOne(queryOption,fields,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data)
+                }
+            })
+        });
+    }
+
+    /**
      * 查询全部支部信息
      * @param queryOption  查询条件
      * @param friends      查询字段多个空格分隔

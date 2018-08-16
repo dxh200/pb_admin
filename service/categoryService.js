@@ -81,6 +81,25 @@ class CategoryService{
     }
 
     /**
+     * 查询分类
+     * @param queryOption
+     * @param fields
+     * @param callback
+     * @returns {Promise<any>}
+     */
+    async findCategory(queryOption,fields){
+        return new Promise((resolve, reject)=>{
+            CategoryModel.findOne(queryOption,fields,(err,data)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(data)
+                }
+            })
+        });
+    }
+
+    /**
      * 根据id查询分类名称
      * @param id
      * @param callback
@@ -113,6 +132,24 @@ class CategoryService{
         });
     }
 
+    /**
+     * 查询数据量
+     * @param query
+     * @returns {Promise<any>}
+     */
+    async count(query){
+        return await new Promise((resolve,reject)=>{
+            CategoryModel.count(query,(err,count)=>{
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(count);
+                }
+            });
+        });
+    }
+
+    //======================================================================================
 
     /**
      * client查询学习宣传分类
@@ -136,6 +173,8 @@ class CategoryService{
             });
         });
     }
+
+
 
 }
 
