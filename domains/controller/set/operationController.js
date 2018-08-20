@@ -36,6 +36,10 @@ class SetOperationController{
             }
             if(!sData){
                 sData = config.operation.s;
+            }else{
+                sData.val.label = JSON.stringify(sData.val.label);
+                sData.val.text = JSON.stringify(sData.val.text);
+                sData.val.data = JSON.stringify(sData.val.data);
             }
 
 

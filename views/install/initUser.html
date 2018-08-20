@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初始化系统用户</title>
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.form.js"></script>
+    <script type="text/javascript" src="/js/plugins/layer/layer.min.js"></script>
+</head>
+<body>
+<form id="editForm" action="/install/initUser" method="post">
+    账号：<input name="account"  id="account" />
+    密码：<input name="password"  id="password" />
+    <button id="btnSub" type="button">初始化用户数据</button>
+</form>
+
+</body>
+</html>
+<script>
+    jQuery(function(){
+        jQuery("#btnSub").click(function(){
+
+            var account = jQuery("#account").val();
+            var password = jQuery("#password").val();
+            if(account==""){
+                layer.alert("请输入账号");
+                return false;
+            }
+            if(!(/^[a-zA-Z]\w{4,20}$/.test(account))){
+                layer.alert("账号格式以字母开头的字母或数字和下划线的4-20字符");
+                return false;
+            }
+            if(password==""){
+                layer.alert("请输入密码");
+                return false;
+            }
+            if(!(/^.{6,16}$/.test(password))){
+                layer.alert("密码长度6-16字符");
+                return false;
+            }
+            layer.confirm('确定初始化用户信息表?<br/>初始化后用户表数据全部删除,并插入当前账号', {icon: 3, title:'用户初始化'}, function(index) {
+                layer.close(index);
+                onSubmitForm();
+            });
+        })
+    });
+    function onSubmitForm(){
+        layer.load();
+        //异步Form初始化
+        jQuery('#editForm').ajaxForm({
+            dataType:'json',//服务器返回json格式数据
+            timeout:15000,//超时时间设置为10秒；
+            success: function(response){
+                layer.closeAll('loading');
+                if(response.code==0){
+                    layer.alert('数据初始化完成',function(index){
+                        layer.close(index);
+                    });
+                }else{
+                    layer.alert(response.msg);
+                }
+            },
+            error:function(){
+                layer.closeAll('loading');
+                layer.alert('服务器交互失败');
+            }
+        }).submit();
+    }
+</script>

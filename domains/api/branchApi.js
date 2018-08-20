@@ -122,22 +122,22 @@ class BranchApi extends BaseApi{
      *
      * @apiParam {string} businessId 业务系统支部唯一码Id (必填)
      * @apiParam {string} name   姓名 (必填)
-     * @apiParam {string} headImg  头像 (必填)
+     * @apiParam {string} headImg  头像,图片地址 (必填)
      * @apiParam {string} gender  性别，格式[男、女] (必填)
      * @apiParam {string} birthDate 出生年月,格式YYYY-MM-DD (必填)
      * @apiParam {string} position 现党支部职务[1书记、2副书记、3委员、4普通党员] (必填)
-     * @apiParam {string} swDate 参加工作日期,格式YYYY-MM-DD (必填)
-     * @apiParam {string} residence 现居住地
+     * @apiParam {string} mobile 手机 (必填)
+     * @apiParam {string} rdDate 入党时间,接受预备党员日期,格式YYYY-MM-DD (必填)
+     * @apiParam {string} residence 现居住地 (必填)
      * @apiParam {string} idCard 身份证
      * @apiParam {string} nation 民族
      * @apiParam {string} nativePlace 籍贯
      * @apiParam {string} marriage 婚姻状况，默认0[0未婚1已婚]
      * @apiParam {string} registered 户籍所在地
-     * @apiParam {string} mobile 手机 (必填)
      * @apiParam {string} qqwX QQ微信
      * @apiParam {string} ftEducation 全日制教育，默认4[1小学、2初中、3高中、4大专、5本科、6硕士、7博士]
      * @apiParam {string} ftSchool 毕业院校及专业
-     * @apiParam {string} rdDate 入党时间,接受预备党员日期,格式YYYY-MM-DD
+     * @apiParam {string} swDate 参加工作日期,格式YYYY-MM-DD
      * @apiParam {string} zzDate 转正时间接受正式党员日期,格式YYYY-MM-DD
      * @apiParam {string} branchDate 进入现党支部时间,格式YYYY-MM-DD
      * @apiParam {string} introducer 入党介绍人
@@ -170,7 +170,7 @@ class BranchApi extends BaseApi{
      * @apiSampleRequest /api/branch/addArchive
      * @apiVersion 0.0.1
      */
-    async addArchive(){
+    async addArchive(req,res){
         try{
             var bodyParams  = req.body;
             if(!bodyParams['businessId']){
@@ -179,7 +179,7 @@ class BranchApi extends BaseApi{
             }
             var count = await branchService.count({businessId:bodyParams['businessId'],type:'0'});
             if(count==0){
-                res.json(ResultAjax.FAILED("支部不已存在,businessId:"+bodyParams['businessId'],{}));
+                res.json(ResultAjax.FAILED("支部不存在,businessId:"+bodyParams['businessId'],{}));
                 return false;
             }
             if(!bodyParams['name']){
@@ -208,43 +208,6 @@ class BranchApi extends BaseApi{
                     return false;
                 }
             }
-            if(!bodyParams['mobile']){
-                res.json(ResultAjax.FAILED("手机不能为空",{}));
-                return false;
-            }
-            if(!bodyParams['swDate']){
-                res.json(ResultAjax.FAILED("参加工作日期不能为空",{}));
-                return false;
-            }else{
-                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
-                    res.json(ResultAjax.FAILED("参加工作时间日期格式错误，如YYYY-MM-DD(1970-01-01)",{}));
-                    return false;
-                }
-            }
-            if(bodyParams['swDate']){
-                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
-                    res.json(ResultAjax.FAILED("参加工作时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
-                    return false;
-                }
-            }
-            if(bodyParams['rdDate']){
-                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
-                    res.json(ResultAjax.FAILED("接受预备党员时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
-                    return false;
-                }
-            }
-            if(bodyParams['zzDate']){
-                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
-                    res.json(ResultAjax.FAILED("正式党员时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
-                    return false;
-                }
-            }
-            if(bodyParams['branchDate']){
-                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
-                    res.json(ResultAjax.FAILED("进入现党支部时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
-                    return false;
-                }
-            }
             if(!bodyParams['position']){
                 res.json(ResultAjax.FAILED("现党支部职务不能为空",{}));
                 return false;
@@ -254,6 +217,50 @@ class BranchApi extends BaseApi{
                     return false;
                 }
             }
+            if(!bodyParams['mobile']){
+                res.json(ResultAjax.FAILED("手机不能为空",{}));
+                return false;
+            }
+            if(!bodyParams['rdDate']){
+                res.json(ResultAjax.FAILED("入党时间不能为空",{}));
+                return false;
+            }else{
+                if(!moment(bodyParams['rdDate'],"YYYY-MM-DD",true).isValid()){
+                    res.json(ResultAjax.FAILED("入党时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
+                    return false;
+                }
+            }
+            if(!bodyParams['residence']){
+                res.json(ResultAjax.FAILED("现居住地不能为空",{}));
+                return false;
+            }
+
+
+            if(bodyParams['swDate']){
+                if(!moment(bodyParams['swDate'],"YYYY-MM-DD",true).isValid()){
+                    res.json(ResultAjax.FAILED("参加工作时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
+                    return false;
+                }
+            }
+            if(bodyParams['zzDate']){
+                if(!moment(bodyParams['zzDate'],"YYYY-MM-DD",true).isValid()){
+                    res.json(ResultAjax.FAILED("正式党员时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
+                    return false;
+                }
+            }
+            if(bodyParams['branchDate']){
+                if(!moment(bodyParams['branchDate'],"YYYY-MM-DD",true).isValid()){
+                    res.json(ResultAjax.FAILED("进入现党支部时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
+                    return false;
+                }
+            }
+            if(bodyParams['pyDate']){
+                if(!moment(bodyParams['pyDate'],"YYYY-MM-DD",true).isValid()){
+                    res.json(ResultAjax.FAILED("民主评议时间格式错误，如YYYY-MM-DD(1970-01-01)",{}));
+                    return false;
+                }
+            }
+
 
 
             //根据业务系统businessId支部id查询当前系统对相应的支部id

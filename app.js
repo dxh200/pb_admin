@@ -15,7 +15,8 @@ var svgCaptcha = require('svg-captcha');
 var adminRouter = require('./routes/admin');
 var loginRouter = require('./routes/login');
 var clientRouter = require('./routes/client');
-var apiouter = require('./routes/api');
+var apiRouter = require('./routes/api');
+var installRouter = require('./routes/install');
 
 var app = express();
 
@@ -69,7 +70,7 @@ app.use((req,res,next)=>{
             res.redirect('/login/index');
         }
     }else{
-        if(_url_.indexOf('logout')>-1 || _url_.indexOf('client')>-1 || _url_.indexOf('ueditor')>-1){
+        if(_url_.indexOf('logout')>-1 || _url_.indexOf('client')>-1 || _url_.indexOf('ueditor')>-1 || _url_.indexOf('install')>-1 || _url_.indexOf('api')>-1){
             next();
         }else{
             if(userInfo){
@@ -86,7 +87,9 @@ app.use('/', loginRouter);
 app.use('/admin', adminRouter);
 app.use('/login', loginRouter);
 app.use('/client', clientRouter);
-app.use('/api', apiouter);
+app.use('/api', apiRouter);
+app.use('/install', installRouter);
+
 
 //ueditor
 app.use("/ueditor/ue", ueditor(path.join(__dirname, 'resources'), function(req, res, next) {

@@ -9,7 +9,7 @@ router.get('/',(req,res)=>{
 
 //支部api接口路由
 router.post('/addBranch',branchApi.addBranch);
-
+router.post('/addArchive',branchApi.addArchive);
 
 
 

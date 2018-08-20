@@ -357,8 +357,6 @@ class ArchiveService{
         }
     }
 
-    //学历统计
-
 
 
 }

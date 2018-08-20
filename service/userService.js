@@ -122,6 +122,24 @@ class UserService{
         });
 
     }
+
+    /**
+     * 删除用户集合
+     * @returns {Promise<any>}
+     */
+    async delUserCollction(){
+        return new Promise((resolve, reject)=>{
+            UserModel.remove({}, function(err,p) {
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(p);
+                }
+            });
+        })
+
+    }
+
 }
 
 module.exports = new UserService();

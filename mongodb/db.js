@@ -2,10 +2,11 @@
 * 数据库连接
 * */
 const mongoose = require("mongoose");
+const config = require('config-lite')(__dirname);
 
 
 //链接字符串
-const DB_URL = "mongodb://127.0.0.1:27017/pbAdmin";
+const DB_URL = config.mongooseUrl;
 //const DB_URL_USER_PASS = "mongodb://root:123456@127.0.0.1:27017/mall":
 mongoose.connect(DB_URL);
 

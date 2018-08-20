@@ -88,7 +88,7 @@
                 <tr>
                   <td width="10%">全日制教育*</td>
                   <td colspan="2">
-                    <select name="ftEducation" id="ftEducation">
+                    <select name="ftEducation" id="ftEducation" >
                       <option value="">==选择学历==</option>
                       <option value="1">小学</option>
                       <option value="2">初中</option>
@@ -280,6 +280,12 @@
                 },idCard:{//身份证
                     required: true,
                     maxlength: 20
+                },ftEducation:{
+                    required:true
+                },branchId:{
+                    required:true
+                },position:{
+                    required:true
                 }
             },
             messages: {
@@ -301,6 +307,12 @@
                 },idCard:{//身份证
                     required: "请输入身份证",
                     maxlength:"身份证多可输入{0}字符"
+                },ftEducation:{
+                    required:"请选择全日制教育"
+                },branchId:{
+                    required:"请选择现党支部"
+                },position:{
+                    required:"请选择现党支部职务"
                 }
             },
             showErrors:function(errorMap,errorList){
@@ -310,10 +322,11 @@
                 }
                 if(msg!="") layer.alert(msg);
 
-            },
+            }
             /* 失去焦点时不验证 */
-            onfocusout: false,
-            onkeyup:false
+            ,onfocusout: false
+            ,onkeyup:false
+            ,onclick:false
         });
 
         //日期

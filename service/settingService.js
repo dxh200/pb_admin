@@ -80,8 +80,10 @@ class SettingService{
      * @returns {Promise<void>}
      */
     async getItem(key){
-        return await new Promise((resolve,reject)=>{
+        return new Promise((resolve,reject)=>{
             SettingModel.findOne({key:key},"-cTime -uTime",(err,data)=>{
+                console.log(data);
+                console.log(key);
                 if(err){
                     reject(err);
                 }else{
@@ -97,8 +99,8 @@ class SettingService{
      * @param branchId
      * @returns {Promise<any>}
      */
-    async getItem(key,branchId){
-        return await new Promise((resolve,reject)=>{
+    async getItemBranchId(key,branchId){
+        return new Promise((resolve,reject)=>{
             SettingModel.findOne({key:key,branchId:branchId},"-cTime -uTime",(err,data)=>{
                 if(err){
                     reject(err);
