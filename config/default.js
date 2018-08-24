@@ -89,5 +89,10 @@ module.exports = {
             'd9':'1',  //支部统计
             'd10':'1',  //党员信息统计【性别、党龄、学历、发展党员。。】
         }
+    },
+    //学习宣传,自动刷新阅读量
+    timeInterval:{
+        key:'sys_data_timeInterval',
+        val:[8,3,2,4,5,6] //单位是秒
     }
 }

@@ -159,7 +159,7 @@ class ContentService{
         queryOption.photo = { $ne:''};
         queryOption.module = '3';
         return new Promise((resolve,reject)=>{
-            ContentModel.find(queryOption, "photo", {sort: {num: -1},limit:size}, (err, data) => {
+            ContentModel.find(queryOption, "title photo", {sort: {num: -1},limit:size}, (err, data) => {
                 if(err){
                     reject(err);
                 }else{

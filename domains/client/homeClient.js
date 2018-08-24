@@ -186,6 +186,22 @@ class HomeClient extends baseClient{
             res.json(ResultAjax.FAILED(e.message,{}));
         }
     }
+
+    /**
+     * 获得学习宣传阅读量定时
+     * @returns {Promise<void>}
+     */
+    async getTimeInterval(req,res){
+        try{
+            var timeInterval = await settingService.getItem(config.timeInterval.key);
+            if(!timeInterval){
+                timeInterval = config.timeInterval;
+            }
+            res.json(ResultAjax.SUCCESS("",timeInterval.val));
+        }catch(e){
+            res.json(ResultAjax.FAILED(e.message,{}));
+        }
+    }
 }
 
 module.exports = new HomeClient();

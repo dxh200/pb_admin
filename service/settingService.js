@@ -82,8 +82,6 @@ class SettingService{
     async getItem(key){
         return new Promise((resolve,reject)=>{
             SettingModel.findOne({key:key},"-cTime -uTime",(err,data)=>{
-                console.log(data);
-                console.log(key);
                 if(err){
                     reject(err);
                 }else{

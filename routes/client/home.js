@@ -11,6 +11,7 @@ router.post("/getOperateStatistics",homeClient.getOperateStatistics);
 router.post("/getStudyCategory",homeClient.getStudyCategory);
 router.post("/getNewsData",homeClient.getNewsData);
 router.post("/getWorkContentId",homeClient.getWorkContentId);
+router.post("/getTimeInterval",homeClient.getTimeInterval);
 
 
 module.exports = router;
